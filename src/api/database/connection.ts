@@ -4,7 +4,7 @@ import { dbConfig } from 'config/dbConfig';
 export const connection = new Pool(dbConfig);
 
 connection.on('connect', () => {
-  console.log('Connected to database PostgreSQL');
+  console.error('Connected with success.');
 });
 
 connection.on('error', (err) => {
