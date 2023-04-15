@@ -1,4 +1,4 @@
-import { ICall, ICreateCallRepository, IUpdateCallRepository } from '../models';
+import { ICall, ICreateCall, IUpdateCall } from '../models';
 
 export interface ICallsRepository {
   findById(id: string): Promise<ICall | null>;
@@ -11,7 +11,7 @@ export interface ICallsRepository {
     id_sector,
     status,
     subject,
-  }: ICreateCallRepository): Promise<ICall>;
+  }: ICreateCall): Promise<ICall>;
   update({
     description,
     id_category,
@@ -19,5 +19,5 @@ export interface ICallsRepository {
     id_sector,
     status,
     subject,
-  }: IUpdateCallRepository): Promise<void>;
+  }: IUpdateCall): Promise<void>;
 }

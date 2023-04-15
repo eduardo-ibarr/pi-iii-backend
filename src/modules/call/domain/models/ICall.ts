@@ -4,7 +4,7 @@ export interface ICall {
   id_sector: string;
   id_category: string;
   subject: string;
-  status: string;
+  status: number;
   description: string;
   created_at: Date;
   updated_at: Date;

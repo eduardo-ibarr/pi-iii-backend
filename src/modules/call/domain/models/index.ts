@@ -1,3 +1,3 @@
-export { ICreateCallRepository } from './ICreateCallRepository';
-export { IUpdateCallRepository } from './IUpdateCallRepository';
+export { ICreateCall } from './ICreateCall';
+export { IUpdateCall } from './IUpdateCall';
 export { ICall } from './ICall';

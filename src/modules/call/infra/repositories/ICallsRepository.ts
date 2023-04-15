@@ -1,9 +1,5 @@
 import { connection } from 'api/database/connection';
-import {
-  ICall,
-  ICreateCallRepository,
-  IUpdateCallRepository,
-} from '../../domain/models';
+import { ICall, ICreateCall, IUpdateCall } from '../../domain/models';
 import { ICallsRepository } from '../../domain/repositories/ICallsRepository';
 
 export class CallsRepository implements ICallsRepository {
@@ -31,7 +27,7 @@ export class CallsRepository implements ICallsRepository {
     status,
     subject,
     description,
-  }: ICreateCallRepository): Promise<ICall> {
+  }: ICreateCall): Promise<ICall> {
     const { rows } = await connection.query(
       `INSERT INTO calls (
         id_category,
@@ -54,7 +50,7 @@ export class CallsRepository implements ICallsRepository {
     subject,
     status,
     description,
-  }: IUpdateCallRepository & { id: string }): Promise<void> {
+  }: IUpdateCall & { id: string }): Promise<void> {
     const fields = [];
     const values = [];
 

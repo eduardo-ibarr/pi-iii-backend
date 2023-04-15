@@ -1,13 +1,9 @@
-import {
-  ICategory,
-  ICreateCategoryRepository,
-  IUpdateCategoryRepository,
-} from '../models';
+import { ICategory, ICreateCategory, IUpdateCategory } from '../models';
 
 export interface ICategorysRepository {
   findById(id: string): Promise<ICategory | null>;
   delete(id: string): Promise<void>;
   list(): Promise<ICategory[]>;
-  create({ name }: ICreateCategoryRepository): Promise<ICategory>;
-  update({ name }: IUpdateCategoryRepository): Promise<void>;
+  create({ name }: ICreateCategory): Promise<ICategory>;
+  update({ name }: IUpdateCategory): Promise<void>;
 }

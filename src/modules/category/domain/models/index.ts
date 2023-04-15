@@ -1,3 +1,3 @@
-export { ICreateCategoryRepository } from './ICreateCategoryRepository';
-export { IUpdateCategoryRepository } from './IUpdateCategoryRepository';
+export { ICreateCategory } from './ICreateCategory';
+export { IUpdateCategory } from './IUpdateCategory';
 export { ICategory } from './ICategory';

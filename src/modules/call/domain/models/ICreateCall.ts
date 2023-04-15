@@ -1,4 +1,4 @@
-export interface ICreateCallRepository {
+export interface ICreateCall {
   id_requester: string;
   id_sector: string;
   id_category: string;
