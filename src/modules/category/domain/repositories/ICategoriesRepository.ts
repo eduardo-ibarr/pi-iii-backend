@@ -1,6 +1,6 @@
 import { ICategory, ICreateCategory, IUpdateCategory } from '../models';
 
-export interface ICategorysRepository {
+export interface ICategoriesRepository {
   findById(id: string): Promise<ICategory | null>;
   delete(id: string): Promise<void>;
   list(): Promise<ICategory[]>;
