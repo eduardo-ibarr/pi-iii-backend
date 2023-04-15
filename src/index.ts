@@ -9,4 +9,4 @@ app.use(logs);
 
 app.get('/:param', (req, res, next) => res.send(req.params.param));
 
-app.listen(API_PORT, () => console.log(`Server listening on ${API_PORT}`));
+app.listen(API_PORT, () => console.log(`Server listening on ${API_PORT}.`));
