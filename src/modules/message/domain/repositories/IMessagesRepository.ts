@@ -1,6 +1,6 @@
 import { IMessage, ICreateMessage, IUpdateMessage } from '../models';
 
-export interface IMessageRepository {
+export interface IMessagesRepository {
   findById(id: string): Promise<IMessage | null>;
   delete(id: string): Promise<void>;
   list(): Promise<IMessage[]>;
