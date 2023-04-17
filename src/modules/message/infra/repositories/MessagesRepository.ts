@@ -11,11 +11,11 @@ export class MessagesRepository implements IMessagesRepository {
     return rows[0] || null;
   }
 
-  async delete(id: string): Promise<void> {
+  async remove(id: string): Promise<void> {
     await connection.query('DELETE FROM messages WHERE id = $1', [id]);
   }
 
-  async list(): Promise<IMessage[]> {
+  async findAll(): Promise<IMessage[]> {
     const { rows } = await connection.query('SELECT * FROM messages');
     return rows;
   }
