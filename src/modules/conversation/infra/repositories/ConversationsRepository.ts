@@ -15,11 +15,11 @@ export class ConversationsRepository implements IConversationsRepository {
     return rows[0] || null;
   }
 
-  async delete(id: string): Promise<void> {
+  async remove(id: string): Promise<void> {
     await connection.query('DELETE FROM conversations WHERE id = $1', [id]);
   }
 
-  async list(): Promise<IConversation[]> {
+  async findAll(): Promise<IConversation[]> {
     const { rows } = await connection.query('SELECT * FROM conversations');
     return rows;
   }

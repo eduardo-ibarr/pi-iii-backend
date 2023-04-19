@@ -15,11 +15,11 @@ export class RequestersRepository implements IRequestersRepository {
     return rows[0] || null;
   }
 
-  async delete(id: string): Promise<void> {
+  async remove(id: string): Promise<void> {
     await connection.query('DELETE FROM requesters WHERE id = $1', [id]);
   }
 
-  async list(): Promise<IRequester[]> {
+  async findAll(): Promise<IRequester[]> {
     const { rows } = await connection.query('SELECT * FROM requesters');
     return rows;
   }

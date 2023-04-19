@@ -11,11 +11,11 @@ export class SectorsRepository implements ISectorsRepository {
     return rows[0] || null;
   }
 
-  async delete(id: string): Promise<void> {
+  async remove(id: string): Promise<void> {
     await connection.query('DELETE FROM sectors WHERE id = $1', [id]);
   }
 
-  async list(): Promise<ISector[]> {
+  async findAll(): Promise<ISector[]> {
     const { rows } = await connection.query('SELECT * FROM sectors');
     return rows;
   }

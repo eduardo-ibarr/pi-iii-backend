@@ -11,11 +11,11 @@ export class CallsRepository implements ICallsRepository {
     return rows[0] || null;
   }
 
-  async delete(id: string): Promise<void> {
+  async remove(id: string): Promise<void> {
     await connection.query('DELETE FROM calls WHERE id = $1', [id]);
   }
 
-  async list(): Promise<ICall[]> {
+  async findAll(): Promise<ICall[]> {
     const { rows } = await connection.query('SELECT * FROM calls');
     return rows;
   }

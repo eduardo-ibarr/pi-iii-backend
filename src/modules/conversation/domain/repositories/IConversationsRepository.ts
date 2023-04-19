@@ -6,8 +6,8 @@ import {
 
 export interface IConversationsRepository {
   findById(id: string): Promise<IConversation | null>;
-  delete(id: string): Promise<void>;
-  list(): Promise<IConversation[]>;
+  remove(id: string): Promise<void>;
+  findAll(): Promise<IConversation[]>;
   create({
     id_agent,
     id_requester,
