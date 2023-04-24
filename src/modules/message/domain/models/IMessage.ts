@@ -1,9 +1,10 @@
 export interface IMessage {
   id: string;
-  id_conversation: string;
+  ticket_id: string;
+  conversation_id: string;
+  sender: string;
   content: string;
-  author: string;
-  type_of_author: number;
+  read_status: boolean;
+  updated_at: Date;
   created_at: Date;
-  status: number;
 }

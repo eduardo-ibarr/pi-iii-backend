@@ -24,44 +24,33 @@ export class RequestersRepository implements IRequestersRepository {
     return rows;
   }
 
-  async create({
-    active,
-    id_sector,
-    name,
-  }: ICreateRequester): Promise<IRequester> {
+  async create({ name, email }: ICreateRequester): Promise<IRequester> {
     const { rows } = await connection.query(
       `INSERT INTO requesters (
-        active,
-        id_sector,
         name,
-      ) VALUES ($1, $2, $3) RETURNING *`,
-      [active, id_sector, name]
+        email
+      ) VALUES ($1, $2) RETURNING *`,
+      [name, email]
     );
     return rows[0];
   }
 
   async update({
-    active,
-    id_sector,
     name,
+    email,
     id,
   }: IUpdateRequester & { id: string }): Promise<void> {
     const fields = [];
     const values = [];
 
-    if (active) {
-      fields.push('active = $1');
-      values.push(active);
-    }
-
-    if (id_sector) {
-      fields.push('id_sector = $2');
-      values.push(id_sector);
-    }
-
     if (name) {
-      fields.push('name = $3');
+      fields.push('name = $1');
       values.push(name);
+    }
+
+    if (email) {
+      fields.push('email = $2');
+      values.push(email);
     }
 
     if (fields.length === 0) {

@@ -1,8 +1,7 @@
 export interface IRequester {
   id: string;
   name: string;
-  id_sector: string;
-  active: boolean;
+  email: string;
   created_at: Date;
   updated_at: Date;
 }

@@ -4,6 +4,6 @@ export interface ICategoriesRepository {
   findById(id: string): Promise<ICategory | null>;
   remove(id: string): Promise<void>;
   findAll(): Promise<ICategory[]>;
-  create({ name }: ICreateCategory): Promise<ICategory>;
-  update({ name }: IUpdateCategory): Promise<void>;
+  create(data: ICreateCategory): Promise<ICategory>;
+  update(data: IUpdateCategory): Promise<void>;
 }
