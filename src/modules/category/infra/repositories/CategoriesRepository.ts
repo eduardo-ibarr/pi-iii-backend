@@ -15,11 +15,11 @@ export class CategoriesRepository implements ICategoriesRepository {
     return rows[0] || null;
   }
 
-  async delete(id: string): Promise<void> {
+  async remove(id: string): Promise<void> {
     await connection.query('DELETE FROM categories WHERE id = $1', [id]);
   }
 
-  async list(): Promise<ICategory[]> {
+  async findAll(): Promise<ICategory[]> {
     const { rows } = await connection.query('SELECT * FROM categories');
     return rows;
   }

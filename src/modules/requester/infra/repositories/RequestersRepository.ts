@@ -15,53 +15,42 @@ export class RequestersRepository implements IRequestersRepository {
     return rows[0] || null;
   }
 
-  async delete(id: string): Promise<void> {
+  async remove(id: string): Promise<void> {
     await connection.query('DELETE FROM requesters WHERE id = $1', [id]);
   }
 
-  async list(): Promise<IRequester[]> {
+  async findAll(): Promise<IRequester[]> {
     const { rows } = await connection.query('SELECT * FROM requesters');
     return rows;
   }
 
-  async create({
-    active,
-    id_sector,
-    name,
-  }: ICreateRequester): Promise<IRequester> {
+  async create({ name, email }: ICreateRequester): Promise<IRequester> {
     const { rows } = await connection.query(
       `INSERT INTO requesters (
-        active,
-        id_sector,
         name,
-      ) VALUES ($1, $2, $3) RETURNING *`,
-      [active, id_sector, name]
+        email
+      ) VALUES ($1, $2) RETURNING *`,
+      [name, email]
     );
     return rows[0];
   }
 
   async update({
-    active,
-    id_sector,
     name,
+    email,
     id,
   }: IUpdateRequester & { id: string }): Promise<void> {
     const fields = [];
     const values = [];
 
-    if (active) {
-      fields.push('active = $1');
-      values.push(active);
-    }
-
-    if (id_sector) {
-      fields.push('id_sector = $2');
-      values.push(id_sector);
-    }
-
     if (name) {
-      fields.push('name = $3');
+      fields.push('name = $1');
       values.push(name);
+    }
+
+    if (email) {
+      fields.push('email = $2');
+      values.push(email);
     }
 
     if (fields.length === 0) {

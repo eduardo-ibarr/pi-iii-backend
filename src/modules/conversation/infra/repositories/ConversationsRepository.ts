@@ -15,61 +15,45 @@ export class ConversationsRepository implements IConversationsRepository {
     return rows[0] || null;
   }
 
-  async delete(id: string): Promise<void> {
+  async remove(id: string): Promise<void> {
     await connection.query('DELETE FROM conversations WHERE id = $1', [id]);
   }
 
-  async list(): Promise<IConversation[]> {
+  async findAll(): Promise<IConversation[]> {
     const { rows } = await connection.query('SELECT * FROM conversations');
     return rows;
   }
 
   async create({
-    history,
-    id_agent,
-    id_requester,
-    messages_amount,
+    ticket_id,
+    agent_id,
   }: ICreateConversation): Promise<IConversation> {
     const { rows } = await connection.query(
       `INSERT INTO conversations (
-        history,
-        id_agent,
-        id_requester,
-        messages_amount,
-      ) VALUES ($1, $2, $3, $4) RETURNING *`,
-      [history, id_agent, id_requester, messages_amount]
+        ticket_id,
+        agent_id,
+      ) VALUES ($1, $2) RETURNING *`,
+      [ticket_id, agent_id]
     );
     return rows[0];
   }
 
   async update({
-    history,
-    id_agent,
-    id_requester,
-    messages_amount,
+    ticket_id,
+    agent_id,
     id,
   }: IUpdateConversation & { id: string }): Promise<void> {
     const fields = [];
     const values = [];
 
-    if (history) {
-      fields.push('history = $1');
-      values.push(history);
+    if (ticket_id) {
+      fields.push('ticket_id = $1');
+      values.push(ticket_id);
     }
 
-    if (id_agent) {
-      fields.push('id_agent = $2');
-      values.push(id_agent);
-    }
-
-    if (id_requester) {
-      fields.push('id_requester = $3');
-      values.push(id_requester);
-    }
-
-    if (messages_amount) {
-      fields.push('messages_amount = $4');
-      values.push(messages_amount);
+    if (agent_id) {
+      fields.push('agent_id = $2');
+      values.push(agent_id);
     }
 
     if (fields.length === 0) {

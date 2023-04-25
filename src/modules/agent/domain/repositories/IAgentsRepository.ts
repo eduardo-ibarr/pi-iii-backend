@@ -2,8 +2,9 @@ import { IAgent, ICreateAgent, IUpdateAgent } from '../models';
 
 export interface IAgentsRepository {
   findById(id: string): Promise<IAgent | null>;
-  delete(id: string): Promise<void>;
-  list(): Promise<IAgent[]>;
+  findByEmail(email: string): Promise<IAgent | null>;
+  remove(id: string): Promise<void>;
+  findAll(): Promise<IAgent[]>;
   create({
     name,
     password,

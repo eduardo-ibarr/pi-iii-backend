@@ -3,6 +3,14 @@ import { IAgent, ICreateAgent, IUpdateAgent } from '../../domain/models';
 import { IAgentsRepository } from '../../domain/repositories/IAgentsRepository';
 
 export class AgentsRepository implements IAgentsRepository {
+  async findByEmail(email: string): Promise<IAgent | null> {
+    const { rows } = await connection.query(
+      'SELECT * FROM agents WHERE email = $1',
+      [email]
+    );
+    return rows[0] || null;
+  }
+
   async findById(id: string): Promise<IAgent | null> {
     const { rows } = await connection.query(
       'SELECT * FROM agents WHERE id = $1',
@@ -11,11 +19,11 @@ export class AgentsRepository implements IAgentsRepository {
     return rows[0] || null;
   }
 
-  async delete(id: string): Promise<void> {
+  async remove(id: string): Promise<void> {
     await connection.query('DELETE FROM agents WHERE id = $1', [id]);
   }
 
-  async list(): Promise<IAgent[]> {
+  async findAll(): Promise<IAgent[]> {
     const { rows } = await connection.query('SELECT * FROM agents');
     return rows;
   }
