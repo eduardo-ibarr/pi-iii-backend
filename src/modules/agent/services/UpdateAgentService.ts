@@ -6,11 +6,11 @@ export class UpdateAgentService {
 
   public async execute({
     id,
-    email,
     name,
+    ticket_history,
+    email,
     password,
-    tickets_active,
-    tickets_finished,
+    available,
   }: IUpdateAgent & { id: string }): Promise<void> {
     const agent = await this.agentsRepository.findById(id);
 
@@ -28,11 +28,11 @@ export class UpdateAgentService {
 
     await this.agentsRepository.update({
       id,
-      email,
       name,
+      ticket_history,
+      email,
       password,
-      tickets_active,
-      tickets_finished,
+      available,
     });
   }
 }

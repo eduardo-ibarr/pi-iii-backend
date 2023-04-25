@@ -1,10 +1,10 @@
 export interface IAgent {
   id: string;
   name: string;
-  password: string;
+  ticket_history: string[];
   email: string;
-  tickets_finished: string[];
-  tickets_active: string[];
+  password: string;
+  available: boolean;
   created_at: Date;
   updated_at: Date;
 }

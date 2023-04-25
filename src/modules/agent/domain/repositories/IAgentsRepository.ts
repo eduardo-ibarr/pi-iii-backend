@@ -5,18 +5,6 @@ export interface IAgentsRepository {
   findByEmail(email: string): Promise<IAgent | null>;
   remove(id: string): Promise<void>;
   findAll(): Promise<IAgent[]>;
-  create({
-    name,
-    password,
-    email,
-    tickets_finished,
-    tickets_active,
-  }: ICreateAgent): Promise<IAgent>;
-  update({
-    name,
-    password,
-    email,
-    tickets_finished,
-    tickets_active,
-  }: IUpdateAgent): Promise<void>;
+  create(data: ICreateAgent): Promise<IAgent>;
+  update(data: IUpdateAgent): Promise<void>;
 }
