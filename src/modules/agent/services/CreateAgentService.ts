@@ -5,11 +5,11 @@ export class CreateAgentService {
   constructor(private agentsRepository: AgentsRepository) {}
 
   public async execute({
-    email,
     name,
+    ticket_history,
+    email,
     password,
-    tickets_active,
-    tickets_finished,
+    available,
   }: ICreateAgent): Promise<IAgent> {
     const emailExists = await this.agentsRepository.findByEmail(email);
 
@@ -18,11 +18,11 @@ export class CreateAgentService {
     }
 
     const agent = await this.agentsRepository.create({
-      email,
       name,
+      ticket_history,
+      email,
       password,
-      tickets_active,
-      tickets_finished,
+      available,
     });
 
     return agent;
