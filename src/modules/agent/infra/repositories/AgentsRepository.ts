@@ -29,57 +29,59 @@ export class AgentsRepository implements IAgentsRepository {
   }
 
   async create({
-    email,
     name,
+    ticket_history,
+    email,
     password,
-    tickets_active,
-    tickets_finished,
+    available,
   }: ICreateAgent): Promise<IAgent> {
     const { rows } = await connection.query(
       `INSERT INTO agents (
-        email,
         name,
+        ticket_history,
+        email,
         password,
-        tickets_active,
-        tickets_finished,
+        available
       ) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-      [email, name, password, tickets_active, tickets_finished]
+      [name, ticket_history, email, password, available]
     );
     return rows[0];
   }
 
   async update({
     id,
-    email,
     name,
+    ticket_history,
+    email,
     password,
-    tickets_active,
-    tickets_finished,
+    available,
   }: IUpdateAgent & { id: string }): Promise<void> {
     const fields = [];
     const values = [];
 
+    if (name) {
+      fields.push('name = $1');
+      values.push(name);
+    }
+
+    if (ticket_history) {
+      fields.push('ticket_history = $2');
+      values.push(ticket_history);
+    }
+
     if (email) {
-      fields.push('email = $1');
+      fields.push('email = $3');
       values.push(email);
     }
 
-    if (name) {
-      fields.push('name = $2');
-      values.push(name);
-    }
     if (password) {
-      fields.push('password = $3');
+      fields.push('password = $4');
       values.push(password);
     }
 
-    if (tickets_active) {
-      fields.push('tickets_active = $4');
-      values.push(tickets_active);
-    }
-    if (tickets_finished) {
-      fields.push('tickets_finished = $5');
-      values.push(tickets_finished);
+    if (available) {
+      fields.push('available = $5');
+      values.push(available);
     }
 
     if (fields.length === 0) {
