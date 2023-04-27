@@ -7,5 +7,7 @@ declare namespace NodeJS {
     PG_DATABASE: string;
     PG_HOST: string;
     PG_PORT: string;
+    AWS_ACCESS_KEY_ID: string;
+    AWS_SECRET_KEY: string;
   }
 }
