@@ -24,13 +24,18 @@ export class RequestersRepository implements IRequestersRepository {
     return rows;
   }
 
-  async create({ name, email }: ICreateRequester): Promise<IRequester> {
+  async create({
+    name,
+    email,
+    password,
+  }: ICreateRequester): Promise<IRequester> {
     const { rows } = await connection.query(
       `INSERT INTO requesters (
         name,
-        email
-      ) VALUES ($1, $2) RETURNING *`,
-      [name, email]
+        email,
+        password
+      ) VALUES ($1, $2, $3) RETURNING *`,
+      [name, email, password]
     );
     return rows[0];
   }
@@ -38,6 +43,7 @@ export class RequestersRepository implements IRequestersRepository {
   async update({
     name,
     email,
+    password,
     id,
   }: IUpdateRequester & { id: string }): Promise<void> {
     const fields = [];
@@ -51,6 +57,11 @@ export class RequestersRepository implements IRequestersRepository {
     if (email) {
       fields.push('email = $2');
       values.push(email);
+    }
+
+    if (password) {
+      fields.push('password = $3');
+      values.push(password);
     }
 
     if (fields.length === 0) {
