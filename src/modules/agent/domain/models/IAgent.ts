@@ -1,7 +1,6 @@
 export interface IAgent {
   id: string;
   name: string;
-  ticket_history: string[];
   email: string;
   password: string;
   available: boolean;
