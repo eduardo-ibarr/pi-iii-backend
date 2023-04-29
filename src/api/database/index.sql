@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS call_system;
+CREATE DATABASE call_system;
 
 USE call_system;
 

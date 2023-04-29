@@ -1,10 +1,10 @@
 import { Pool } from 'pg';
-import { dbConfig } from 'config/dbConfig';
+import { dbConfig } from '@config/dbConfig';
 
 export const connection = new Pool(dbConfig);
 
 connection.on('connect', () => {
-  console.error('Connected with success.');
+  console.log('Connected with success.');
 });
 
 connection.on('error', (err) => {
