@@ -1,6 +1,8 @@
-import { connection } from 'api/database/connection';
+import { connection } from '@api/database/connection';
 import { IAgent, ICreateAgent, IUpdateAgent } from '../../domain/models';
 import { IAgentsRepository } from '../../domain/repositories/IAgentsRepository';
+import { QueryResult } from 'pg';
+import AppError from '@api/errors/AppError';
 
 export class AgentsRepository implements IAgentsRepository {
   async findByEmail(email: string): Promise<IAgent | null> {
@@ -19,8 +21,12 @@ export class AgentsRepository implements IAgentsRepository {
     return rows[0] || null;
   }
 
-  async remove(id: string): Promise<void> {
-    await connection.query('DELETE FROM agents WHERE id = $1', [id]);
+  async remove(id: string): Promise<QueryResult<IAgent>> {
+    const response = await connection.query(
+      'DELETE FROM agents WHERE id = $1',
+      [id]
+    );
+    return response;
   }
 
   async findAll(): Promise<IAgent[]> {
@@ -30,7 +36,6 @@ export class AgentsRepository implements IAgentsRepository {
 
   async create({
     name,
-    ticket_history,
     email,
     password,
     available,
@@ -38,12 +43,11 @@ export class AgentsRepository implements IAgentsRepository {
     const { rows } = await connection.query(
       `INSERT INTO agents (
         name,
-        ticket_history,
         email,
         password,
         available
-      ) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-      [name, ticket_history, email, password, available]
+      ) VALUES ($1, $2, $3, $4) RETURNING *`,
+      [name, email, password, available]
     );
     return rows[0];
   }
@@ -51,7 +55,6 @@ export class AgentsRepository implements IAgentsRepository {
   async update({
     id,
     name,
-    ticket_history,
     email,
     password,
     available,
@@ -59,34 +62,35 @@ export class AgentsRepository implements IAgentsRepository {
     const fields = [];
     const values = [];
 
-    if (name) {
-      fields.push('name = $1');
-      values.push(name);
-    }
+    let i = 1;
 
-    if (ticket_history) {
-      fields.push('ticket_history = $2');
-      values.push(ticket_history);
+    if (name) {
+      fields.push(`name = $${i}`);
+      values.push(name);
+      i++;
     }
 
     if (email) {
-      fields.push('email = $3');
+      fields.push(`email = $${i}`);
       values.push(email);
+      i++;
     }
 
     if (password) {
-      fields.push('password = $4');
+      fields.push(`password = $${i}`);
       values.push(password);
+      i++;
     }
 
-    if (available) {
-      fields.push('available = $5');
+    if (typeof available === 'boolean') {
+      fields.push(`available = $${i}`);
       values.push(available);
+      i++;
     }
 
     if (fields.length === 0) {
-      throw new Error(
-        'At least one field must be provided to update an Agent.'
+      throw new AppError(
+        'At least one field must be provided to update an agent.'
       );
     }
 
