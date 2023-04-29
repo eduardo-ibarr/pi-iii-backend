@@ -1,3 +1,4 @@
+import AppError from '@api/errors/AppError';
 import { IUpdateAgent } from '../domain/models';
 import { AgentsRepository } from '../infra/repositories/AgentsRepository';
 
@@ -7,7 +8,6 @@ export class UpdateAgentService {
   public async execute({
     id,
     name,
-    ticket_history,
     email,
     password,
     available,
@@ -15,21 +15,20 @@ export class UpdateAgentService {
     const agent = await this.agentsRepository.findById(id);
 
     if (!agent) {
-      throw new Error('Agent not found.');
+      throw new AppError('Agent not found.', 404);
     }
 
     if (email) {
       const agentExists = await this.agentsRepository.findByEmail(email);
 
       if (agentExists && email !== agent.email) {
-        throw new Error('Email already in use.');
+        throw new AppError('Email already in use.', 409);
       }
     }
 
     await this.agentsRepository.update({
       id,
       name,
-      ticket_history,
       email,
       password,
       available,

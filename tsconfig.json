@@ -3,10 +3,10 @@
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "node",
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "paths": {
-      "api/*": ["src/api/*"],
-      "config/*": ["src/config/*"]
+      "api/*": ["api/*"],
+      "config/*": ["config/*"]
     },
     "outDir": "./build",
     "esModuleInterop": true,
