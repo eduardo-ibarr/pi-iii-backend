@@ -1,3 +1,4 @@
+import AppError from '@api/errors/AppError';
 import { IAgent } from '../domain/models';
 import { AgentsRepository } from '../infra/repositories/AgentsRepository';
 
@@ -8,7 +9,7 @@ export class ShowAgentService {
     const agent = await this.agentsRepository.findById(id);
 
     if (!agent) {
-      throw new Error('Agent not found.');
+      throw new AppError('Agent not found.', 404);
     }
 
     return agent;
