@@ -10,5 +10,3 @@ fi
 
 rm -rf /var/www/backend-pi-iii
 mkdir -p /var/www/backend-pi-iii
-
-cd ~
