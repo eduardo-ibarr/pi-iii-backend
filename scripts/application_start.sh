@@ -2,4 +2,3 @@
 
 cd /var/www/backend-pi-iii/
 npm install
-npm start
