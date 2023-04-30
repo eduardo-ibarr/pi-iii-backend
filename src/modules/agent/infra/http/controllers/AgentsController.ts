@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { ListAgentService } from '@modules/agent/services/ListAgentService';
+import { ListAgentService } from '../../../../../modules/agent/services/ListAgentService';
 import { AgentsRepository } from '../../repositories/AgentsRepository';
-import { ShowAgentService } from '@modules/agent/services/ShowAgentService';
-import { CreateAgentService } from '@modules/agent/services/CreateAgentService';
-import { DeleteAgentService } from '@modules/agent/services/DeleteAgentService';
-import { UpdateAgentService } from '@modules/agent/services/UpdateAgentService';
+import { ShowAgentService } from '../../../../../modules/agent/services/ShowAgentService';
+import { CreateAgentService } from '../../../../../modules/agent/services/CreateAgentService';
+import { DeleteAgentService } from '../../../../../modules/agent/services/DeleteAgentService';
+import { UpdateAgentService } from '../../../../../modules/agent/services/UpdateAgentService';
 
 const agentsRepository = new AgentsRepository();
 

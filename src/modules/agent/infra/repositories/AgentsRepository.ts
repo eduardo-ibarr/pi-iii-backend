@@ -1,8 +1,8 @@
-import { connection } from '@api/database/connection';
+import { connection } from '../../../../api/database/connection';
 import { IAgent, ICreateAgent, IUpdateAgent } from '../../domain/models';
 import { IAgentsRepository } from '../../domain/repositories/IAgentsRepository';
 import { QueryResult } from 'pg';
-import AppError from '@api/errors/AppError';
+import AppError from '../../../../api/errors/AppError';
 
 export class AgentsRepository implements IAgentsRepository {
   async findByEmail(email: string): Promise<IAgent | null> {

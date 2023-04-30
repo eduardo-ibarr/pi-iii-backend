@@ -3,7 +3,7 @@ import express from 'express';
 import { logs } from './api/middlewares/logs';
 import { agentRoutes } from './modules/agent/infra/http/routes/agents.routes';
 import { errors } from 'celebrate';
-import { errorHandling } from '@api/middlewares/errorHandling';
+import { errorHandling } from './api/middlewares/errorHandling';
 
 const app = express();
 

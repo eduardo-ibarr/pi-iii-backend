@@ -1,4 +1,4 @@
-import { connection } from '@api/database/connection';
+import { connection } from '../../../../api/database/connection';
 import { ITicket, ICreateTicket, IUpdateTicket } from '../../domain/models';
 import { ITicketsRepository } from '../../domain/repositories/ITicketsRepository';
 
