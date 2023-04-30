@@ -1,4 +1,4 @@
-import AppError from '@api/errors/AppError';
+import AppError from '../../../api/errors/AppError';
 import { IAgent, ICreateAgent } from '../domain/models';
 import { AgentsRepository } from '../infra/repositories/AgentsRepository';
 import { genSaltSync, hashSync } from 'bcrypt';

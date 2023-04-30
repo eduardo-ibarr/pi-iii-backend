@@ -1,4 +1,4 @@
-import { connection } from '@api/database/connection';
+import { connection } from '../../../../api/database/connection';
 import {
   IRequester,
   ICreateRequester,

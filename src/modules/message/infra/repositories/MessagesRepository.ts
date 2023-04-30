@@ -1,4 +1,4 @@
-import { connection } from '@api/database/connection';
+import { connection } from '../../../../api/database/connection';
 import { IMessage, ICreateMessage, IUpdateMessage } from '../../domain/models';
 import { IMessagesRepository } from '../../domain/repositories/IMessagesRepository';
 

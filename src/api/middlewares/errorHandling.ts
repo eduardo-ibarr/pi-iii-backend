@@ -1,4 +1,4 @@
-import AppError from '@api/errors/AppError';
+import AppError from '../../api/errors/AppError';
 import { Request, Response } from 'express';
 
 export function errorHandling(
