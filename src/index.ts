@@ -1,5 +1,5 @@
 import 'express-async-errors';
-import express from 'express';
+import express, { Request, Response } from 'express';
 import { logs } from './api/middlewares/logs';
 import { agentRoutes } from './modules/agent/infra/http/routes/agents.routes';
 import { errors } from 'celebrate';
@@ -12,6 +12,10 @@ const API_PORT = process.env.PORT || process.env.port || 3333;
 app.use(express.json());
 
 app.use(logs);
+
+app.use('/', (request: Request, response: Response) => {
+  response.status(200).json({ message: 'This is the root path of the API.' });
+});
 
 app.use('/agents', agentRoutes);
 
