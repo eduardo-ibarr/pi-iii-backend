@@ -1,4 +1,4 @@
-import { connection } from '@api/database/connection';
+import { connection } from '../../../../api/database/connection';
 import { ISector, ICreateSector, IUpdateSector } from '../../domain/models';
 import { ISectorsRepository } from '../../domain/repositories/ISectorsRepository';
 
