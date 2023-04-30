@@ -14,7 +14,9 @@ app.use(express.json());
 app.use(logs);
 
 app.use('/', (request: Request, response: Response) => {
-  response.status(200).json({ message: 'This is the root path of the API.' });
+  return response
+    .status(200)
+    .json({ message: 'This is the root path of the API.' });
 });
 
 app.use('/agents', agentRoutes);
