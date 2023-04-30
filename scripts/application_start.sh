@@ -11,9 +11,11 @@ npm install
 # Start the server in a screen session
 echo "Starting server in a screen session"
 screen -d -m -S backend npm start
+sleep 5
 
 # Wait for server to start
 echo "Waiting for server to start"
+
 n=0
 until [ $n -ge 10 ]
 do
