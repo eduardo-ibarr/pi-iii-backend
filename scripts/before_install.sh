@@ -8,5 +8,4 @@ if ! systemctl status httpd | grep active; then
     systemctl start httpd
 fi
 
-rm -rf /var/www/backend-pi-iii
-mkdir -p /var/www/backend-pi-iii
+rm -rf /var/www/backend-pi-iii/*
