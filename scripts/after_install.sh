@@ -10,10 +10,8 @@ chown -R apache:apache /var/www/backend-pi-iii
 echo "Setting permissions for project directory"
 chmod -R 755 /var/www/backend-pi-iii
 
-# Start Apache web server if not already running
-if ! systemctl status httpd | grep active; then
-    echo "Starting Apache web server"
-    systemctl start httpd
-fi
+# Start Apache web server
+echo "Starting Apache web server"
+systemctl start httpd
 
 exit 0
