@@ -1,3 +1,4 @@
+import AppError from '../../../api/errors/AppError';
 import { RequestersRepository } from '../infra/repositories/RequestersRepository';
 
 export class DeleteRequesterService {
@@ -7,7 +8,7 @@ export class DeleteRequesterService {
     const requester = await this.requestersRepository.findById(id);
 
     if (!requester) {
-      throw new Error('Requester not found.');
+      throw new AppError('Requester not found.');
     }
 
     await this.requestersRepository.remove(requester.id);

@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { TicketsRepository } from '../../repositories/TicketsRepository';
 import {
   ListTicketsService,
   ShowTicketService,
@@ -8,7 +7,17 @@ import {
   UpdateTicketService,
 } from '../../../services';
 
+import { TicketsRepository } from '../../repositories/TicketsRepository';
+import { RequestersRepository } from '../../../../../modules/requester/infra/repositories/RequestersRepository';
+import { CategoriesRepository } from '../../../../../modules/category/infra/repositories/CategoriesRepository';
+import { AgentsRepository } from '../../../../../modules/agent/infra/repositories/AgentsRepository';
+import { SectorsRepository } from '../../../../../modules/sector/infra/repositories/SectorsRepository';
+
 const ticketsRepository = new TicketsRepository();
+const requestersRepository = new RequestersRepository();
+const categoriesRepository = new CategoriesRepository();
+const agentsRepository = new AgentsRepository();
+const sectorsRepository = new SectorsRepository();
 
 export class TicketsController {
   async index(request: Request, response: Response): Promise<Response> {
@@ -37,7 +46,13 @@ export class TicketsController {
       read_status,
     } = request.body;
 
-    const ticket = await new CreateTicketService(ticketsRepository).execute({
+    const ticket = await new CreateTicketService(
+      ticketsRepository,
+      requestersRepository,
+      categoriesRepository,
+      agentsRepository,
+      sectorsRepository
+    ).execute({
       agent_id,
       category_id,
       content,
@@ -72,7 +87,13 @@ export class TicketsController {
     } = request.body;
     const { id } = request.params;
 
-    const ticket = await new UpdateTicketService(ticketsRepository).execute({
+    const ticket = await new UpdateTicketService(
+      ticketsRepository,
+      requestersRepository,
+      categoriesRepository,
+      agentsRepository,
+      sectorsRepository
+    ).execute({
       id,
       agent_id,
       category_id,

@@ -1,3 +1,4 @@
+import AppError from '../../../api/errors/AppError';
 import { ConversationsRepository } from '../infra/repositories/ConversationsRepository';
 
 export class DeleteConversationService {
@@ -7,7 +8,7 @@ export class DeleteConversationService {
     const conversation = await this.conversationsRepository.findById(id);
 
     if (!conversation) {
-      throw new Error('Conversation not found.');
+      throw new AppError('Conversation not found.', 404);
     }
 
     await this.conversationsRepository.remove(conversation.id);

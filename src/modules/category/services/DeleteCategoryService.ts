@@ -1,3 +1,4 @@
+import AppError from '../../../api/errors/AppError';
 import { CategoriesRepository } from '../infra/repositories/CategoriesRepository';
 
 export class DeleteCategoryService {
@@ -7,7 +8,7 @@ export class DeleteCategoryService {
     const category = await this.categoriesRepository.findById(id);
 
     if (!category) {
-      throw new Error('Category not found.');
+      throw new AppError('Category not found.', 404);
     }
 
     await this.categoriesRepository.remove(category.id);

@@ -1,3 +1,4 @@
+import AppError from '../../../api/errors/AppError';
 import { MessagesRepository } from '../infra/repositories/MessagesRepository';
 
 export class DeleteMessageService {
@@ -7,7 +8,7 @@ export class DeleteMessageService {
     const message = await this.messagesRepository.findById(id);
 
     if (!message) {
-      throw new Error('Message not found.');
+      throw new AppError('Message not found.', 404);
     }
 
     await this.messagesRepository.remove(message.id);
