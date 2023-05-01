@@ -51,29 +51,36 @@ export class MessagesRepository implements IMessagesRepository {
     const fields = [];
     const values = [];
 
+    let i = 1;
+
     if (content) {
-      fields.push('content = $2');
+      fields.push(`content = $${i}`);
       values.push(content);
+      i++;
     }
 
     if (conversation_id) {
-      fields.push('conversation_id = $1');
+      fields.push(`conversation_id = $${i}`);
       values.push(conversation_id);
+      i++;
     }
 
-    if (read_status) {
-      fields.push('read_status = $3');
+    if (typeof read_status === 'boolean') {
+      fields.push(`read_status = $${i}`);
       values.push(read_status);
+      i++;
     }
 
     if (sender) {
-      fields.push('sender = $4');
+      fields.push(`sender = $${i}`);
       values.push(sender);
+      i++;
     }
 
     if (ticket_id) {
-      fields.push('ticket_id = $5');
+      fields.push(`ticket_id = $${i}`);
       values.push(ticket_id);
+      i++;
     }
 
     if (fields.length === 0) {
