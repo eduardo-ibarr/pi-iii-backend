@@ -5,7 +5,13 @@ set -e
 API_PORT=3333
 HTTP_PORT=80
 
-# Check if the api is listening on the expected port
+# Check if PM2 is running
+if ! pm2 status | grep -q online; then
+    echo "ERROR: PM2 is not running"
+    exit 1
+fi
+
+# Check if the API is listening on the expected port
 if lsof -Pi :$API_PORT -sTCP:LISTEN -t >/dev/null ; then
     echo "API is running on port $API_PORT"
 else
@@ -13,7 +19,7 @@ else
     exit 1
 fi
 
-# Check if the http server is listening on the expected port
+# Check if the HTTP server is listening on the expected port
 if lsof -Pi :$HTTP_PORT -sTCP:LISTEN -t >/dev/null ; then
     echo "HTTP server is running on port $HTTP_PORT"
 else
