@@ -2,7 +2,12 @@
 
 set -e
 
-cd /var/www/backend-pi-iii
+APP_DIR="/var/www/backend-pi-iii"
+PORT=3333
+MAX_RETRIES=10
+
+# Change to application directory
+cd $APP_DIR
 
 # Install dependencies
 echo "Installing dependencies"
@@ -16,18 +21,17 @@ sleep 5
 # Wait for server to start
 echo "Waiting for server to start"
 
-n=0
-until [ $n -ge 10 ]
+for (( i=0; i<$MAX_RETRIES; i++ ))
 do
-    RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:3333)
+    RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:$PORT)
     if [ $RESPONSE -eq 200 ]; then
         echo "Server started successfully"
-        break
+        exit 0
     else
         echo "Server not yet ready, waiting..."
-        n=$[$n+1]
         sleep 5
     fi
 done
 
-exit 0
+echo "Server failed to start after $MAX_RETRIES attempts"
+exit 1
