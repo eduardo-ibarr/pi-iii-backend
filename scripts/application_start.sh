@@ -11,11 +11,17 @@ cd $APP_DIR
 
 # Install dependencies
 echo "Installing dependencies"
+npm install -g forever
 npm install
 
-# Start the server in a screen session
-echo "Starting server in a screen session"
-screen -d -m -S backend npm start
+# Stop server using forever
+echo "Stopping HTTP server"
+forever stopall
+
+# Start the server with forever
+echo "Starting server with forever"
+forever start -c "npm start" ./
+
 sleep 5
 
 # Wait for server to start
