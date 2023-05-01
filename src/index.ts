@@ -1,7 +1,8 @@
 import 'express-async-errors';
 import express, { Request, Response } from 'express';
 import { logs } from './api/middlewares/logs';
-import { agentRoutes } from './modules/agent/infra/http/routes/agents.routes';
+import { agentsRoutes } from './modules/agent/infra/http/routes/agents.routes';
+import { categoriesRoutes } from './modules/category/infra/http/routes/categories.routes';
 import { errors } from 'celebrate';
 import { errorHandling } from './api/middlewares/errorHandling';
 
@@ -19,7 +20,8 @@ app.get('/', (request: Request, response: Response) => {
     .json({ message: 'This is the root path of the API.' });
 });
 
-app.use('/agents', agentRoutes);
+app.use('/agents', agentsRoutes);
+app.use('/categories', categoriesRoutes);
 
 app.use(errors());
 app.use(errorHandling);
