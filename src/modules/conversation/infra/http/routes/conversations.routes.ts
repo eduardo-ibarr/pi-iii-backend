@@ -1,13 +1,13 @@
 import { Router } from 'express';
-import { AgentsController } from '../controllers/AgentsController';
+import { ConversationsController } from '../controllers/ConversationsController';
 
 import { celebrate, Joi, Segments } from 'celebrate';
 
 const router = Router();
 
-const agentsController = new AgentsController();
+const conversationsController = new ConversationsController();
 
-router.get('/', agentsController.index);
+router.get('/', conversationsController.index);
 
 router.get(
   '/:id',
@@ -16,20 +16,18 @@ router.get(
       id: Joi.string().uuid().required(),
     },
   }),
-  agentsController.show
+  conversationsController.show
 );
 
 router.post(
   '/',
   celebrate({
     [Segments.BODY]: {
-      name: Joi.string().required(),
-      email: Joi.string().email().required(),
-      password: Joi.string().required(),
-      available: Joi.boolean().required(),
+      agent_id: Joi.string().uuid().required(),
+      ticket_id: Joi.string().uuid().required(),
     },
   }),
-  agentsController.store
+  conversationsController.store
 );
 
 router.put(
@@ -39,13 +37,11 @@ router.put(
       id: Joi.string().uuid().required(),
     },
     [Segments.BODY]: {
-      name: Joi.string(),
-      email: Joi.string().email(),
-      password: Joi.string(),
-      available: Joi.boolean(),
+      agent_id: Joi.string().uuid(),
+      ticket_id: Joi.string().uuid(),
     },
   }),
-  agentsController.update
+  conversationsController.update
 );
 
 router.delete(
@@ -55,7 +51,7 @@ router.delete(
       id: Joi.string().uuid().required(),
     },
   }),
-  agentsController.delete
+  conversationsController.delete
 );
 
-export { router as agentsRoutes };
+export { router as conversationsRoutes };

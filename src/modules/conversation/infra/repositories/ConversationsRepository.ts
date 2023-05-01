@@ -46,14 +46,18 @@ export class ConversationsRepository implements IConversationsRepository {
     const fields = [];
     const values = [];
 
+    let i = 1;
+
     if (ticket_id) {
-      fields.push('ticket_id = $1');
+      fields.push(`ticket_id = $${i}`);
       values.push(ticket_id);
+      i++;
     }
 
     if (agent_id) {
-      fields.push('agent_id = $2');
+      fields.push(`agent_id = $${i}`);
       values.push(agent_id);
+      i++;
     }
 
     if (fields.length === 0) {
