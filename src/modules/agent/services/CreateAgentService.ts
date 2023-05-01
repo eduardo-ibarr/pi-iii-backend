@@ -1,7 +1,7 @@
 import AppError from '../../../api/errors/AppError';
 import { IAgent, ICreateAgent } from '../domain/models';
 import { AgentsRepository } from '../infra/repositories/AgentsRepository';
-import { genSaltSync, hashSync } from 'bcrypt';
+import { hash } from 'bcrypt';
 import { config } from 'dotenv';
 
 config();
@@ -21,8 +21,7 @@ export class CreateAgentService {
       throw new AppError('Email already in use.', 409);
     }
 
-    const salt = genSaltSync(+process.env.SALT_ROUNDS);
-    const passwordHashed = hashSync(password, salt);
+    const passwordHashed = await hash(password, +process.env.SALT_ROUNDS);
 
     const agent = await this.agentsRepository.create({
       name,

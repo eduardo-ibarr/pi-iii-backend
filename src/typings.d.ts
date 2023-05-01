@@ -14,5 +14,14 @@ declare namespace NodeJS {
     SALT_ROUNDS: string;
     AWS_ACCESS_KEY_ID: string;
     AWS_SECRET_KEY: string;
+    SECRET: string;
+  }
+}
+
+declare namespace Express {
+  export interface Request {
+    user: {
+      id: string;
+    };
   }
 }
