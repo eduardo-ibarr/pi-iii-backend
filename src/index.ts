@@ -7,6 +7,7 @@ import { categoriesRoutes } from './modules/category/infra/http/routes/categorie
 import { errorHandling } from './api/middlewares/errorHandling';
 import { conversationsRoutes } from './modules/conversation/infra/http/routes/conversations.routes';
 import { messagesRoutes } from './modules/message/infra/http/routes/messages.routes';
+import { requestersRoutes } from './modules/requester/infra/http/routes/requesters.routes';
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use('/agents', agentsRoutes);
 app.use('/categories', categoriesRoutes);
 app.use('/conversations', conversationsRoutes);
 app.use('/messages', messagesRoutes);
+app.use('/requesters', requestersRoutes);
 
 app.use(errors());
 app.use(errorHandling);
