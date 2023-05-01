@@ -1,18 +1,18 @@
+import AppError from '../../../api/errors/AppError';
 import { IAgentTicketHistory } from '../domain/models';
-import { AgentTicketHistoryRepository } from '../infra/repositories/AgentTicketHistoryRepository';
+import { AgentTicketHistoriesRepository } from '../infra/repositories/AgentTicketHistoriesRepository';
 
 export class ShowAgentTicketHistoryService {
   constructor(
-    private agentTicketHistoryRepository: AgentTicketHistoryRepository
+    private agentTicketHistoriesRepository: AgentTicketHistoriesRepository
   ) {}
 
   public async execute(id: string): Promise<IAgentTicketHistory> {
-    const agentTicketHistory = await this.agentTicketHistoryRepository.findById(
-      id
-    );
+    const agentTicketHistory =
+      await this.agentTicketHistoriesRepository.findById(id);
 
     if (!agentTicketHistory) {
-      throw new Error('AgentTicketHistory not found.');
+      throw new AppError('Agent-Ticket history not found.', 404);
     }
 
     return agentTicketHistory;

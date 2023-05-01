@@ -10,6 +10,7 @@ import { messagesRoutes } from './modules/message/infra/http/routes/messages.rou
 import { requestersRoutes } from './modules/requester/infra/http/routes/requesters.routes';
 import { sectorsRoutes } from './modules/sector/infra/http/routes/categories.routes';
 import { ticketsRoutes } from './modules/ticket/infra/http/routes/tickets.routes';
+import { agentTicketHistoriesRoutes } from './modules/agent-ticket-history/infra/http/routes/agentTicketHistories.routes';
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use('/messages', messagesRoutes);
 app.use('/requesters', requestersRoutes);
 app.use('/sectors', sectorsRoutes);
 app.use('/tickets', ticketsRoutes);
+app.use('/agent-ticket-histories', agentTicketHistoriesRoutes);
 
 app.use(errors());
 app.use(errorHandling);
