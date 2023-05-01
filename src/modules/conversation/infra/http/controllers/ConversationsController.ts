@@ -6,7 +6,7 @@ import {
   CreateConversationService,
   UpdateConversationService,
   DeleteConversationService,
-} from 'src/modules/conversation/services';
+} from '../../../services';
 
 const conversationsRepository = new ConversationsRepository();
 

@@ -1,4 +1,4 @@
-import AppError from 'src/api/errors/AppError';
+import AppError from '../../../api/errors/AppError';
 import { ICreateCategory } from '../domain/models';
 import { CategoriesRepository } from '../infra/repositories/CategoriesRepository';
 
