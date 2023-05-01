@@ -6,7 +6,7 @@ import {
   CreateCategoryService,
   DeleteCategoryService,
   UpdateCategoryService,
-} from 'src/modules/category/services';
+} from '../../../services';
 
 const categoriesRepository = new CategoriesRepository();
 
