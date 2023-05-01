@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { MessagesRepository } from '../../repositories/MessagesRepository';
 import {
   ListMessagesService,
   ShowMessageService,
@@ -8,7 +7,13 @@ import {
   DeleteMessageService,
 } from '../../../services';
 
+import { MessagesRepository } from '../../repositories/MessagesRepository';
+import { ConversationsRepository } from '../../../../../modules/conversation/infra/repositories/ConversationsRepository';
+import { TicketsRepository } from '../../../../../modules/ticket/infra/repositories/TicketsRepository';
+
 const messagesRepository = new MessagesRepository();
+const ticketsRepository = new TicketsRepository();
+const conversationsRepository = new ConversationsRepository();
 
 export class MessagesController {
   async index(request: Request, response: Response): Promise<Response> {
@@ -31,7 +36,11 @@ export class MessagesController {
     const { content, conversation_id, read_status, sender, ticket_id } =
       request.body;
 
-    const agent = await new CreateMessageService(messagesRepository).execute({
+    const agent = await new CreateMessageService(
+      messagesRepository,
+      ticketsRepository,
+      conversationsRepository
+    ).execute({
       content,
       conversation_id,
       read_status,
@@ -55,7 +64,11 @@ export class MessagesController {
       request.body;
     const { id } = request.params;
 
-    const agent = await new UpdateMessageService(messagesRepository).execute({
+    const agent = await new UpdateMessageService(
+      messagesRepository,
+      ticketsRepository,
+      conversationsRepository
+    ).execute({
       id,
       content,
       conversation_id,

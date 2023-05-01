@@ -12,15 +12,17 @@ export class UpdateCategoryService {
     const category = await this.categoriesRepository.findById(id);
 
     if (!category) {
-      throw new Error('Category not found.');
+      throw new AppError('Category not found.', 404);
     }
 
-    const nameAlreadyExists = await this.categoriesRepository.findByName(
-      name as string
-    );
+    if (name) {
+      const nameAlreadyExists = await this.categoriesRepository.findByName(
+        name
+      );
 
-    if (nameAlreadyExists) {
-      throw new AppError('There are another category with this name.', 409);
+      if (nameAlreadyExists) {
+        throw new AppError('There are another category with this name.', 409);
+      }
     }
 
     await this.categoriesRepository.update({

@@ -7,8 +7,12 @@ import {
   UpdateConversationService,
   DeleteConversationService,
 } from '../../../services';
+import { TicketsRepository } from '../../../../../modules/ticket/infra/repositories/TicketsRepository';
+import { AgentsRepository } from '../../../../..//modules/agent/infra/repositories/AgentsRepository';
 
 const conversationsRepository = new ConversationsRepository();
+const ticketsRepository = new TicketsRepository();
+const agentsRepository = new AgentsRepository();
 
 export class ConversationsController {
   async index(request: Request, response: Response): Promise<Response> {
@@ -33,7 +37,9 @@ export class ConversationsController {
     const { agent_id, ticket_id } = request.body;
 
     const conversation = await new CreateConversationService(
-      conversationsRepository
+      conversationsRepository,
+      ticketsRepository,
+      agentsRepository
     ).execute({
       agent_id,
       ticket_id,
@@ -55,7 +61,9 @@ export class ConversationsController {
     const { id } = request.params;
 
     const conversation = await new UpdateConversationService(
-      conversationsRepository
+      conversationsRepository,
+      ticketsRepository,
+      agentsRepository
     ).execute({
       id,
       agent_id,

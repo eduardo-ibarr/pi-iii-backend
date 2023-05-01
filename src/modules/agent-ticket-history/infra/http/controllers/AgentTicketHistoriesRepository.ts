@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { AgentTicketHistoriesRepository } from '../../repositories/AgentTicketHistoriesRepository';
 import {
   ListAgentTicketHistoriesService,
   ShowAgentTicketHistoryService,
@@ -8,7 +7,13 @@ import {
   UpdateAgentTicketHistoryService,
 } from '../../../services';
 
+import { AgentTicketHistoriesRepository } from '../../repositories/AgentTicketHistoriesRepository';
+import { TicketsRepository } from '../../../../../modules/ticket/infra/repositories/TicketsRepository';
+import { AgentsRepository } from '../../../../../modules/agent/infra/repositories/AgentsRepository';
+
 const agentTicketHistoryRepository = new AgentTicketHistoriesRepository();
+const ticketsRepository = new TicketsRepository();
+const agentsRepository = new AgentsRepository();
 
 export class AgentTicketHistoriesController {
   async index(request: Request, response: Response): Promise<Response> {
@@ -33,7 +38,9 @@ export class AgentTicketHistoriesController {
     const { agent_id, ticket_id } = request.body;
 
     const agentTicketHistory = await new CreateAgentTicketHistoryService(
-      agentTicketHistoryRepository
+      agentTicketHistoryRepository,
+      ticketsRepository,
+      agentsRepository
     ).execute({
       agent_id,
       ticket_id,
@@ -57,7 +64,9 @@ export class AgentTicketHistoriesController {
     const { id } = request.params;
 
     const agentTicketHistory = await new UpdateAgentTicketHistoryService(
-      agentTicketHistoryRepository
+      agentTicketHistoryRepository,
+      ticketsRepository,
+      agentsRepository
     ).execute({
       id,
       agent_id,
