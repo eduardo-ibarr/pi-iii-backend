@@ -6,7 +6,7 @@ import {
   CreateMessageService,
   UpdateMessageService,
   DeleteMessageService,
-} from 'src/modules/message/services';
+} from '../../../services';
 
 const messagesRepository = new MessagesRepository();
 
