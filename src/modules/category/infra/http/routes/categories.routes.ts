@@ -1,13 +1,13 @@
 import { Router } from 'express';
-import { AgentsController } from '../controllers/AgentsController';
+import { CategoriesController } from '../controllers/CategoriesController';
 
 import { celebrate, Joi, Segments } from 'celebrate';
 
 const router = Router();
 
-const agentsController = new AgentsController();
+const categoriesController = new CategoriesController();
 
-router.get('/', agentsController.index);
+router.get('/', categoriesController.index);
 
 router.get(
   '/:id',
@@ -16,7 +16,7 @@ router.get(
       id: Joi.string().uuid().required(),
     },
   }),
-  agentsController.show
+  categoriesController.show
 );
 
 router.post(
@@ -24,12 +24,9 @@ router.post(
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().required(),
-      email: Joi.string().email().required(),
-      password: Joi.string().required(),
-      available: Joi.boolean().required(),
     },
   }),
-  agentsController.store
+  categoriesController.store
 );
 
 router.put(
@@ -40,12 +37,9 @@ router.put(
     },
     [Segments.BODY]: {
       name: Joi.string(),
-      email: Joi.string().email(),
-      password: Joi.string(),
-      available: Joi.boolean(),
     },
   }),
-  agentsController.update
+  categoriesController.update
 );
 
 router.delete(
@@ -55,7 +49,7 @@ router.delete(
       id: Joi.string().uuid().required(),
     },
   }),
-  agentsController.delete
+  categoriesController.delete
 );
 
-export { router as agentsRoutes };
+export { router as categoriesRoutes };

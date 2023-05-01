@@ -1,6 +1,6 @@
 import { MessagesRepository } from '../infra/repositories/MessagesRepository';
 
-export class DeleteMessagesService {
+export class DeleteMessageService {
   constructor(private messagesRepository: MessagesRepository) {}
 
   public async execute(id: string): Promise<void> {

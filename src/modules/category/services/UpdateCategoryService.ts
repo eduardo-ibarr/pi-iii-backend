@@ -1,3 +1,4 @@
+import AppError from 'src/api/errors/AppError';
 import { IUpdateCategory } from '../domain/models';
 import { CategoriesRepository } from '../infra/repositories/CategoriesRepository';
 
@@ -12,6 +13,14 @@ export class UpdateCategoryService {
 
     if (!category) {
       throw new Error('Category not found.');
+    }
+
+    const nameAlreadyExists = await this.categoriesRepository.findByName(
+      name as string
+    );
+
+    if (nameAlreadyExists) {
+      throw new AppError('There are another category with this name.', 409);
     }
 
     await this.categoriesRepository.update({

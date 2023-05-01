@@ -1,9 +1,12 @@
 import 'express-async-errors';
 import express, { Request, Response } from 'express';
 import { logs } from './api/middlewares/logs';
-import { agentRoutes } from './modules/agent/infra/http/routes/agents.routes';
+import { agentsRoutes } from './modules/agent/infra/http/routes/agents.routes';
+import { categoriesRoutes } from './modules/category/infra/http/routes/categories.routes';
 import { errors } from 'celebrate';
 import { errorHandling } from './api/middlewares/errorHandling';
+import { conversationsRoutes } from './modules/conversation/infra/http/routes/conversations.routes';
+import { messagesRoutes } from './modules/message/infra/http/routes/messages.routes';
 
 const app = express();
 
@@ -19,7 +22,10 @@ app.get('/', (request: Request, response: Response) => {
     .json({ message: 'This is the root path of the API.' });
 });
 
-app.use('/agents', agentRoutes);
+app.use('/agents', agentsRoutes);
+app.use('/categories', categoriesRoutes);
+app.use('/conversations', conversationsRoutes);
+app.use('/messages', messagesRoutes);
 
 app.use(errors());
 app.use(errorHandling);

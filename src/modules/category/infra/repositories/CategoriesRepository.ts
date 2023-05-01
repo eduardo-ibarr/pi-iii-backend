@@ -7,6 +7,14 @@ import {
 import { ICategoriesRepository } from '../../domain/repositories/ICategoriesRepository';
 
 export class CategoriesRepository implements ICategoriesRepository {
+  async findByName(name: string): Promise<ICategory | null> {
+    const { rows } = await connection.query(
+      'SELECT * FROM categories WHERE name = $1',
+      [name]
+    );
+    return rows[0] || null;
+  }
+
   async findById(id: string): Promise<ICategory | null> {
     const { rows } = await connection.query(
       'SELECT * FROM categories WHERE id = $1',
@@ -27,7 +35,7 @@ export class CategoriesRepository implements ICategoriesRepository {
   async create({ name }: ICreateCategory): Promise<ICategory> {
     const { rows } = await connection.query(
       `INSERT INTO categories (
-        name,
+        name
       ) VALUES ($1) RETURNING *`,
       [name]
     );
@@ -38,9 +46,12 @@ export class CategoriesRepository implements ICategoriesRepository {
     const fields = [];
     const values = [];
 
+    let i = 1;
+
     if (name) {
-      fields.push('name = $1');
+      fields.push(`name = $${i}`);
       values.push(name);
+      i++;
     }
 
     if (fields.length === 0) {
