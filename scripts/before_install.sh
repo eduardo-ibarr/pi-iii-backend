@@ -2,10 +2,14 @@
 
 set -e
 
-# Kill any processes running on port 3333
-if lsof -Pi :3333 -sTCP:LISTEN -t >/dev/null ; then
-    echo "Killing processes running on port 3333"
-    kill $(lsof -t -i:3333)
+# Install PM2 globally
+echo "Installing PM2 globally"
+npm install pm2 -g
+
+# Stop PM2 if it's running
+if pm2 status | grep -q online; then
+  echo "Stopping PM2"
+  pm2 kill
 fi
 
 # Start Apache web server if not already running
