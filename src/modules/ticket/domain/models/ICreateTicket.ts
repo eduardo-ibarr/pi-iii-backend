@@ -6,4 +6,5 @@ export interface ICreateTicket {
   status: string;
   subject: string;
   content: string;
+  read_status: string;
 }

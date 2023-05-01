@@ -12,29 +12,27 @@ const sectorsRepository = new SectorsRepository();
 
 export class SectorsController {
   async index(request: Request, response: Response): Promise<Response> {
-    const categories = await new ListSectorsService(
-      sectorsRepository
-    ).execute();
+    const sectors = await new ListSectorsService(sectorsRepository).execute();
 
-    return response.status(200).json(categories);
+    return response.status(200).json(sectors);
   }
 
   async show(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
 
-    const category = await new ShowSectorService(sectorsRepository).execute(id);
+    const sector = await new ShowSectorService(sectorsRepository).execute(id);
 
-    return response.status(200).json(category);
+    return response.status(200).json(sector);
   }
 
   async store(request: Request, response: Response): Promise<Response> {
     const { name } = request.body;
 
-    const agent = await new CreateSectorService(sectorsRepository).execute({
+    const sector = await new CreateSectorService(sectorsRepository).execute({
       name,
     });
 
-    return response.status(201).json(agent);
+    return response.status(201).json(sector);
   }
 
   async delete(request: Request, response: Response): Promise<Response> {
@@ -49,11 +47,11 @@ export class SectorsController {
     const { name } = request.body;
     const { id } = request.params;
 
-    const agent = await new UpdateSectorService(sectorsRepository).execute({
+    const sector = await new UpdateSectorService(sectorsRepository).execute({
       id,
       name,
     });
 
-    return response.status(200).json(agent);
+    return response.status(200).json(sector);
   }
 }

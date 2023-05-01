@@ -9,6 +9,7 @@ import { conversationsRoutes } from './modules/conversation/infra/http/routes/co
 import { messagesRoutes } from './modules/message/infra/http/routes/messages.routes';
 import { requestersRoutes } from './modules/requester/infra/http/routes/requesters.routes';
 import { sectorsRoutes } from './modules/sector/infra/http/routes/categories.routes';
+import { ticketsRoutes } from './modules/ticket/infra/http/routes/tickets.routes';
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.use('/conversations', conversationsRoutes);
 app.use('/messages', messagesRoutes);
 app.use('/requesters', requestersRoutes);
 app.use('/sectors', sectorsRoutes);
+app.use('/tickets', ticketsRoutes);
 
 app.use(errors());
 app.use(errorHandling);
