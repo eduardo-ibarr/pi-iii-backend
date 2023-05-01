@@ -1,3 +1,4 @@
+import AppError from '../../../../api/errors/AppError';
 import { connection } from '../../../../api/database/connection';
 import {
   ICategory,
@@ -55,8 +56,8 @@ export class CategoriesRepository implements ICategoriesRepository {
     }
 
     if (fields.length === 0) {
-      throw new Error(
-        'At least one field must be provided to update an Category.'
+      throw new AppError(
+        'At least one field must be provided to update an category.'
       );
     }
 

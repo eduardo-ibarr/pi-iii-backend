@@ -1,3 +1,4 @@
+import AppError from '../../../../api/errors/AppError';
 import { connection } from '../../../../api/database/connection';
 import { ISector, ICreateSector, IUpdateSector } from '../../domain/models';
 import { ISectorsRepository } from '../../domain/repositories/ISectorsRepository';
@@ -51,7 +52,7 @@ export class SectorsRepository implements ISectorsRepository {
     }
 
     if (fields.length === 0) {
-      throw new Error(
+      throw new AppError(
         'At least one field must be provided to update an sector.'
       );
     }

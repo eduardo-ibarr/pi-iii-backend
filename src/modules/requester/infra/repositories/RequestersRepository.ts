@@ -1,3 +1,4 @@
+import AppError from '../../../../api/errors/AppError';
 import { connection } from '../../../../api/database/connection';
 import {
   IRequester,
@@ -78,7 +79,7 @@ export class RequestersRepository implements IRequestersRepository {
     }
 
     if (fields.length === 0) {
-      throw new Error(
+      throw new AppError(
         'At least one field must be provided to update an requester.'
       );
     }

@@ -1,3 +1,4 @@
+import AppError from '../../../../api/errors/AppError';
 import { connection } from '../../../../api/database/connection';
 import {
   IConversation,
@@ -61,7 +62,7 @@ export class ConversationsRepository implements IConversationsRepository {
     }
 
     if (fields.length === 0) {
-      throw new Error(
+      throw new AppError(
         'At least one field must be provided to update an conversation.'
       );
     }
