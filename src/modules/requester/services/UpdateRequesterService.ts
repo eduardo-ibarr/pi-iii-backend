@@ -1,3 +1,4 @@
+import AppError from '../../../api/errors/AppError';
 import { IUpdateRequester } from '../domain/models';
 import { RequestersRepository } from '../infra/repositories/RequestersRepository';
 
@@ -13,7 +14,17 @@ export class UpdateRequesterService {
     const requester = await this.requestersRepository.findById(id);
 
     if (!requester) {
-      throw new Error('Requester not found.');
+      throw new AppError('Requester not found.');
+    }
+
+    if (email) {
+      const emailAlreadyExists = await this.requestersRepository.findByEmail(
+        email
+      );
+
+      if (emailAlreadyExists && email !== requester.email) {
+        throw new AppError('Email already in use.', 409);
+      }
     }
 
     await this.requestersRepository.update({

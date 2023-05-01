@@ -1,22 +1,15 @@
+import AppError from '../../../../api/errors/AppError';
 import { connection } from '../../../../api/database/connection';
 import {
   IAgentTicketHistory,
   ICreateAgentTicketHistory,
   IUpdateAgentTicketHistory,
 } from '../../domain/models';
-import { IAgentTicketHistoryRepository } from '../../domain/repositories/IAgentTicketHistoryRepository';
+import { IAgentTicketHistoriesRepository } from '../../domain/repositories/IAgentTicketHistoriesRepository';
 
-export class AgentTicketHistoryRepository
-  implements IAgentTicketHistoryRepository
+export class AgentTicketHistoriesRepository
+  implements IAgentTicketHistoriesRepository
 {
-  async findByEmail(email: string): Promise<IAgentTicketHistory | null> {
-    const { rows } = await connection.query(
-      'SELECT * FROM agent_ticket_history WHERE email = $1',
-      [email]
-    );
-    return rows[0] || null;
-  }
-
   async findById(id: string): Promise<IAgentTicketHistory | null> {
     const { rows } = await connection.query(
       'SELECT * FROM agent_ticket_history WHERE id = $1',
@@ -60,19 +53,23 @@ export class AgentTicketHistoryRepository
     const fields = [];
     const values = [];
 
+    let i = 1;
+
     if (agent_id) {
-      fields.push('agent_id = $1');
+      fields.push(`agent_id = $${i}`);
       values.push(agent_id);
+      i++;
     }
 
     if (ticket_id) {
-      fields.push('ticket_id = $2');
+      fields.push(`ticket_id = $${i}`);
       values.push(ticket_id);
+      i++;
     }
 
     if (fields.length === 0) {
-      throw new Error(
-        'At least one field must be provided to update an AgentTicketHistory.'
+      throw new AppError(
+        'At least one field must be provided to update an Agent-Ticket history.'
       );
     }
 

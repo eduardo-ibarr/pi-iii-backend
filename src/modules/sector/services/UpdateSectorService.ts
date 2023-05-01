@@ -1,3 +1,4 @@
+import AppError from '../../../api/errors/AppError';
 import { IUpdateSector } from '../domain/models';
 import { SectorsRepository } from '../infra/repositories/SectorsRepository';
 
@@ -11,7 +12,15 @@ export class UpdateSectorService {
     const sector = await this.sectorsRepository.findById(id);
 
     if (!sector) {
-      throw new Error('Sector not found.');
+      throw new AppError('Sector not found.', 404);
+    }
+
+    if (name) {
+      const nameAlreadyExists = await this.sectorsRepository.findByName(name);
+
+      if (nameAlreadyExists) {
+        throw new AppError('Already exists a sector with this name.', 409);
+      }
     }
 
     await this.sectorsRepository.update({

@@ -12,6 +12,7 @@ export class CreateTicketService {
     status,
     subject,
     content,
+    read_status,
   }: ICreateTicket) {
     const ticket = await this.ticketsRepository.create({
       requester_id,
@@ -21,6 +22,7 @@ export class CreateTicketService {
       status,
       subject,
       content,
+      read_status,
     });
 
     return ticket;

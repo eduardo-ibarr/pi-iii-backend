@@ -1,3 +1,4 @@
+import AppError from '../../../../api/errors/AppError';
 import { connection } from '../../../../api/database/connection';
 import {
   IRequester,
@@ -7,6 +8,14 @@ import {
 import { IRequestersRepository } from '../../domain/repositories/IRequestersRepository';
 
 export class RequestersRepository implements IRequestersRepository {
+  async findByEmail(email: string): Promise<IRequester | null> {
+    const { rows } = await connection.query(
+      'SELECT * FROM requesters WHERE email = $1',
+      [email]
+    );
+    return rows[0] || null;
+  }
+
   async findById(id: string): Promise<IRequester | null> {
     const { rows } = await connection.query(
       'SELECT * FROM requesters WHERE id = $1',
@@ -49,23 +58,28 @@ export class RequestersRepository implements IRequestersRepository {
     const fields = [];
     const values = [];
 
+    let i = 1;
+
     if (name) {
-      fields.push('name = $1');
+      fields.push(`name = $${i}`);
       values.push(name);
+      i++;
     }
 
     if (email) {
-      fields.push('email = $2');
+      fields.push(`email = $${i}`);
       values.push(email);
+      i++;
     }
 
     if (password) {
-      fields.push('password = $3');
+      fields.push(`password = $${i}`);
       values.push(password);
+      i++;
     }
 
     if (fields.length === 0) {
-      throw new Error(
+      throw new AppError(
         'At least one field must be provided to update an requester.'
       );
     }

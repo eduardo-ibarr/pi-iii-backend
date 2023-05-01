@@ -6,4 +6,5 @@ export interface IUpdateTicket {
   status?: string;
   subject?: string;
   content?: string;
+  read_status?: string;
 }

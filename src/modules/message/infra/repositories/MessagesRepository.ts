@@ -1,3 +1,4 @@
+import AppError from '../../../../api/errors/AppError';
 import { connection } from '../../../../api/database/connection';
 import { IMessage, ICreateMessage, IUpdateMessage } from '../../domain/models';
 import { IMessagesRepository } from '../../domain/repositories/IMessagesRepository';
@@ -84,7 +85,7 @@ export class MessagesRepository implements IMessagesRepository {
     }
 
     if (fields.length === 0) {
-      throw new Error(
+      throw new AppError(
         'At least one field must be provided to update an message.'
       );
     }
