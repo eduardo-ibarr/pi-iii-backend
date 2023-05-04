@@ -6,20 +6,27 @@ import { celebrate, Joi, Segments } from 'celebrate';
 const router = Router();
 
 const messagesController = new MessagesController();
-router.get('/', messagesController.index);
+router.get('/messages', messagesController.index, () => {
+  // #swagger.tags = ['Messages']
+  // #swagger.description = 'Endpoint para obter uma lista de mensagens.'
+});
 
 router.get(
-  '/:id',
+  '/messages/:id',
   celebrate({
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required(),
     },
   }),
-  messagesController.show
+  messagesController.show,
+  () => {
+    // #swagger.tags = ['Messages']
+    // #swagger.description = 'Endpoint para obter uma mensagem.'
+  }
 );
 
 router.post(
-  '/',
+  '/messages',
   celebrate({
     [Segments.BODY]: {
       content: Joi.string().required(),
@@ -29,11 +36,15 @@ router.post(
       ticket_id: Joi.string().uuid().required(),
     },
   }),
-  messagesController.store
+  messagesController.store,
+  () => {
+    // #swagger.tags = ['Messages']
+    // #swagger.description = 'Endpoint para criar uma mensagem.'
+  }
 );
 
 router.put(
-  '/:id',
+  '/messages/:id',
   celebrate({
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required(),
@@ -46,17 +57,25 @@ router.put(
       ticket_id: Joi.string().uuid(),
     },
   }),
-  messagesController.update
+  messagesController.update,
+  () => {
+    // #swagger.tags = ['Messages']
+    // #swagger.description = 'Endpoint para atualizar uma mensagem.'
+  }
 );
 
 router.delete(
-  '/:id',
+  '/messages/:id',
   celebrate({
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required(),
     },
   }),
-  messagesController.delete
+  messagesController.delete,
+  () => {
+    // #swagger.tags = ['Messages']
+    // #swagger.description = 'Endpoint para remover uma mensagem.'
+  }
 );
 
 export { router as messagesRoutes };

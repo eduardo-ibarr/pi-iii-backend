@@ -7,31 +7,42 @@ const router = Router();
 
 const conversationsController = new ConversationsController();
 
-router.get('/', conversationsController.index);
+router.get('/conversations', conversationsController.index, () => {
+  // #swagger.tags = ['Conversations']
+  // #swagger.description = 'Endpoint para obter uma lista de conversas.'
+});
 
 router.get(
-  '/:id',
+  '/conversations/:id',
   celebrate({
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required(),
     },
   }),
-  conversationsController.show
+  conversationsController.show,
+  () => {
+    // #swagger.tags = ['Conversations']
+    // #swagger.description = 'Endpoint para obter um conversa.'
+  }
 );
 
 router.post(
-  '/',
+  '/conversations',
   celebrate({
     [Segments.BODY]: {
       agent_id: Joi.string().uuid().required(),
       ticket_id: Joi.string().uuid().required(),
     },
   }),
-  conversationsController.store
+  conversationsController.store,
+  () => {
+    // #swagger.tags = ['Conversations']
+    // #swagger.description = 'Endpoint para criar um conversa.'
+  }
 );
 
 router.put(
-  '/:id',
+  '/conversations/:id',
   celebrate({
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required(),
@@ -41,17 +52,25 @@ router.put(
       ticket_id: Joi.string().uuid(),
     },
   }),
-  conversationsController.update
+  conversationsController.update,
+  () => {
+    // #swagger.tags = ['Conversations']
+    // #swagger.description = 'Endpoint para atualizar uma conversa.'
+  }
 );
 
 router.delete(
-  '/:id',
+  '/conversations/:id',
   celebrate({
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required(),
     },
   }),
-  conversationsController.delete
+  conversationsController.delete,
+  () => {
+    // #swagger.tags = ['Conversations']
+    // #swagger.description = 'Endpoint para remover um conversa.'
+  }
 );
 
 export { router as conversationsRoutes };
