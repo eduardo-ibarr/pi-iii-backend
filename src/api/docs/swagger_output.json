@@ -75,7 +75,7 @@
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Agents successfully obtained.",
+            "description": "Agentes obtidos com sucesso.",
             "schema": {
               "type": "array",
               "items": {
@@ -103,11 +103,11 @@
                   },
                   "created_at": {
                     "type": "string",
-                    "example": "2023-05-04T20:29:10.855Z"
+                    "example": "2023-05-04T22:46:17.597Z"
                   },
                   "updated_at": {
                     "type": "string",
-                    "example": "2023-05-04T20:29:10.855Z"
+                    "example": "2023-05-04T22:46:17.597Z"
                   }
                 }
               },
@@ -117,7 +117,7 @@
             }
           },
           "500": {
-            "description": "Some server error.",
+            "description": "Algum erro de servidor.",
             "schema": {
               "type": "object",
               "properties": {
@@ -151,7 +151,7 @@
             "type": "string"
           },
           {
-            "name": "newAgent",
+            "name": "obj",
             "in": "body",
             "description": "Exemplo de body para criar um agente.",
             "required": true,
@@ -208,11 +208,11 @@
                   },
                   "created_at": {
                     "type": "string",
-                    "example": "2023-05-04T20:29:10.894Z"
+                    "example": "2023-05-04T22:46:17.617Z"
                   },
                   "updated_at": {
                     "type": "string",
-                    "example": "2023-05-04T20:29:10.894Z"
+                    "example": "2023-05-04T22:46:17.617Z"
                   }
                 }
               },
@@ -324,11 +324,11 @@
                 },
                 "created_at": {
                   "type": "string",
-                  "example": "2023-05-04T20:29:10.878Z"
+                  "example": "2023-05-04T22:46:17.610Z"
                 },
                 "updated_at": {
                   "type": "string",
-                  "example": "2023-05-04T20:29:10.878Z"
+                  "example": "2023-05-04T22:46:17.610Z"
                 }
               },
               "xml": {
@@ -390,7 +390,7 @@
             "description": "Id do agente."
           },
           {
-            "name": "newAgent",
+            "name": "obj",
             "in": "body",
             "description": "Exemplo de body para atualizar um agente.",
             "required": true,
@@ -423,7 +423,7 @@
                   },
                   "name": {
                     "type": "string",
-                    "example": "Jhon Doe"
+                    "example": "Jhon Doe Clark"
                   },
                   "email": {
                     "type": "string",
@@ -439,11 +439,11 @@
                   },
                   "created_at": {
                     "type": "string",
-                    "example": "2023-05-04T20:29:10.906Z"
+                    "example": "2023-05-04T22:46:17.629Z"
                   },
                   "updated_at": {
                     "type": "string",
-                    "example": "2023-05-04T20:29:10.906Z"
+                    "example": "2023-05-04T22:46:17.629Z"
                   }
                 }
               },
@@ -577,15 +577,207 @@
         ],
         "description": "Endpoint para obter uma lista um históticos de Agent-Ticket.",
         "parameters": [],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "Históricos obtidos com sucesso.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "6c7a6bb7-8f08-4df0-b514-e6adaf9e35a7"
+                  },
+                  "agent_id": {
+                    "type": "string",
+                    "example": "812af9f9-8538-4831-af5e-fcfd65ad45bf"
+                  },
+                  "ticket_id": {
+                    "type": "string",
+                    "example": "c22b8ecd-7cd0-49ed-af03-3e0efa447e5f"
+                  },
+                  "created_at": {
+                    "type": "string",
+                    "example": "2023-05-04T22:46:17.672Z"
+                  },
+                  "updated_at": {
+                    "type": "string",
+                    "example": "2023-05-04T22:46:17.672Z"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Algum erro de servidor.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Internal server error"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
       },
       "post": {
         "tags": [
           "Agent-Ticket History"
         ],
-        "description": "Endpoint para criar um histótico de Agent-Ticket.",
-        "parameters": [],
-        "responses": {}
+        "description": "Endpoint para criar um histórico de Agent-Ticket.",
+        "parameters": [
+          {
+            "name": "id",
+            "description": "Id do histórico.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Exemplo de body para criar um histórico.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "agent_id": {
+                  "type": "string",
+                  "example": "812af9f9-8538-4831-af5e-fcfd65ad45bf"
+                },
+                "ticket_id": {
+                  "type": "string",
+                  "example": "c22b8ecd-7cd0-49ed-af03-3e0efa447e5f"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Histórico criado com sucesso.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "6c7a6bb7-8f08-4df0-b514-e6adaf9e35a7"
+                  },
+                  "agent_id": {
+                    "type": "string",
+                    "example": "812af9f9-8538-4831-af5e-fcfd65ad45bf"
+                  },
+                  "ticket_id": {
+                    "type": "string",
+                    "example": "c22b8ecd-7cd0-49ed-af03-3e0efa447e5f"
+                  },
+                  "created_at": {
+                    "type": "string",
+                    "example": "2023-05-04T22:46:17.683Z"
+                  },
+                  "updated_at": {
+                    "type": "string",
+                    "example": "2023-05-04T22:46:17.683Z"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Algum erro de servidor.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Internal server error."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404.1": {
+            "description": "Histórico não encontrado.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Agent-Ticket history not found."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404.2": {
+            "description": "Agente informado não existe.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "The agent informed does not exists."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404.3": {
+            "description": "Ticket informado não existe.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "The ticket informed does not exists."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
       }
     },
     "/agent-ticket-histories/{id}": {
@@ -599,10 +791,81 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "Id do histórico."
           }
         ],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "Histórico obtido com sucesso.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "6c7a6bb7-8f08-4df0-b514-e6adaf9e35a7"
+                },
+                "agent_id": {
+                  "type": "string",
+                  "example": "812af9f9-8538-4831-af5e-fcfd65ad45bf"
+                },
+                "ticket_id": {
+                  "type": "string",
+                  "example": "c22b8ecd-7cd0-49ed-af03-3e0efa447e5f"
+                },
+                "created_at": {
+                  "type": "string",
+                  "example": "2023-05-04T22:46:17.679Z"
+                },
+                "updated_at": {
+                  "type": "string",
+                  "example": "2023-05-04T22:46:17.679Z"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Histórico não encontrado.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Agent-Ticket history not found."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Algum erro de servidor.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Internal server error."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
       },
       "put": {
         "tags": [
@@ -614,10 +877,141 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "Id do histórico."
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Exemplo de body para atualizar um histórico.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "agent_id": {
+                  "type": "string",
+                  "example": "812af9f9-8538-4831-af5e-fcfd65ad45bf"
+                },
+                "ticket_id": {
+                  "type": "string",
+                  "example": "85315bda-3719-490d-b780-1b7e64e027f9"
+                }
+              }
+            }
           }
         ],
-        "responses": {}
+        "responses": {
+          "201": {
+            "description": "Histórico atualizado com sucesso.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "6c7a6bb7-8f08-4df0-b514-e6adaf9e35a7"
+                  },
+                  "agent_id": {
+                    "type": "string",
+                    "example": "812af9f9-8538-4831-af5e-fcfd65ad45bf"
+                  },
+                  "ticket_id": {
+                    "type": "string",
+                    "example": "85315bda-3719-490d-b780-1b7e64e027f9"
+                  },
+                  "created_at": {
+                    "type": "string",
+                    "example": "2023-05-04T22:46:17.689Z"
+                  },
+                  "updated_at": {
+                    "type": "string",
+                    "example": "2023-05-04T22:46:17.689Z"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Algum erro de servidor.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Internal server error."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404.1": {
+            "description": "Histórico não encontrado.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Agent-Ticket history not found."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404.2": {
+            "description": "Agente informado não existe.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "The agent informed does not exists."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404.3": {
+            "description": "Ticket informado não existe.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "The ticket informed does not exists."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
       },
       "delete": {
         "tags": [
@@ -629,10 +1023,53 @@
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "Id do histórico."
           }
         ],
-        "responses": {}
+        "responses": {
+          "200": {
+            "description": "Histórico deletado com sucesso."
+          },
+          "404": {
+            "description": "Histórico não encontrado.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Agent-Ticket history not found."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Algum erro de servidor.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Internal server error."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
       }
     },
     "/api/login": {

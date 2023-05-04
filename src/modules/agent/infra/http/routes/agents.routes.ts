@@ -11,7 +11,7 @@ router.get('/agents', agentsController.index, () => {
   // #swagger.tags = ['Agents']
   // #swagger.description = 'Endpoint para obter uma lista de agentes.'
   /* #swagger.responses[200] = {
-      description: 'Agents successfully obtained.',
+      description: 'Agentes obtidos com sucesso.',
       schema: [
         {
           id: 'b3a6b105-5ced-40c0-abc5-900d344bf805',
@@ -25,7 +25,7 @@ router.get('/agents', agentsController.index, () => {
       ]
   } */
   /* #swagger.responses[500] = {
-      description: 'Some server error.',
+      description: 'Algum erro de servidor.',
       schema: {
         status: 'error',
         message: 'Internal server error',
@@ -89,7 +89,7 @@ router.post(
     // #swagger.tags = ['Agents']
     // #swagger.description = 'Endpoint para criar um agente.'
     // #swagger.parameters['id'] = { description: 'Id do agente.', in: 'path', required: true }
-    /* #swagger.parameters['newAgent'] = {
+    /* #swagger.parameters['obj'] = {
             in: 'body',
             description: 'Exemplo de body para criar um agente.',
             required: true,
@@ -156,7 +156,7 @@ router.put(
     // #swagger.tags = ['Agents']
     // #swagger.description = 'Endpoint para atualizar um agente.'
     // #swagger.parameters['id'] = { description: 'Id do agente.', in: 'path', required: true }
-    /* #swagger.parameters['newAgent'] = {
+    /* #swagger.parameters['obj'] = {
         in: 'body',
         description: 'Exemplo de body para atualizar um agente.',
         required: true,
@@ -170,7 +170,7 @@ router.put(
       schema: [
         {
           id: 'b3a6b105-5ced-40c0-abc5-900d344bf805',
-          name: 'Jhon Doe',
+          name: 'Jhon Doe Clark',
           email: 'jhondoe@example.com',
           password: 'something123',
           available: true,
