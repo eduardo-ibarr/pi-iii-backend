@@ -1,0 +1,1076 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Backend PI III",
+    "description": "Documentação gerada automaticamente."
+  },
+  "host": "localhost:3333",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Agents",
+      "description": "Endpoints"
+    },
+    {
+      "name": "Categories",
+      "description": "Endpoints"
+    },
+    {
+      "name": "Agent-Ticket History",
+      "description": "Endpoints"
+    },
+    {
+      "name": "Auth",
+      "description": "Endpoints"
+    },
+    {
+      "name": "Categories",
+      "description": "Endpoints"
+    },
+    {
+      "name": "Conversations",
+      "description": "Endpoints"
+    },
+    {
+      "name": "Messages",
+      "description": "Endpoints"
+    },
+    {
+      "name": "Requesters",
+      "description": "Endpoints"
+    },
+    {
+      "name": "Sectors",
+      "description": "Endpoints"
+    },
+    {
+      "name": "Tickets",
+      "description": "Endpoints"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "name": "x-access-token",
+      "in": "header"
+    }
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/agents": {
+      "get": {
+        "tags": [
+          "Agents"
+        ],
+        "description": "Endpoint para obter uma lista de agentes.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Agents successfully obtained.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "b3a6b105-5ced-40c0-abc5-900d344bf805"
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "Jhon Doe"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "jhondoe@example.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "something123"
+                  },
+                  "available": {
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "created_at": {
+                    "type": "string",
+                    "example": "2023-05-04T20:29:10.855Z"
+                  },
+                  "updated_at": {
+                    "type": "string",
+                    "example": "2023-05-04T20:29:10.855Z"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Some server error.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Internal server error"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Agents"
+        ],
+        "description": "Endpoint para criar um agente.",
+        "parameters": [
+          {
+            "name": "id",
+            "description": "Id do agente.",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "newAgent",
+            "in": "body",
+            "description": "Exemplo de body para criar um agente.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Jhon Doe"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "jhondoe@example.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "something123"
+                },
+                "available": {
+                  "type": "boolean",
+                  "example": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Agente criado com sucesso.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "b3a6b105-5ced-40c0-abc5-900d344bf805"
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "Jhon Doe"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "jhondoe@example.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "something123"
+                  },
+                  "available": {
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "created_at": {
+                    "type": "string",
+                    "example": "2023-05-04T20:29:10.894Z"
+                  },
+                  "updated_at": {
+                    "type": "string",
+                    "example": "2023-05-04T20:29:10.894Z"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Agente não encontrado.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Agent not found."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "409": {
+            "description": "Email em uso em outro agente.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Email already in use."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Algum erro de servidor.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Internal server error."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agents/{id}": {
+      "get": {
+        "tags": [
+          "Agents"
+        ],
+        "description": "Endpoint para obter um agente.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Id do agente."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Agente obtido com sucesso.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "b3a6b105-5ced-40c0-abc5-900d344bf805"
+                },
+                "name": {
+                  "type": "string",
+                  "example": "Jhon Doe"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "jhondoe@example.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "something123"
+                },
+                "available": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "created_at": {
+                  "type": "string",
+                  "example": "2023-05-04T20:29:10.878Z"
+                },
+                "updated_at": {
+                  "type": "string",
+                  "example": "2023-05-04T20:29:10.878Z"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Agente não encontrado.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Agent not found."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Algum erro de servidor.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Internal server error."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Agents"
+        ],
+        "description": "Endpoint para atualizar um agente.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Id do agente."
+          },
+          {
+            "name": "newAgent",
+            "in": "body",
+            "description": "Exemplo de body para atualizar um agente.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Jhon Doe Clark"
+                },
+                "available": {
+                  "type": "boolean",
+                  "example": true
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Agente atualizado com sucesso.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "b3a6b105-5ced-40c0-abc5-900d344bf805"
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "Jhon Doe"
+                  },
+                  "email": {
+                    "type": "string",
+                    "example": "jhondoe@example.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "example": "something123"
+                  },
+                  "available": {
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "created_at": {
+                    "type": "string",
+                    "example": "2023-05-04T20:29:10.906Z"
+                  },
+                  "updated_at": {
+                    "type": "string",
+                    "example": "2023-05-04T20:29:10.906Z"
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Agente não encontrado.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Agent not found."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "409": {
+            "description": "Email em uso em outro agente.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Email already in use."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Algum erro de servidor.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Internal server error."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Agents"
+        ],
+        "description": "Endpoint para remover um agente.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Id do agente."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Agente deletado com sucesso."
+          },
+          "404": {
+            "description": "Agente não encontrado.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Agent not found."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Algum erro de servidor.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "error"
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Internal server error."
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agent-ticket-histories": {
+      "get": {
+        "tags": [
+          "Agent-Ticket History"
+        ],
+        "description": "Endpoint para obter uma lista um históticos de Agent-Ticket.",
+        "parameters": [],
+        "responses": {}
+      },
+      "post": {
+        "tags": [
+          "Agent-Ticket History"
+        ],
+        "description": "Endpoint para criar um histótico de Agent-Ticket.",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/agent-ticket-histories/{id}": {
+      "get": {
+        "tags": [
+          "Agent-Ticket History"
+        ],
+        "description": "Endpoint para obter um histótico de Agent-Ticket.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      },
+      "put": {
+        "tags": [
+          "Agent-Ticket History"
+        ],
+        "description": "Endpoint para atualizar um histótico de Agent-Ticket.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      },
+      "delete": {
+        "tags": [
+          "Agent-Ticket History"
+        ],
+        "description": "Endpoint para deletar um histótico de Agent-Ticket.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/api/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "Endpoint para fazer login na API.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                },
+                "type_of_user": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/logoff": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "description": "Endpoint para fazer logoff na API.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/categories": {
+      "get": {
+        "tags": [
+          "Categories"
+        ],
+        "description": "Endpoint para obter uma lista de categorias.",
+        "parameters": [],
+        "responses": {}
+      },
+      "post": {
+        "tags": [
+          "Categories"
+        ],
+        "description": "Endpoint para criar uma categoria.",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/categories/{id}": {
+      "get": {
+        "tags": [
+          "Categories"
+        ],
+        "description": "Endpoint para obter uma categoria.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      },
+      "put": {
+        "tags": [
+          "Categories"
+        ],
+        "description": "Endpoint para atualizar uma categoria.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      },
+      "delete": {
+        "tags": [
+          "Categories"
+        ],
+        "description": "Endpoint para remover uma categoria.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/conversations": {
+      "get": {
+        "tags": [
+          "Conversations"
+        ],
+        "description": "Endpoint para obter uma lista de conversas.",
+        "parameters": [],
+        "responses": {}
+      },
+      "post": {
+        "tags": [
+          "Conversations"
+        ],
+        "description": "Endpoint para criar um conversa.",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/conversations/{id}": {
+      "get": {
+        "tags": [
+          "Conversations"
+        ],
+        "description": "Endpoint para obter um conversa.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      },
+      "put": {
+        "tags": [
+          "Conversations"
+        ],
+        "description": "Endpoint para atualizar uma conversa.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      },
+      "delete": {
+        "tags": [
+          "Conversations"
+        ],
+        "description": "Endpoint para remover um conversa.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/messages": {
+      "get": {
+        "tags": [
+          "Messages"
+        ],
+        "description": "Endpoint para obter uma lista de mensagens.",
+        "parameters": [],
+        "responses": {}
+      },
+      "post": {
+        "tags": [
+          "Messages"
+        ],
+        "description": "Endpoint para criar uma mensagem.",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/messages/{id}": {
+      "get": {
+        "tags": [
+          "Messages"
+        ],
+        "description": "Endpoint para obter uma mensagem.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      },
+      "put": {
+        "tags": [
+          "Messages"
+        ],
+        "description": "Endpoint para atualizar uma mensagem.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      },
+      "delete": {
+        "tags": [
+          "Messages"
+        ],
+        "description": "Endpoint para remover uma mensagem.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/requesters": {
+      "get": {
+        "tags": [
+          "Requesters"
+        ],
+        "description": "Endpoint para obter uma lista de requisitantes.",
+        "parameters": [],
+        "responses": {}
+      },
+      "post": {
+        "tags": [
+          "Requesters"
+        ],
+        "description": "Endpoint para criar um requisitante.",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/requesters/{id}": {
+      "get": {
+        "tags": [
+          "Requesters"
+        ],
+        "description": "Endpoint para obter um requisitante.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      },
+      "put": {
+        "tags": [
+          "Requesters"
+        ],
+        "description": "Endpoint para atualizar um requisitante.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      },
+      "delete": {
+        "tags": [
+          "Requesters"
+        ],
+        "description": "Endpoint para remover um requisitante.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/sectors": {
+      "get": {
+        "tags": [
+          "Sectors"
+        ],
+        "description": "Endpoint para obter uma lista de setores.",
+        "parameters": [],
+        "responses": {}
+      },
+      "post": {
+        "tags": [
+          "Sectors"
+        ],
+        "description": "Endpoint para criar um setor.",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/sectors/{id}": {
+      "get": {
+        "tags": [
+          "Sectors"
+        ],
+        "description": "Endpoint para obter um setor.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      },
+      "put": {
+        "tags": [
+          "Sectors"
+        ],
+        "description": "Endpoint para atualizar um setor.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      },
+      "delete": {
+        "tags": [
+          "Sectors"
+        ],
+        "description": "Endpoint para remover um setor.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    },
+    "/tickets": {
+      "get": {
+        "tags": [
+          "Tickets"
+        ],
+        "description": "Endpoint para obter uma lista de tickets.",
+        "parameters": [],
+        "responses": {}
+      },
+      "post": {
+        "tags": [
+          "Tickets"
+        ],
+        "description": "Endpoint para criar um ticket.",
+        "parameters": [],
+        "responses": {}
+      }
+    },
+    "/tickets/{id}": {
+      "get": {
+        "tags": [
+          "Tickets"
+        ],
+        "description": "Endpoint para obter um ticket.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      },
+      "put": {
+        "tags": [
+          "Tickets"
+        ],
+        "description": "Endpoint para atualizar um ticket.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      },
+      "delete": {
+        "tags": [
+          "Tickets"
+        ],
+        "description": "Endpoint para deletar um ticket.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {}
+      }
+    }
+  }
+}

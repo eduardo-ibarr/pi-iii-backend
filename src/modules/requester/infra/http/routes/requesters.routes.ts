@@ -6,20 +6,27 @@ const router = Router();
 
 const requestersController = new RequestersController();
 
-router.get('/', requestersController.index);
+router.get('/requesters', requestersController.index, () => {
+  // #swagger.tags = ['Requesters']
+  // #swagger.description = 'Endpoint para obter uma lista de requisitantes.'
+});
 
 router.get(
-  '/:id',
+  '/requesters/:id',
   celebrate({
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required(),
     },
   }),
-  requestersController.show
+  requestersController.show,
+  () => {
+    // #swagger.tags = ['Requesters']
+    // #swagger.description = 'Endpoint para obter um requisitante.'
+  }
 );
 
 router.post(
-  '/',
+  '/requesters',
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().required(),
@@ -27,11 +34,15 @@ router.post(
       password: Joi.string().required(),
     },
   }),
-  requestersController.store
+  requestersController.store,
+  () => {
+    // #swagger.tags = ['Requesters']
+    // #swagger.description = 'Endpoint para criar um requisitante.'
+  }
 );
 
 router.put(
-  '/:id',
+  '/requesters/:id',
   celebrate({
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required(),
@@ -42,17 +53,25 @@ router.put(
       password: Joi.string(),
     },
   }),
-  requestersController.update
+  requestersController.update,
+  () => {
+    // #swagger.tags = ['Requesters']
+    // #swagger.description = 'Endpoint para atualizar um requisitante.'
+  }
 );
 
 router.delete(
-  '/:id',
+  '/requesters/:id',
   celebrate({
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required(),
     },
   }),
-  requestersController.delete
+  requestersController.delete,
+  () => {
+    // #swagger.tags = ['Requesters']
+    // #swagger.description = 'Endpoint para remover um requisitante.'
+  }
 );
 
 export { router as requestersRoutes };

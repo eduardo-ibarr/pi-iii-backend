@@ -7,30 +7,41 @@ const router = Router();
 
 const sectorsController = new SectorsController();
 
-router.get('/', sectorsController.index);
+router.get('/sectors', sectorsController.index, () => {
+  // #swagger.tags = ['Sectors']
+  // #swagger.description = 'Endpoint para obter uma lista de setores.'
+});
 
 router.get(
-  '/:id',
+  '/sectors/:id',
   celebrate({
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required(),
     },
   }),
-  sectorsController.show
+  sectorsController.show,
+  () => {
+    // #swagger.tags = ['Sectors']
+    // #swagger.description = 'Endpoint para obter um setor.'
+  }
 );
 
 router.post(
-  '/',
+  '/sectors',
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().required(),
     },
   }),
-  sectorsController.store
+  sectorsController.store,
+  () => {
+    // #swagger.tags = ['Sectors']
+    // #swagger.description = 'Endpoint para criar um setor.'
+  }
 );
 
 router.put(
-  '/:id',
+  '/sectors/:id',
   celebrate({
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required(),
@@ -39,17 +50,25 @@ router.put(
       name: Joi.string(),
     },
   }),
-  sectorsController.update
+  sectorsController.update,
+  () => {
+    // #swagger.tags = ['Sectors']
+    // #swagger.description = 'Endpoint para atualizar um setor.'
+  }
 );
 
 router.delete(
-  '/:id',
+  '/sectors/:id',
   celebrate({
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required(),
     },
   }),
-  sectorsController.delete
+  sectorsController.delete,
+  () => {
+    // #swagger.tags = ['Sectors']
+    // #swagger.description = 'Endpoint para remover um setor.'
+  }
 );
 
 export { router as sectorsRoutes };

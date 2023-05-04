@@ -7,20 +7,27 @@ const router = Router();
 
 const ticketsController = new TicketsController();
 
-router.get('/', ticketsController.index);
+router.get('/tickets', ticketsController.index, () => {
+  // #swagger.tags = ['Tickets']
+  // #swagger.description = 'Endpoint para obter uma lista de tickets.'
+});
 
 router.get(
-  '/:id',
+  '/tickets/:id',
   celebrate({
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required(),
     },
   }),
-  ticketsController.show
+  ticketsController.show,
+  () => {
+    // #swagger.tags = ['Tickets']
+    // #swagger.description = 'Endpoint para obter um ticket.'
+  }
 );
 
 router.post(
-  '/',
+  '/tickets',
   celebrate({
     [Segments.BODY]: {
       agent_id: Joi.string().uuid().required(),
@@ -33,11 +40,15 @@ router.post(
       read_status: Joi.boolean().required(),
     },
   }),
-  ticketsController.store
+  ticketsController.store,
+  () => {
+    // #swagger.tags = ['Tickets']
+    // #swagger.description = 'Endpoint para criar um ticket.'
+  }
 );
 
 router.put(
-  '/:id',
+  '/tickets/:id',
   celebrate({
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required(),
@@ -53,17 +64,25 @@ router.put(
       read_status: Joi.boolean(),
     },
   }),
-  ticketsController.update
+  ticketsController.update,
+  () => {
+    // #swagger.tags = ['Tickets']
+    // #swagger.description = 'Endpoint para atualizar um ticket.'
+  }
 );
 
 router.delete(
-  '/:id',
+  '/tickets/:id',
   celebrate({
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required(),
     },
   }),
-  ticketsController.delete
+  ticketsController.delete,
+  () => {
+    // #swagger.tags = ['Tickets']
+    // #swagger.description = 'Endpoint para deletar um ticket.'
+  }
 );
 
 export { router as ticketsRoutes };

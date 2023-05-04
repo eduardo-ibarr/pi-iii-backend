@@ -5,6 +5,8 @@ import cors from 'cors';
 import { logs } from './api/middlewares/logs';
 import { verifyJWT } from './api/middlewares/verifyJWT';
 import { errorHandling } from './api/middlewares/errorHandling';
+import swaggerUi from 'swagger-ui-express';
+import swaggerFile from './api/docs/swagger_output.json';
 
 import {
   agentsRoutes,
@@ -27,24 +29,26 @@ const API_PORT = process.env.PORT || process.env.port || 3333;
 app.use(logs);
 app.use(express.json());
 
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+
 app.get('/', (request: Request, response: Response) => {
   return response
     .status(200)
     .json({ message: 'This is the root path of the API.' });
 });
 
-app.use('/api', authRoutes);
+app.use(authRoutes);
 
 app.use(verifyJWT);
 
-app.use('/agents', agentsRoutes);
-app.use('/categories', categoriesRoutes);
-app.use('/conversations', conversationsRoutes);
-app.use('/messages', messagesRoutes);
-app.use('/requesters', requestersRoutes);
-app.use('/sectors', sectorsRoutes);
-app.use('/tickets', ticketsRoutes);
-app.use('/agent-ticket-histories', agentTicketHistoriesRoutes);
+app.use(agentsRoutes);
+app.use(categoriesRoutes);
+app.use(conversationsRoutes);
+app.use(messagesRoutes);
+app.use(requestersRoutes);
+app.use(sectorsRoutes);
+app.use(ticketsRoutes);
+app.use(agentTicketHistoriesRoutes);
 
 app.use(errors());
 app.use(errorHandling);
