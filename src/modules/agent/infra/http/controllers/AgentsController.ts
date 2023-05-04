@@ -13,8 +13,7 @@ const agentsRepository = new AgentsRepository();
 export class AgentsController {
   async index(request: Request, response: Response): Promise<Response> {
     const agents = await new ListAgentService(agentsRepository).execute();
-
-    return response.json(agents);
+    return response.status(200).json(agents);
   }
 
   async show(request: Request, response: Response): Promise<Response> {
@@ -22,7 +21,7 @@ export class AgentsController {
 
     const agent = await new ShowAgentService(agentsRepository).execute(id);
 
-    return response.json(agent);
+    return response.status(200).json(agent);
   }
 
   async store(request: Request, response: Response): Promise<Response> {
@@ -58,6 +57,6 @@ export class AgentsController {
       available,
     });
 
-    return response.json(agent);
+    return response.status(200).json(agent);
   }
 }

@@ -7,7 +7,7 @@ const router = Router();
 const authController = new AuthController();
 
 router.post(
-  '/login',
+  '/api/login',
   celebrate({
     [Segments.BODY]: {
       email: Joi.string().email().required(),
@@ -15,8 +15,15 @@ router.post(
       type_of_user: Joi.string().required(),
     },
   }),
-  authController.login
+  authController.login,
+  () => {
+    // #swagger.tags = ['Auth']
+    // #swagger.description = 'Endpoint para fazer login na API.'
+  }
 );
-router.post('/logoff', authController.logoff);
+router.post('/api/logoff', authController.logoff, () => {
+  // #swagger.tags = ['Auth']
+  // #swagger.description = 'Endpoint para fazer logoff na API.'
+});
 
 export { router as authRoutes };

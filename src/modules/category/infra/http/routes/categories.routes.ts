@@ -7,30 +7,41 @@ const router = Router();
 
 const categoriesController = new CategoriesController();
 
-router.get('/', categoriesController.index);
+router.get('/categories', categoriesController.index, () => {
+  // #swagger.tags = ['Categories']
+  // #swagger.description = 'Endpoint para obter uma lista de categorias.'
+});
 
 router.get(
-  '/:id',
+  '/categories/:id',
   celebrate({
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required(),
     },
   }),
-  categoriesController.show
+  categoriesController.show,
+  () => {
+    // #swagger.tags = ['Categories']
+    // #swagger.description = 'Endpoint para obter uma categoria.'
+  }
 );
 
 router.post(
-  '/',
+  '/categories',
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().required(),
     },
   }),
-  categoriesController.store
+  categoriesController.store,
+  () => {
+    // #swagger.tags = ['Categories']
+    // #swagger.description = 'Endpoint para criar uma categoria.'
+  }
 );
 
 router.put(
-  '/:id',
+  '/categories/:id',
   celebrate({
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required(),
@@ -39,17 +50,25 @@ router.put(
       name: Joi.string(),
     },
   }),
-  categoriesController.update
+  categoriesController.update,
+  () => {
+    // #swagger.tags = ['Categories']
+    // #swagger.description = 'Endpoint para atualizar uma categoria.'
+  }
 );
 
 router.delete(
-  '/:id',
+  '/categories/:id',
   celebrate({
     [Segments.PARAMS]: {
       id: Joi.string().uuid().required(),
     },
   }),
-  categoriesController.delete
+  categoriesController.delete,
+  () => {
+    // #swagger.tags = ['Categories']
+    // #swagger.description = 'Endpoint para remover uma categoria.'
+  }
 );
 
 export { router as categoriesRoutes };
