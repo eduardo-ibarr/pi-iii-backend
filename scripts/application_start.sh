@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set the project root directory
-cd /var/www/html/backend-pi-iii
+cd /var/www/backend-pi-iii
 
 # Install dependencies
 npm install
