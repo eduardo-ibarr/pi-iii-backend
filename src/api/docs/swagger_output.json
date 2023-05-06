@@ -9,11 +9,11 @@
   "basePath": "/",
   "tags": [
     {
-      "name": "Agents",
+      "name": "Auth",
       "description": "Endpoints"
     },
     {
-      "name": "Categories",
+      "name": "Agents",
       "description": "Endpoints"
     },
     {
@@ -21,7 +21,7 @@
       "description": "Endpoints"
     },
     {
-      "name": "Auth",
+      "name": "Categories",
       "description": "Endpoints"
     },
     {
@@ -103,11 +103,11 @@
                   },
                   "created_at": {
                     "type": "string",
-                    "example": "2023-05-04T22:46:17.597Z"
+                    "example": "2023-05-04T22:58:23.301Z"
                   },
                   "updated_at": {
                     "type": "string",
-                    "example": "2023-05-04T22:46:17.597Z"
+                    "example": "2023-05-04T22:58:23.301Z"
                   }
                 }
               },
@@ -208,11 +208,11 @@
                   },
                   "created_at": {
                     "type": "string",
-                    "example": "2023-05-04T22:46:17.617Z"
+                    "example": "2023-05-04T22:58:23.323Z"
                   },
                   "updated_at": {
                     "type": "string",
-                    "example": "2023-05-04T22:46:17.617Z"
+                    "example": "2023-05-04T22:58:23.323Z"
                   }
                 }
               },
@@ -324,11 +324,11 @@
                 },
                 "created_at": {
                   "type": "string",
-                  "example": "2023-05-04T22:46:17.610Z"
+                  "example": "2023-05-04T22:58:23.314Z"
                 },
                 "updated_at": {
                   "type": "string",
-                  "example": "2023-05-04T22:46:17.610Z"
+                  "example": "2023-05-04T22:58:23.314Z"
                 }
               },
               "xml": {
@@ -439,11 +439,11 @@
                   },
                   "created_at": {
                     "type": "string",
-                    "example": "2023-05-04T22:46:17.629Z"
+                    "example": "2023-05-04T22:58:23.334Z"
                   },
                   "updated_at": {
                     "type": "string",
-                    "example": "2023-05-04T22:46:17.629Z"
+                    "example": "2023-05-04T22:58:23.334Z"
                   }
                 }
               },
@@ -599,11 +599,11 @@
                   },
                   "created_at": {
                     "type": "string",
-                    "example": "2023-05-04T22:46:17.672Z"
+                    "example": "2023-05-04T22:58:23.370Z"
                   },
                   "updated_at": {
                     "type": "string",
-                    "example": "2023-05-04T22:46:17.672Z"
+                    "example": "2023-05-04T22:58:23.370Z"
                   }
                 }
               },
@@ -688,11 +688,11 @@
                   },
                   "created_at": {
                     "type": "string",
-                    "example": "2023-05-04T22:46:17.683Z"
+                    "example": "2023-05-04T22:58:23.379Z"
                   },
                   "updated_at": {
                     "type": "string",
-                    "example": "2023-05-04T22:46:17.683Z"
+                    "example": "2023-05-04T22:58:23.379Z"
                   }
                 }
               },
@@ -815,11 +815,11 @@
                 },
                 "created_at": {
                   "type": "string",
-                  "example": "2023-05-04T22:46:17.679Z"
+                  "example": "2023-05-04T22:58:23.375Z"
                 },
                 "updated_at": {
                   "type": "string",
-                  "example": "2023-05-04T22:46:17.679Z"
+                  "example": "2023-05-04T22:58:23.375Z"
                 }
               },
               "xml": {
@@ -922,11 +922,11 @@
                   },
                   "created_at": {
                     "type": "string",
-                    "example": "2023-05-04T22:46:17.689Z"
+                    "example": "2023-05-04T22:58:23.385Z"
                   },
                   "updated_at": {
                     "type": "string",
-                    "example": "2023-05-04T22:46:17.689Z"
+                    "example": "2023-05-04T22:58:23.385Z"
                   }
                 }
               },

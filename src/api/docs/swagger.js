@@ -27,11 +27,11 @@ const doc = {
   produces: ['application/json'],
   tags: [
     {
-      name: 'Agents',
+      name: 'Auth',
       description: 'Endpoints',
     },
     {
-      name: 'Categories',
+      name: 'Agents',
       description: 'Endpoints',
     },
     {
@@ -39,7 +39,7 @@ const doc = {
       description: 'Endpoints',
     },
     {
-      name: 'Auth',
+      name: 'Categories',
       description: 'Endpoints',
     },
     {
