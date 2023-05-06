@@ -27,7 +27,7 @@ const API_PORT = process.env.PORT || process.env.port || 3333;
 
 const allowedOrigins = [
   'http://localhost:3000',
-  'https://sistemadevendas.com',
+  'https://www.sistemadevendas.com',
   'http://sistemadevendas.com',
 ];
 
