@@ -19,12 +19,34 @@ import {
   agentTicketHistoriesRoutes,
   authRoutes,
 } from './modules';
+import AppError from './api/errors/AppError';
 
 const app = express();
 
 const API_PORT = process.env.PORT || process.env.port || 3333;
 
-// app.use(cors);
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://sistemadevendas.com',
+  'http://sistemadevendas.com',
+];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.indexOf(origin) === -1) {
+        return callback(
+          new AppError('Access denied by CORS.', 409) as unknown as Error,
+          false
+        );
+      }
+
+      return callback(null, true);
+    },
+  })
+);
 
 app.use(logs);
 app.use(express.json());
