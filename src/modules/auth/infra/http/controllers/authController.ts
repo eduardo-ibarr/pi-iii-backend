@@ -29,7 +29,9 @@ class AuthController {
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
     });
 
-    return response.status(200).json({ token, expiresIn });
+    return response
+      .status(200)
+      .json({ token, expiresIn, typeOfUser: type_of_user });
   }
 
   async logoff(request: Request, response: Response) {

@@ -17,9 +17,9 @@ const {
 } = process.env;
 
 export const dbConfig: PoolConfig = {
-  user: NODE_ENV === 'local' ? LOCAL_PG_USER : PRD_PG_USER,
-  password: NODE_ENV === 'local' ? LOCAL_PG_PASSWORD : PRD_PG_PASSWORD,
+  user: NODE_ENV === 'development' ? LOCAL_PG_USER : PRD_PG_USER,
+  password: NODE_ENV === 'development' ? LOCAL_PG_PASSWORD : PRD_PG_PASSWORD,
   database: PG_DATABASE,
-  host: NODE_ENV === 'local' ? LOCAL_PG_HOST : PRD_PG_HOST,
+  host: NODE_ENV === 'development' ? LOCAL_PG_HOST : PRD_PG_HOST,
   port: +PG_PORT,
 };

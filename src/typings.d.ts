@@ -2,7 +2,7 @@ declare namespace NodeJS {
   interface ProcessEnv {
     PORT?: string;
     port?: string;
-    NODE_ENV: 'local' | 'production';
+    NODE_ENV: 'development' | 'production';
     LOCAL_PG_USER: string;
     LOCAL_PG_PASSWORD: string;
     PRD_PG_USER: string;
