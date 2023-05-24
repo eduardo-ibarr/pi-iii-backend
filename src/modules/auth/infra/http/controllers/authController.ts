@@ -13,10 +13,12 @@ class AuthController {
   async login(request: Request, response: Response) {
     const { email, password, type_of_user } = request.body;
 
-    const { auth, token, refreshToken, expiresIn } = await new LoginService(
-      requestersRepository,
-      agentsRepository
-    ).execute({ email, password, type_of_user });
+    const { auth, token, refreshToken, expiresIn, userId } =
+      await new LoginService(requestersRepository, agentsRepository).execute({
+        email,
+        password,
+        type_of_user,
+      });
 
     if (!auth || !token || !refreshToken) {
       throw new AppError('Incorrect email or password.', 401);
@@ -31,7 +33,7 @@ class AuthController {
 
     return response
       .status(200)
-      .json({ token, expiresIn, typeOfUser: type_of_user });
+      .json({ token, expiresIn, typeOfUser: type_of_user, userId });
   }
 
   async logoff(request: Request, response: Response) {
