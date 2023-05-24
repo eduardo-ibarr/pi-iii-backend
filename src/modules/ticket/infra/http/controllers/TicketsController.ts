@@ -35,16 +35,8 @@ export class TicketsController {
   }
 
   async store(request: Request, response: Response): Promise<Response> {
-    const {
-      agent_id,
-      category_id,
-      content,
-      requester_id,
-      sector_id,
-      status,
-      subject,
-      read_status,
-    } = request.body;
+    const { category_id, content, requester_id, sector_id, status, subject } =
+      request.body;
 
     const ticket = await new CreateTicketService(
       ticketsRepository,
@@ -53,14 +45,12 @@ export class TicketsController {
       agentsRepository,
       sectorsRepository
     ).execute({
-      agent_id,
       category_id,
       content,
       requester_id,
       sector_id,
       status,
       subject,
-      read_status,
     });
 
     return response.status(201).json(ticket);

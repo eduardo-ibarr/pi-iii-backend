@@ -24,7 +24,6 @@ export class TicketsRepository implements ITicketsRepository {
   async create({
     requester_id,
     category_id,
-    agent_id,
     sector_id,
     status,
     subject,
@@ -34,13 +33,12 @@ export class TicketsRepository implements ITicketsRepository {
       `INSERT INTO tickets (
         requester_id,
         category_id,
-        agent_id,
         sector_id,
         status,
         subject,
-        content,
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`,
-      [requester_id, category_id, agent_id, sector_id, status, subject, content]
+        content
+      ) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
+      [requester_id, category_id, sector_id, status, subject, content]
     );
     return rows[0];
   }

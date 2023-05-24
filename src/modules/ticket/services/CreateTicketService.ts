@@ -19,12 +19,10 @@ export class CreateTicketService {
   public async execute({
     requester_id,
     category_id,
-    agent_id,
     sector_id,
     status,
     subject,
     content,
-    read_status,
   }: ICreateTicket) {
     const requesterExists = await this.requestersRepository.findById(
       requester_id
@@ -42,12 +40,6 @@ export class CreateTicketService {
       throw new AppError('The category informed does not exists.', 404);
     }
 
-    const agentExists = await this.agentsRepository.findById(agent_id);
-
-    if (!agentExists) {
-      throw new AppError('The agent informed does not exists.', 404);
-    }
-
     const sectorExists = await this.sectorsRepository.findById(sector_id);
 
     if (!sectorExists) {
@@ -57,12 +49,10 @@ export class CreateTicketService {
     const ticket = await this.ticketsRepository.create({
       requester_id,
       category_id,
-      agent_id,
       sector_id,
       status,
       subject,
       content,
-      read_status,
     });
 
     return ticket;
