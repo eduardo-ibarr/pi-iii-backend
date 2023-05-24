@@ -42,7 +42,13 @@ export class LoginService {
         expiresIn: 86400,
       });
 
-      return { auth: true, token, expiresIn: 3600, refreshToken };
+      return {
+        auth: true,
+        token,
+        expiresIn: 3600,
+        refreshToken,
+        userId: user.id,
+      };
     }
 
     throw new AppError('Invalid email or password.', 401);

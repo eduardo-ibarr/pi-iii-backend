@@ -30,14 +30,12 @@ router.post(
   '/tickets',
   celebrate({
     [Segments.BODY]: {
-      agent_id: Joi.string().uuid().required(),
       category_id: Joi.string().uuid().required(),
       content: Joi.string().required(),
       requester_id: Joi.string().uuid().required(),
       sector_id: Joi.string().uuid().required(),
-      status: Joi.boolean().required(),
+      status: Joi.string().required(),
       subject: Joi.string().required(),
-      read_status: Joi.boolean().required(),
     },
   }),
   ticketsController.store,
