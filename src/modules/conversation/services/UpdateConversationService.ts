@@ -14,17 +14,8 @@ export class UpdateConversationService {
 
   public async execute({
     id,
-    agent_id,
     ticket_id,
   }: IUpdateConversation & { id: string }): Promise<void> {
-    if (agent_id) {
-      const agentExists = await this.agentsRepository.findById(agent_id);
-
-      if (!agentExists) {
-        throw new AppError('The agent informed does not exists.', 404);
-      }
-    }
-
     if (ticket_id) {
       const ticketExists = await this.ticketsRepository.findById(ticket_id);
 
@@ -40,7 +31,6 @@ export class UpdateConversationService {
     }
 
     await this.conversationsRepository.update({
-      agent_id,
       ticket_id,
       id,
     });

@@ -34,14 +34,12 @@ export class ConversationsController {
   }
 
   async store(request: Request, response: Response): Promise<Response> {
-    const { agent_id, ticket_id } = request.body;
+    const { ticket_id } = request.body;
 
     const conversation = await new CreateConversationService(
       conversationsRepository,
-      ticketsRepository,
-      agentsRepository
+      ticketsRepository
     ).execute({
-      agent_id,
       ticket_id,
     });
 
@@ -57,7 +55,7 @@ export class ConversationsController {
   }
 
   async update(request: Request, response: Response): Promise<Response> {
-    const { agent_id, ticket_id } = request.body;
+    const { ticket_id } = request.body;
     const { id } = request.params;
 
     const conversation = await new UpdateConversationService(
@@ -66,7 +64,6 @@ export class ConversationsController {
       agentsRepository
     ).execute({
       id,
-      agent_id,
       ticket_id,
     });
 

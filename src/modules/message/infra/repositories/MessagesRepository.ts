@@ -34,7 +34,7 @@ export class MessagesRepository implements IMessagesRepository {
         conversation_id,
         read_status,
         sender,
-        ticket_id,
+        ticket_id
       ) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
       [content, conversation_id, read_status, sender, ticket_id]
     );
