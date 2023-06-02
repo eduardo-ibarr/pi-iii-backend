@@ -8,17 +8,10 @@ import { ConversationsRepository } from '../infra/repositories/ConversationsRepo
 export class CreateConversationService {
   constructor(
     private conversationsRepository: ConversationsRepository,
-    private ticketsRepository: TicketsRepository,
-    private agentsRepository: AgentsRepository
+    private ticketsRepository: TicketsRepository
   ) {}
 
-  public async execute({ ticket_id, agent_id }: ICreateConversation) {
-    const agentExists = await this.agentsRepository.findById(agent_id);
-
-    if (!agentExists) {
-      throw new AppError('The agent informed does not exists.', 404);
-    }
-
+  public async execute({ ticket_id }: ICreateConversation) {
     const ticketExists = await this.ticketsRepository.findById(ticket_id);
 
     if (!ticketExists) {
@@ -27,7 +20,6 @@ export class CreateConversationService {
 
     const conversation = await this.conversationsRepository.create({
       ticket_id,
-      agent_id,
     });
 
     return conversation;

@@ -25,23 +25,18 @@ export class ConversationsRepository implements IConversationsRepository {
     return rows;
   }
 
-  async create({
-    ticket_id,
-    agent_id,
-  }: ICreateConversation): Promise<IConversation> {
+  async create({ ticket_id }: ICreateConversation): Promise<IConversation> {
     const { rows } = await connection.query(
       `INSERT INTO conversations (
-        ticket_id,
-        agent_id,
-      ) VALUES ($1, $2) RETURNING *`,
-      [ticket_id, agent_id]
+        ticket_id
+      ) VALUES ($1) RETURNING *`,
+      [ticket_id]
     );
     return rows[0];
   }
 
   async update({
     ticket_id,
-    agent_id,
     id,
   }: IUpdateConversation & { id: string }): Promise<void> {
     const fields = [];
@@ -52,12 +47,6 @@ export class ConversationsRepository implements IConversationsRepository {
     if (ticket_id) {
       fields.push(`ticket_id = $${i}`);
       values.push(ticket_id);
-      i++;
-    }
-
-    if (agent_id) {
-      fields.push(`agent_id = $${i}`);
-      values.push(agent_id);
       i++;
     }
 

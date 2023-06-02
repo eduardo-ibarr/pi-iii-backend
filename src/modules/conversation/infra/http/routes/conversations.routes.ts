@@ -30,7 +30,6 @@ router.post(
   '/conversations',
   celebrate({
     [Segments.BODY]: {
-      agent_id: Joi.string().uuid().required(),
       ticket_id: Joi.string().uuid().required(),
     },
   }),
@@ -48,7 +47,6 @@ router.put(
       id: Joi.string().uuid().required(),
     },
     [Segments.BODY]: {
-      agent_id: Joi.string().uuid(),
       ticket_id: Joi.string().uuid(),
     },
   }),
