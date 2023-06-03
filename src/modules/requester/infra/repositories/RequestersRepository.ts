@@ -13,7 +13,7 @@ export class RequestersRepository implements IRequestersRepository {
     email: string
   ): Promise<IRequesterAuthDTO | null> {
     const { rows } = await connection.query(
-      'SELECT id, email, password FROM agents WHERE email = $1;',
+      'SELECT id, email, password FROM requesters WHERE email = $1',
       [email]
     );
     return rows[0] || null;

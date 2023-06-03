@@ -21,38 +21,17 @@ export class AuthController implements IAuthController {
       type_of_user,
     });
 
-    const { auth, expiresIn, refreshToken, token, userId } = data;
+    const { auth, expiresIn, token } = data;
 
-    if (!auth || !token || !refreshToken) {
+    if (!auth || !token) {
       throw new AppError('Incorrect email or password.', 401);
     }
 
-    response.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      sameSite: 'none',
-      secure: true,
-      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-    });
-
-    return response
-      .status(200)
-      .json({ token, expiresIn, typeOfUser: type_of_user, userId });
+    return response.status(200).json({ token, expiresIn });
   }
 
   async logoff(request: Request, response: Response) {
-    const refreshToken = request.cookies.refreshToken;
-
-    if (!refreshToken) {
-      throw new AppError('No refresh token provided.', 401);
-    }
-
-    blacklist.push(refreshToken);
-
-    response.clearCookie('refreshToken', {
-      httpOnly: true,
-      sameSite: 'none',
-      secure: true,
-    });
+    blacklist.push(request.body.token);
 
     return response.status(200).json({ message: 'Logged off successfully.' });
   }
