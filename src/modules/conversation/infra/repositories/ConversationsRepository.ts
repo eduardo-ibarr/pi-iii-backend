@@ -8,6 +8,14 @@ import {
 import { IConversationsRepository } from '../../domain/repositories/IConversationsRepository';
 
 export class ConversationsRepository implements IConversationsRepository {
+  async findByTicket(ticket: string): Promise<IResponseConversationDTO | null> {
+    const { rows } = await connection.query(
+      'SELECT * FROM conversations WHERE ticket_id = $1',
+      [ticket]
+    );
+    return rows[0] || null;
+  }
+
   async findById(id: string): Promise<IResponseConversationDTO | null> {
     const { rows } = await connection.query(
       'SELECT * FROM conversations WHERE id = $1',

@@ -59,10 +59,10 @@ app.get('/', (request: Request, response: Response) => {
 });
 
 app.use(authRoutes);
-app.use(ticketsRoutes);
 
 app.use(verifyJWT);
 
+app.use(ticketsRoutes);
 app.use(requestersRoutes);
 app.use(messagesRoutes);
 app.use(agentsRoutes);
