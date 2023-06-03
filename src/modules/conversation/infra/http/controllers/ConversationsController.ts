@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { IConversationServicesFactory } from 'src/modules/conversation/domain/factories/IConversationServicesFactory';
+import { IConversationServicesFactory } from '../../../domain/factories/IConversationServicesFactory';
 
 export class ConversationsController {
   constructor(

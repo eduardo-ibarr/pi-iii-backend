@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
-import { IMessageServicesFactory } from 'src/modules/message/domain/factories/IMessageServicesFactory';
-import { IMessagesController } from 'src/modules/message/domain/controllers/IMessagesController';
+import { IMessageServicesFactory } from '../../../domain/factories/IMessageServicesFactory';
+import { IMessagesController } from '../../../domain/controllers/IMessagesController';
 
 export class MessagesController implements IMessagesController {
   constructor(private messageServicesFactory: IMessageServicesFactory) {

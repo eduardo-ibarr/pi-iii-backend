@@ -12,14 +12,13 @@ import {
   ShowMessageService,
   DeleteMessageService,
   UpdateMessageService,
-  ListMessagesByTicketService,
 } from '../services';
 import { IMessageServicesFactory } from '../domain/factories/IMessageServicesFactory';
 import { IMessagesRepository } from '../domain/repositories/IMessagesRepository';
-import { ITicketsRepository } from 'src/modules/ticket/domain/repositories/ITicketsRepository';
-import { TicketsRepository } from 'src/modules/ticket/infra/repositories/TicketsRepository';
-import { IConversationsRepository } from 'src/modules/conversation/domain/repositories/IConversationsRepository';
-import { ConversationsRepository } from 'src/modules/conversation/infra/repositories/ConversationsRepository';
+import { ITicketsRepository } from '../../../modules/ticket/domain/repositories/ITicketsRepository';
+import { TicketsRepository } from '../../../modules/ticket/infra/repositories/TicketsRepository';
+import { IConversationsRepository } from '../../../modules/conversation/domain/repositories/IConversationsRepository';
+import { ConversationsRepository } from '../../../modules/conversation/infra/repositories/ConversationsRepository';
 
 export class MessageServicesFactory implements IMessageServicesFactory {
   private messagesRepository(): IMessagesRepository {

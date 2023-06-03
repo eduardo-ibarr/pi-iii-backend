@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { MessagesController } from '../controllers/MessagesController';
 
 import { celebrate, Joi, Segments } from 'celebrate';
-import { MessageServicesFactory } from 'src/modules/message/factories/MessageServicesFactory';
+import { MessageServicesFactory } from '../../../factories/MessageServicesFactory';
 
 const router = Router();
 
