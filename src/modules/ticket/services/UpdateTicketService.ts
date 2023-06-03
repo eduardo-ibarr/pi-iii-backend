@@ -1,13 +1,14 @@
 import AppError from '../../../api/errors/AppError';
-import { IUpdateTicket } from '../domain/models';
+import { IResponseTicketDTO, IUpdateTicketDTO } from '../domain/dtos';
 
 import { AgentsRepository } from '../../../modules/agent/infra/repositories/AgentsRepository';
 import { CategoriesRepository } from '../../../modules/category/infra/repositories/CategoriesRepository';
 import { RequestersRepository } from '../../../modules/requester/infra/repositories/RequestersRepository';
 import { SectorsRepository } from '../../../modules/sector/infra/repositories/SectorsRepository';
 import { TicketsRepository } from '../infra/repositories/TicketsRepository';
+import { IUpdateTicketService } from '../domain/services';
 
-export class UpdateTicketService {
+export class UpdateTicketService implements IUpdateTicketService {
   constructor(
     private ticketsRepository: TicketsRepository,
     private requestersRepository: RequestersRepository,
@@ -26,7 +27,7 @@ export class UpdateTicketService {
     status,
     subject,
     read_status,
-  }: IUpdateTicket & { id: string }): Promise<void> {
+  }: IUpdateTicketDTO): Promise<IResponseTicketDTO> {
     if (requester_id) {
       const requesterExists = await this.requestersRepository.findById(
         requester_id
@@ -69,7 +70,7 @@ export class UpdateTicketService {
       throw new AppError('Ticket not found.', 404);
     }
 
-    await this.ticketsRepository.update({
+    const ticketUpdated = await this.ticketsRepository.update({
       id,
       agent_id,
       category_id,
@@ -80,5 +81,7 @@ export class UpdateTicketService {
       subject,
       read_status,
     });
+
+    return ticketUpdated;
   }
 }

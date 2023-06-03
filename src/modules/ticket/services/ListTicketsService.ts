@@ -1,9 +1,11 @@
-import { TicketsRepository } from '../infra/repositories/TicketsRepository';
+import { IResponseTicketDTO } from '../domain/dtos';
+import { ITicketsRepository } from '../domain/repositories/ITicketsRepository';
+import { IListTicketsService } from '../domain/services';
 
-export class ListTicketsService {
-  constructor(private ticketsRepository: TicketsRepository) {}
+export class ListTicketsService implements IListTicketsService {
+  constructor(private ticketsRepository: ITicketsRepository) {}
 
-  public async execute() {
+  public async execute(): Promise<IResponseTicketDTO[]> {
     const tickets = await this.ticketsRepository.findAll();
     return tickets;
   }

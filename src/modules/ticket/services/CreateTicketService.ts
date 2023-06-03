@@ -1,19 +1,18 @@
 import AppError from '../../../api/errors/AppError';
-import { ICreateTicket } from '../domain/models';
+import { ICreateTicketDTO, IResponseTicketDTO } from '../domain/dtos';
 
-import { AgentsRepository } from '../../../modules/agent/infra/repositories/AgentsRepository';
-import { CategoriesRepository } from '../../../modules/category/infra/repositories/CategoriesRepository';
-import { RequestersRepository } from '../../../modules/requester/infra/repositories/RequestersRepository';
-import { SectorsRepository } from '../../../modules/sector/infra/repositories/SectorsRepository';
-import { TicketsRepository } from '../infra/repositories/TicketsRepository';
+import { ICategoriesRepository } from '../../../modules/category/domain/repositories/ICategoriesRepository';
+import { IRequestersRepository } from '../../../modules/requester/domain/repositories/IRequestersRepository';
+import { ISectorsRepository } from '../../../modules/sector/domain/repositories/ISectorsRepository';
+import { ITicketsRepository } from '../domain/repositories/ITicketsRepository';
+import { ICreateTicketService } from '../domain/services';
 
-export class CreateTicketService {
+export class CreateTicketService implements ICreateTicketService {
   constructor(
-    private ticketsRepository: TicketsRepository,
-    private requestersRepository: RequestersRepository,
-    private categoriesRepository: CategoriesRepository,
-    private agentsRepository: AgentsRepository,
-    private sectorsRepository: SectorsRepository
+    private ticketsRepository: ITicketsRepository,
+    private requestersRepository: IRequestersRepository,
+    private categoriesRepository: ICategoriesRepository,
+    private sectorsRepository: ISectorsRepository
   ) {}
 
   public async execute({
@@ -23,7 +22,7 @@ export class CreateTicketService {
     status,
     subject,
     content,
-  }: ICreateTicket) {
+  }: ICreateTicketDTO): Promise<IResponseTicketDTO> {
     const requesterExists = await this.requestersRepository.findById(
       requester_id
     );

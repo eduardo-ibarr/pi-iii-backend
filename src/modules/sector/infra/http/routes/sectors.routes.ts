@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { celebrate, Joi, Segments } from 'celebrate';
 
 import { SectorsController } from '../controllers/SectorsController';
-import { SectorServicesFactory } from 'src/modules/sector/factories/SectorServicesFactory';
+import { SectorServicesFactory } from '../../../factories/SectorServicesFactory';
 
 const router = Router();
 

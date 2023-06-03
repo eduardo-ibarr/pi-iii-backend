@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import { ISectorServicesFactory } from 'src/modules/sector/domain/factories/ISectorServicesFactory';
+import { ISectorServicesFactory } from '../../../domain/factories/ISectorServicesFactory';
 
 export class SectorsController {
   constructor(private sectorServicesFactory: ISectorServicesFactory) {

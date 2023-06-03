@@ -1,10 +1,14 @@
 import AppError from '../../../../api/errors/AppError';
 import { connection } from '../../../../api/database/connection';
-import { ITicket, ICreateTicket, IUpdateTicket } from '../../domain/models';
+import {
+  ICreateTicketDTO,
+  IResponseTicketDTO,
+  IUpdateTicketDTO,
+} from '../../domain/dtos';
 import { ITicketsRepository } from '../../domain/repositories/ITicketsRepository';
 
 export class TicketsRepository implements ITicketsRepository {
-  async findById(id: string): Promise<ITicket | null> {
+  async findById(id: string): Promise<IResponseTicketDTO | null> {
     const { rows } = await connection.query(
       'SELECT * FROM tickets WHERE id = $1',
       [id]
@@ -16,7 +20,7 @@ export class TicketsRepository implements ITicketsRepository {
     await connection.query('DELETE FROM tickets WHERE id = $1', [id]);
   }
 
-  async findAll(): Promise<ITicket[]> {
+  async findAll(): Promise<IResponseTicketDTO[]> {
     const { rows } = await connection.query('SELECT * FROM tickets');
     return rows;
   }
@@ -28,7 +32,7 @@ export class TicketsRepository implements ITicketsRepository {
     status,
     subject,
     content,
-  }: ICreateTicket): Promise<ITicket> {
+  }: ICreateTicketDTO): Promise<IResponseTicketDTO> {
     const { rows } = await connection.query(
       `INSERT INTO tickets (
         requester_id,
@@ -53,7 +57,7 @@ export class TicketsRepository implements ITicketsRepository {
     subject,
     content,
     read_status,
-  }: IUpdateTicket & { id: string }): Promise<void> {
+  }: IUpdateTicketDTO): Promise<IResponseTicketDTO> {
     const fields = [];
     const values = [];
 
@@ -119,8 +123,13 @@ export class TicketsRepository implements ITicketsRepository {
       UPDATE tickets
       SET ${fields.join(', ')}
       WHERE id = $${values.length}
+      RETURNING *
     `;
 
-    await connection.query(query, values);
+    const { rows } = await connection.query(query, values);
+
+    const ticketUpdated: IResponseTicketDTO = rows[0];
+
+    return ticketUpdated;
   }
 }

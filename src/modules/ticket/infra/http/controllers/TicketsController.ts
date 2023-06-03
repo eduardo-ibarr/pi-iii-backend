@@ -1,35 +1,27 @@
 import { Request, Response } from 'express';
-import {
-  ListTicketsService,
-  ShowTicketService,
-  CreateTicketService,
-  DeleteTicketService,
-  UpdateTicketService,
-} from '../../../services';
 
-import { TicketsRepository } from '../../repositories/TicketsRepository';
-import { RequestersRepository } from '../../../../../modules/requester/infra/repositories/RequestersRepository';
-import { CategoriesRepository } from '../../../../../modules/category/infra/repositories/CategoriesRepository';
-import { AgentsRepository } from '../../../../../modules/agent/infra/repositories/AgentsRepository';
-import { SectorsRepository } from '../../../../../modules/sector/infra/repositories/SectorsRepository';
-
-const ticketsRepository = new TicketsRepository();
-const requestersRepository = new RequestersRepository();
-const categoriesRepository = new CategoriesRepository();
-const agentsRepository = new AgentsRepository();
-const sectorsRepository = new SectorsRepository();
+import { ITicketServicesFactory } from '../../../domain/factories/ITicketServicesFactory';
 
 export class TicketsController {
+  constructor(private ticketServicesFactory: ITicketServicesFactory) {
+    this.index = this.index.bind(this);
+    this.show = this.show.bind(this);
+    this.store = this.store.bind(this);
+    this.delete = this.delete.bind(this);
+    this.update = this.update.bind(this);
+  }
+
   async index(request: Request, response: Response): Promise<Response> {
-    const tickets = await new ListTicketsService(ticketsRepository).execute();
+    const service = this.ticketServicesFactory.listTicketsService();
+    const tickets = await service.execute();
 
     return response.status(200).json(tickets);
   }
 
   async show(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
-
-    const ticket = await new ShowTicketService(ticketsRepository).execute(id);
+    const service = this.ticketServicesFactory.showTicketService();
+    const ticket = await service.execute(id);
 
     return response.status(200).json(ticket);
   }
@@ -37,14 +29,8 @@ export class TicketsController {
   async store(request: Request, response: Response): Promise<Response> {
     const { category_id, content, requester_id, sector_id, status, subject } =
       request.body;
-
-    const ticket = await new CreateTicketService(
-      ticketsRepository,
-      requestersRepository,
-      categoriesRepository,
-      agentsRepository,
-      sectorsRepository
-    ).execute({
+    const service = this.ticketServicesFactory.createTicketService();
+    const ticket = await service.execute({
       category_id,
       content,
       requester_id,
@@ -58,8 +44,8 @@ export class TicketsController {
 
   async delete(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
-
-    await new DeleteTicketService(ticketsRepository).execute(id);
+    const service = this.ticketServicesFactory.deleteTicketService();
+    await service.execute(id);
 
     return response.sendStatus(200);
   }
@@ -76,14 +62,8 @@ export class TicketsController {
       read_status,
     } = request.body;
     const { id } = request.params;
-
-    const ticket = await new UpdateTicketService(
-      ticketsRepository,
-      requestersRepository,
-      categoriesRepository,
-      agentsRepository,
-      sectorsRepository
-    ).execute({
+    const service = this.ticketServicesFactory.updateTicketService();
+    const ticket = await service.execute({
       id,
       agent_id,
       category_id,

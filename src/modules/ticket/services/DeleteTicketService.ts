@@ -1,8 +1,9 @@
 import AppError from '../../../api/errors/AppError';
-import { TicketsRepository } from '../infra/repositories/TicketsRepository';
+import { ITicketsRepository } from '../domain/repositories/ITicketsRepository';
+import { IDeleteTicketService } from '../domain/services';
 
-export class DeleteTicketService {
-  constructor(private ticketsRepository: TicketsRepository) {}
+export class DeleteTicketService implements IDeleteTicketService {
+  constructor(private ticketsRepository: ITicketsRepository) {}
 
   public async execute(id: string): Promise<void> {
     const ticket = await this.ticketsRepository.findById(id);
