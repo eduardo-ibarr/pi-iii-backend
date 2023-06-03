@@ -60,15 +60,15 @@ app.get('/', (request: Request, response: Response) => {
 
 app.use(authRoutes);
 
+app.use(messagesRoutes);
+app.use(ticketsRoutes);
 app.use(verifyJWT);
 
 app.use(agentsRoutes);
 app.use(categoriesRoutes);
 app.use(conversationsRoutes);
-app.use(messagesRoutes);
 app.use(requestersRoutes);
 app.use(sectorsRoutes);
-app.use(ticketsRoutes);
 
 app.use(errors());
 app.use(errorHandling);

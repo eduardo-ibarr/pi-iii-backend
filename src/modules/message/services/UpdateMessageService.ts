@@ -1,5 +1,5 @@
 import AppError from '../../../api/errors/AppError';
-import { IUpdateMessage } from '../domain/models';
+import { IResponseMessageDTO, IUpdateMessageDTO } from '../domain/dtos';
 
 import { TicketsRepository } from '../../../modules/ticket/infra/repositories/TicketsRepository';
 import { MessagesRepository } from '../infra/repositories/MessagesRepository';
@@ -19,7 +19,7 @@ export class UpdateMessageService {
     read_status,
     sender,
     ticket_id,
-  }: IUpdateMessage & { id: string }): Promise<void> {
+  }: IUpdateMessageDTO): Promise<IResponseMessageDTO> {
     if (ticket_id) {
       const ticketExists = await this.ticketsRepository.findById(ticket_id);
 
@@ -44,7 +44,7 @@ export class UpdateMessageService {
       throw new AppError('Message not found.', 404);
     }
 
-    await this.messagesRepository.update({
+    const messageUpdated = await this.messagesRepository.update({
       content,
       conversation_id,
       read_status,
@@ -52,5 +52,7 @@ export class UpdateMessageService {
       ticket_id,
       id,
     });
+
+    return messageUpdated;
   }
 }

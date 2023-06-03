@@ -1,11 +1,12 @@
 import AppError from '../../../api/errors/AppError';
-import { ICreateMessage } from '../domain/models';
+import { ICreateMessageDTO, IResponseMessageDTO } from '../domain/dtos';
 
 import { TicketsRepository } from '../../../modules/ticket/infra/repositories/TicketsRepository';
 import { MessagesRepository } from '../infra/repositories/MessagesRepository';
 import { ConversationsRepository } from '../../../modules/conversation/infra/repositories/ConversationsRepository';
+import { ICreateMessageService } from '../domain/services';
 
-export class CreateMessageService {
+export class CreateMessageService implements ICreateMessageService {
   constructor(
     private messagesRepository: MessagesRepository,
     private ticketsRepository: TicketsRepository,
@@ -18,7 +19,7 @@ export class CreateMessageService {
     sender,
     content,
     read_status,
-  }: ICreateMessage) {
+  }: ICreateMessageDTO): Promise<IResponseMessageDTO> {
     const ticketExists = await this.ticketsRepository.findById(ticket_id);
 
     if (!ticketExists) {
