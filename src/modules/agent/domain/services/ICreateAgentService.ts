@@ -1,5 +1,5 @@
-import { ICreateAgentDTO, IReturnAgentDTO } from '../dtos';
+import { ICreateAgentDTO, IResponseAgentDTO } from '../dtos';
 
 export interface ICreateAgentService {
-  execute(data: ICreateAgentDTO): Promise<IReturnAgentDTO>;
+  execute(data: ICreateAgentDTO): Promise<IResponseAgentDTO>;
 }

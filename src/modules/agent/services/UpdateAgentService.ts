@@ -1,8 +1,8 @@
 import AppError from '../../../api/errors/AppError';
-import { IReturnAgentDTO, IUpdateAgentDTO } from '../domain/dtos';
+import { IResponseAgentDTO, IUpdateAgentDTO } from '../domain/dtos';
 import { IAgentsRepository } from '../domain/repositories/IAgentsRepository';
 import { IUpdateAgentService } from '../domain/services';
-import { IHashProvider } from '../providers/HashProvider/models/IHashProvider';
+import { IHashProvider } from '../../../providers/HashProvider/models/IHashProvider';
 
 export class UpdateAgentService implements IUpdateAgentService {
   constructor(
@@ -16,7 +16,7 @@ export class UpdateAgentService implements IUpdateAgentService {
     email,
     password,
     available,
-  }: IUpdateAgentDTO): Promise<IReturnAgentDTO> {
+  }: IUpdateAgentDTO): Promise<IResponseAgentDTO> {
     const agent = await this.agentsRepository.findById(id);
 
     if (!agent) {

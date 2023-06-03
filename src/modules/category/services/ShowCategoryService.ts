@@ -1,10 +1,12 @@
 import AppError from '../../../api/errors/AppError';
-import { CategoriesRepository } from '../infra/repositories/CategoriesRepository';
+import { IResponseCategoryDTO } from '../domain/dtos';
+import { ICategoriesRepository } from '../domain/repositories/ICategoriesRepository';
+import { IShowCategoryService } from '../domain/services';
 
-export class ShowCategoryService {
-  constructor(private categoriesRepository: CategoriesRepository) {}
+export class ShowCategoryService implements IShowCategoryService {
+  constructor(private categoriesRepository: ICategoriesRepository) {}
 
-  public async execute(id: string) {
+  public async execute(id: string): Promise<IResponseCategoryDTO | null> {
     const category = await this.categoriesRepository.findById(id);
 
     if (!category) {

@@ -1,16 +1,16 @@
 import {
   IAgentAuthDTO,
   ICreateAgentDTO,
-  IReturnAgentDTO,
+  IResponseAgentDTO,
   IUpdateAgentDTO,
 } from '../dtos';
 
 export interface IAgentsRepository {
-  findById(id: string): Promise<IReturnAgentDTO | null>;
+  findById(id: string): Promise<IResponseAgentDTO | null>;
   findByEmailReturningAuthData(email: string): Promise<IAgentAuthDTO | null>;
-  findByEmail(email: string): Promise<IReturnAgentDTO | null>;
-  remove(id: string): Promise<any>;
-  findAll(): Promise<IReturnAgentDTO[]>;
-  create(data: ICreateAgentDTO): Promise<IReturnAgentDTO>;
-  update(data: IUpdateAgentDTO): Promise<IReturnAgentDTO>;
+  findByEmail(email: string): Promise<IResponseAgentDTO | null>;
+  remove(id: string): Promise<void>;
+  findAll(): Promise<IResponseAgentDTO[]>;
+  create(data: ICreateAgentDTO): Promise<IResponseAgentDTO>;
+  update(data: IUpdateAgentDTO): Promise<IResponseAgentDTO>;
 }

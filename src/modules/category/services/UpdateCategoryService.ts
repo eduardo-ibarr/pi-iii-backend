@@ -1,14 +1,15 @@
 import AppError from '../../../api/errors/AppError';
-import { IUpdateCategory } from '../domain/models';
-import { CategoriesRepository } from '../infra/repositories/CategoriesRepository';
+import { IResponseCategoryDTO, IUpdateCategoryDTO } from '../domain/dtos';
+import { ICategoriesRepository } from '../domain/repositories/ICategoriesRepository';
+import { IUpdateCategoryService } from '../domain/services';
 
-export class UpdateCategoryService {
-  constructor(private categoriesRepository: CategoriesRepository) {}
+export class UpdateCategoryService implements IUpdateCategoryService {
+  constructor(private categoriesRepository: ICategoriesRepository) {}
 
   public async execute({
     id,
     name,
-  }: IUpdateCategory & { id: string }): Promise<void> {
+  }: IUpdateCategoryDTO): Promise<IResponseCategoryDTO> {
     const category = await this.categoriesRepository.findById(id);
 
     if (!category) {
@@ -25,9 +26,11 @@ export class UpdateCategoryService {
       }
     }
 
-    await this.categoriesRepository.update({
+    const categoryUpdated = await this.categoriesRepository.update({
       name,
       id,
     });
+
+    return categoryUpdated;
   }
 }

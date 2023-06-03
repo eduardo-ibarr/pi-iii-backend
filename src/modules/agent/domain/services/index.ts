@@ -3,4 +3,3 @@ export { ICreateAgentService } from './ICreateAgentService';
 export { IListAgentsService } from './IListAgentsService';
 export { IUpdateAgentService } from './IUpdateAgentService';
 export { IDeleteAgentService } from './IDeleteAgentService';
-export { IGetAgentPasswordService } from './IGetAgentPasswordService';

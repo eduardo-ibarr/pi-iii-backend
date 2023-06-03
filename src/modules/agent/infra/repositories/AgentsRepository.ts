@@ -5,7 +5,7 @@ import AppError from '../../../../api/errors/AppError';
 import {
   IAgentAuthDTO,
   ICreateAgentDTO,
-  IReturnAgentDTO,
+  IResponseAgentDTO,
   IUpdateAgentDTO,
 } from '../../domain/dtos';
 
@@ -20,7 +20,7 @@ export class AgentsRepository implements IAgentsRepository {
     return rows[0] || null;
   }
 
-  async findByEmail(email: string): Promise<IReturnAgentDTO | null> {
+  async findByEmail(email: string): Promise<IResponseAgentDTO | null> {
     const { rows } = await connection.query(
       `SELECT
         id,
@@ -35,7 +35,7 @@ export class AgentsRepository implements IAgentsRepository {
     return rows[0] || null;
   }
 
-  async findById(id: string): Promise<IReturnAgentDTO | null> {
+  async findById(id: string): Promise<IResponseAgentDTO | null> {
     const { rows } = await connection.query(
       `SELECT 
         id,
@@ -50,15 +50,11 @@ export class AgentsRepository implements IAgentsRepository {
     return rows[0] || null;
   }
 
-  async remove(id: string): Promise<QueryResult<IReturnAgentDTO>> {
-    const response = await connection.query(
-      'DELETE FROM agents WHERE id = $1',
-      [id]
-    );
-    return response;
+  async remove(id: string): Promise<void> {
+    await connection.query('DELETE FROM agents WHERE id = $1', [id]);
   }
 
-  async findAll(): Promise<IReturnAgentDTO[]> {
+  async findAll(): Promise<IResponseAgentDTO[]> {
     const { rows } = await connection.query(
       `SELECT 
         id,
@@ -78,7 +74,7 @@ export class AgentsRepository implements IAgentsRepository {
     email,
     password,
     available,
-  }: ICreateAgentDTO): Promise<IReturnAgentDTO> {
+  }: ICreateAgentDTO): Promise<IResponseAgentDTO> {
     const { rows } = await connection.query(
       `INSERT INTO agents (
         name,
@@ -103,7 +99,7 @@ export class AgentsRepository implements IAgentsRepository {
     email,
     password,
     available,
-  }: IUpdateAgentDTO): Promise<IReturnAgentDTO> {
+  }: IUpdateAgentDTO): Promise<IResponseAgentDTO> {
     const fields = [];
     const values = [];
 
@@ -156,7 +152,7 @@ export class AgentsRepository implements IAgentsRepository {
 
     const { rows } = await connection.query(query, values);
 
-    const agentUpdated: IReturnAgentDTO = rows[0];
+    const agentUpdated: IResponseAgentDTO = rows[0];
 
     return agentUpdated;
   }

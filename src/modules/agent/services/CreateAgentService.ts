@@ -1,7 +1,7 @@
 import AppError from '../../../api/errors/AppError';
-import { ICreateAgentDTO, IReturnAgentDTO } from '../domain/dtos';
+import { ICreateAgentDTO, IResponseAgentDTO } from '../domain/dtos';
 import { ICreateAgentService } from '../domain/services';
-import { IHashProvider } from '../providers/HashProvider/models/IHashProvider';
+import { IHashProvider } from '../../../providers/HashProvider/models/IHashProvider';
 import { IAgentsRepository } from '../domain/repositories/IAgentsRepository';
 
 export class CreateAgentService implements ICreateAgentService {
@@ -15,7 +15,7 @@ export class CreateAgentService implements ICreateAgentService {
     email,
     password,
     available,
-  }: ICreateAgentDTO): Promise<IReturnAgentDTO> {
+  }: ICreateAgentDTO): Promise<IResponseAgentDTO> {
     const emailExists = await this.agentsRepository.findByEmail(email);
 
     if (emailExists) {
