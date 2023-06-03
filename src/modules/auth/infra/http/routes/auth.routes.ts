@@ -23,9 +23,18 @@ router.post(
     // #swagger.description = 'Endpoint para fazer login na API.'
   }
 );
-router.post('/api/logoff', authController.logoff, () => {
-  // #swagger.tags = ['Auth']
-  // #swagger.description = 'Endpoint para fazer logoff na API.'
-});
+router.post(
+  '/api/logoff',
+  celebrate({
+    [Segments.BODY]: {
+      token: Joi.string().required(),
+    },
+  }),
+  authController.logoff,
+  () => {
+    // #swagger.tags = ['Auth']
+    // #swagger.description = 'Endpoint para fazer logoff na API.'
+  }
+);
 
 export { router as authRoutes };
