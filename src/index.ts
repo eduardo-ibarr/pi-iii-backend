@@ -1,7 +1,6 @@
 import 'express-async-errors';
 import express, { Request, Response } from 'express';
 import { errors } from 'celebrate';
-import cors from 'cors';
 import { logs } from './api/middlewares/logs';
 import { verifyJWT } from './api/middlewares/verifyJWT';
 import { errorHandling } from './api/middlewares/errorHandling';
@@ -18,34 +17,13 @@ import {
   ticketsRoutes,
   authRoutes,
 } from './modules';
-import AppError from './api/errors/AppError';
+import { corsBlock } from './api/middlewares/cors';
 
 const app = express();
 
 const API_PORT = process.env.PORT || process.env.port || 3333;
 
-const allowedOrigins = [
-  'http://localhost:3000',
-  'https://www.sistemadevendas.com',
-  'http://sistemadevendas.com',
-];
-
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin) return callback(null, true);
-
-      if (allowedOrigins.indexOf(origin) === -1) {
-        return callback(
-          new AppError('Access denied by CORS.', 409) as unknown as Error,
-          false
-        );
-      }
-
-      return callback(null, true);
-    },
-  })
-);
+app.use(corsBlock());
 
 app.use(logs);
 app.use(express.json());
