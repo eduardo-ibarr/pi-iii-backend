@@ -3,19 +3,19 @@ import { IAgentsRepository } from '../../domain/repositories/IAgentsRepository';
 import { QueryResult } from 'pg';
 import AppError from '../../../../api/errors/AppError';
 import {
-  IAgentPasswordDTO,
+  IAgentAuthDTO,
   ICreateAgentDTO,
   IReturnAgentDTO,
   IUpdateAgentDTO,
 } from '../../domain/dtos';
 
 export class AgentsRepository implements IAgentsRepository {
-  async findByIdReturningPassword(
-    id: string
-  ): Promise<IAgentPasswordDTO | null> {
+  async findByEmailReturningAuthData(
+    email: string
+  ): Promise<IAgentAuthDTO | null> {
     const { rows } = await connection.query(
-      'SELECT password FROM agents WHERE id = $1;',
-      [id]
+      'SELECT id, email, password FROM agents WHERE email = $1;',
+      [email]
     );
     return rows[0] || null;
   }

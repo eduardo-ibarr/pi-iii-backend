@@ -1,24 +1,27 @@
 import { Request, Response } from 'express';
-import { LoginService } from '../../../../../modules/auth/services/login';
 import AppError from '../../../../../api/errors/AppError';
 import { blacklist } from '../../../../../utils/blacklist';
 
-import { AgentsRepository } from '../../../../agent/infra/repositories/AgentsRepository';
-import { RequestersRepository } from '../../../../requester/infra/repositories/RequestersRepository';
+import { IAuthController } from '../../../domain/controllers/IAuthController';
+import { IAuthServicesFactory } from '../../../domain/factories/IAuthFactory';
 
-const requestersRepository = new RequestersRepository();
-const agentsRepository = new AgentsRepository();
+export class AuthController implements IAuthController {
+  constructor(private authServicesFactory: IAuthServicesFactory) {
+    this.login = this.login.bind(this);
+    this.logoff = this.logoff.bind(this);
+  }
 
-class AuthController {
   async login(request: Request, response: Response) {
     const { email, password, type_of_user } = request.body;
+    const service = this.authServicesFactory.login();
 
-    const { auth, token, refreshToken, expiresIn, userId } =
-      await new LoginService(requestersRepository, agentsRepository).execute({
-        email,
-        password,
-        type_of_user,
-      });
+    const data = await service.execute({
+      email,
+      password,
+      type_of_user,
+    });
+
+    const { auth, expiresIn, refreshToken, token, userId } = data;
 
     if (!auth || !token || !refreshToken) {
       throw new AppError('Incorrect email or password.', 401);
@@ -54,5 +57,3 @@ class AuthController {
     return response.status(200).json({ message: 'Logged off successfully.' });
   }
 }
-
-export default AuthController;

@@ -1,5 +1,5 @@
 import { IAgentsRepository } from '../domain/repositories/IAgentsRepository';
-import { IHashProvider } from '../providers/HashProvider/models/IHashProvider';
+import { IHashProvider } from '../../../providers/HashProvider/models/IHashProvider';
 import {
   ICreateAgentService,
   IListAgentsService,
@@ -8,7 +8,7 @@ import {
   IUpdateAgentService,
 } from '../domain/services';
 import { AgentsRepository } from '../infra/repositories/AgentsRepository';
-import { BcryptHashProvider } from '../providers/HashProvider/implementations/BcryptHashProvider';
+import { BcryptHashProvider } from '../../../providers/HashProvider/implementations/BcryptHashProvider';
 import {
   CreateAgentService,
   ListAgentsService,

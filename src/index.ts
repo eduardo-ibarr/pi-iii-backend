@@ -16,7 +16,6 @@ import {
   requestersRoutes,
   sectorsRoutes,
   ticketsRoutes,
-  agentTicketHistoriesRoutes,
   authRoutes,
 } from './modules';
 import AppError from './api/errors/AppError';
@@ -60,17 +59,16 @@ app.get('/', (request: Request, response: Response) => {
 });
 
 app.use(authRoutes);
-app.use(agentsRoutes);
 
 app.use(verifyJWT);
 
+app.use(agentsRoutes);
 app.use(categoriesRoutes);
 app.use(conversationsRoutes);
 app.use(messagesRoutes);
 app.use(requestersRoutes);
 app.use(sectorsRoutes);
 app.use(ticketsRoutes);
-app.use(agentTicketHistoriesRoutes);
 
 app.use(errors());
 app.use(errorHandling);
