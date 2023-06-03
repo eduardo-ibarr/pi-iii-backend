@@ -1,10 +1,11 @@
 import AppError from '../../../api/errors/AppError';
-import { RequestersRepository } from '../infra/repositories/RequestersRepository';
+import { IResponseRequesterDTO } from '../domain/dtos';
+import { IRequestersRepository } from '../domain/repositories/IRequestersRepository';
 
 export class ShowRequesterService {
-  constructor(private requestersRepository: RequestersRepository) {}
+  constructor(private requestersRepository: IRequestersRepository) {}
 
-  public async execute(id: string) {
+  public async execute(id: string): Promise<IResponseRequesterDTO | null> {
     const requester = await this.requestersRepository.findById(id);
 
     if (!requester) {

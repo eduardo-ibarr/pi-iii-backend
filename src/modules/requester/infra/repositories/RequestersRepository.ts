@@ -1,24 +1,35 @@
 import AppError from '../../../../api/errors/AppError';
 import { connection } from '../../../../api/database/connection';
 import {
-  IRequester,
-  ICreateRequester,
-  IUpdateRequester,
-} from '../../domain/models';
+  IResponseRequesterDTO,
+  ICreateRequesterDTO,
+  IUpdateRequesterDTO,
+  IRequesterAuthDTO,
+} from '../../domain/dtos';
 import { IRequestersRepository } from '../../domain/repositories/IRequestersRepository';
 
 export class RequestersRepository implements IRequestersRepository {
-  async findByEmail(email: string): Promise<IRequester | null> {
+  async findByEmailReturningAuthData(
+    email: string
+  ): Promise<IRequesterAuthDTO | null> {
     const { rows } = await connection.query(
-      'SELECT * FROM requesters WHERE email = $1',
+      'SELECT id, email, password FROM agents WHERE email = $1;',
       [email]
     );
     return rows[0] || null;
   }
 
-  async findById(id: string): Promise<IRequester | null> {
+  async findByEmail(email: string): Promise<IResponseRequesterDTO | null> {
     const { rows } = await connection.query(
-      'SELECT * FROM requesters WHERE id = $1',
+      'SELECT id, name, email, created_at, updated_at FROM requesters WHERE email = $1',
+      [email]
+    );
+    return rows[0] || null;
+  }
+
+  async findById(id: string): Promise<IResponseRequesterDTO | null> {
+    const { rows } = await connection.query(
+      'SELECT id, name, email, created_at, updated_at FROM requesters WHERE id = $1',
       [id]
     );
     return rows[0] || null;
@@ -28,8 +39,10 @@ export class RequestersRepository implements IRequestersRepository {
     await connection.query('DELETE FROM requesters WHERE id = $1', [id]);
   }
 
-  async findAll(): Promise<IRequester[]> {
-    const { rows } = await connection.query('SELECT * FROM requesters');
+  async findAll(): Promise<IResponseRequesterDTO[]> {
+    const { rows } = await connection.query(
+      'SELECT id, name, email, created_at, updated_at FROM requesters'
+    );
     return rows;
   }
 
@@ -37,13 +50,13 @@ export class RequestersRepository implements IRequestersRepository {
     name,
     email,
     password,
-  }: ICreateRequester): Promise<IRequester> {
+  }: ICreateRequesterDTO): Promise<IResponseRequesterDTO> {
     const { rows } = await connection.query(
       `INSERT INTO requesters (
         name,
         email,
         password
-      ) VALUES ($1, $2, $3) RETURNING *`,
+      ) VALUES ($1, $2, $3) RETURNING id, name, email, created_at, updated_at`,
       [name, email, password]
     );
     return rows[0];
@@ -54,7 +67,7 @@ export class RequestersRepository implements IRequestersRepository {
     email,
     password,
     id,
-  }: IUpdateRequester & { id: string }): Promise<void> {
+  }: IUpdateRequesterDTO): Promise<IResponseRequesterDTO> {
     const fields = [];
     const values = [];
 
@@ -90,8 +103,13 @@ export class RequestersRepository implements IRequestersRepository {
       UPDATE requesters
       SET ${fields.join(', ')}
       WHERE id = $${values.length}
+      RETURNING *
     `;
 
-    await connection.query(query, values);
+    const { rows } = await connection.query(query, values);
+
+    const requesterUpdated: IResponseRequesterDTO = rows[0];
+
+    return requesterUpdated;
   }
 }
