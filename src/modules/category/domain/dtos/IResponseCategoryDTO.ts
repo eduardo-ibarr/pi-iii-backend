@@ -1,4 +1,4 @@
-export interface ICategory {
+export interface IResponseCategoryDTO {
   id: string;
   name: string;
   created_at: Date;

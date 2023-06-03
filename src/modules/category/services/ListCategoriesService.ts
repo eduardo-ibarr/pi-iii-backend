@@ -1,9 +1,11 @@
-import { CategoriesRepository } from '../infra/repositories/CategoriesRepository';
+import { IResponseCategoryDTO } from '../domain/dtos';
+import { ICategoriesRepository } from '../domain/repositories/ICategoriesRepository';
+import { IListCategoriesService } from '../domain/services';
 
-export class ListCategoriesService {
-  constructor(private categoriesRepository: CategoriesRepository) {}
+export class ListCategoriesService implements IListCategoriesService {
+  constructor(private categoriesRepository: ICategoriesRepository) {}
 
-  public async execute() {
+  public async execute(): Promise<IResponseCategoryDTO[]> {
     const categories = await this.categoriesRepository.findAll();
     return categories;
   }

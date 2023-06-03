@@ -5,7 +5,7 @@ import { IDeleteAgentService } from '../domain/services';
 export class DeleteAgentService implements IDeleteAgentService {
   constructor(private agentsRepository: IAgentsRepository) {}
 
-  public async execute(id: string): Promise<any> {
+  public async execute(id: string): Promise<void> {
     const agent = await this.agentsRepository.findById(id);
 
     if (!agent) {

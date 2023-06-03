@@ -1,4 +1,4 @@
-export interface IReturnAgentDTO {
+export interface IResponseAgentDTO {
   id: string;
   name: string;
   email: string;

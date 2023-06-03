@@ -1,5 +1,5 @@
-import { IReturnAgentDTO } from '../dtos';
+import { IResponseAgentDTO } from '../dtos';
 
 export interface IListAgentsService {
-  execute(): Promise<IReturnAgentDTO[]>;
+  execute(): Promise<IResponseAgentDTO[]>;
 }

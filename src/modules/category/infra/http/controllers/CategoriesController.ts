@@ -1,50 +1,44 @@
 import { Request, Response } from 'express';
-import { CategoriesRepository } from '../../repositories/CategoriesRepository';
-import {
-  ListCategoriesService,
-  ShowCategoryService,
-  CreateCategoryService,
-  DeleteCategoryService,
-  UpdateCategoryService,
-} from '../../../services';
+import { ICategoriesController } from 'src/modules/category/domain/controllers/ICategoriesController';
+import { ICategoryServicesFactory } from 'src/modules/category/domain/factories/ICategoryServicesFactory';
 
-const categoriesRepository = new CategoriesRepository();
+export class CategoriesController implements ICategoriesController {
+  constructor(private categoryServicesFactory: ICategoryServicesFactory) {
+    this.index = this.index.bind(this);
+    this.show = this.show.bind(this);
+    this.store = this.store.bind(this);
+    this.delete = this.delete.bind(this);
+    this.update = this.update.bind(this);
+  }
 
-export class CategoriesController {
   async index(request: Request, response: Response): Promise<Response> {
-    const categories = await new ListCategoriesService(
-      categoriesRepository
-    ).execute();
+    const service = this.categoryServicesFactory.listCategoriesService();
+    const categories = await service.execute();
 
     return response.status(200).json(categories);
   }
 
   async show(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
-
-    const category = await new ShowCategoryService(
-      categoriesRepository
-    ).execute(id);
+    const service = this.categoryServicesFactory.showCategoryService();
+    const category = await service.execute(id);
 
     return response.status(200).json(category);
   }
 
   async store(request: Request, response: Response): Promise<Response> {
     const { name } = request.body;
+    const service = this.categoryServicesFactory.createCategoryService();
+    const category = await service.execute({ name });
 
-    const agent = await new CreateCategoryService(categoriesRepository).execute(
-      {
-        name,
-      }
-    );
-
-    return response.status(201).json(agent);
+    return response.status(201).json(category);
   }
 
   async delete(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
+    const service = this.categoryServicesFactory.deleteCategoryService();
 
-    await new DeleteCategoryService(categoriesRepository).execute(id);
+    await service.execute(id);
 
     return response.sendStatus(200);
   }
@@ -52,14 +46,12 @@ export class CategoriesController {
   async update(request: Request, response: Response): Promise<Response> {
     const { name } = request.body;
     const { id } = request.params;
+    const service = this.categoryServicesFactory.updateCategoryService();
+    const category = await service.execute({
+      id,
+      name,
+    });
 
-    const agent = await new UpdateCategoryService(categoriesRepository).execute(
-      {
-        id,
-        name,
-      }
-    );
-
-    return response.status(200).json(agent);
+    return response.status(200).json(category);
   }
 }

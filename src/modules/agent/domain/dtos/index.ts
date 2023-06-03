@@ -1,4 +1,4 @@
 export { ICreateAgentDTO } from './ICreateAgentDTO';
-export { IReturnAgentDTO } from './IReturnAgentDTO';
+export { IResponseAgentDTO } from './IResponseAgentDTO';
 export { IUpdateAgentDTO } from './IUpdateAgentDTO';
 export { IAgentAuthDTO } from './IAgentAuthDTO';

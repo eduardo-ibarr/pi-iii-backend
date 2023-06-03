@@ -1,11 +1,14 @@
 import AppError from '../../../api/errors/AppError';
-import { ICreateCategory } from '../domain/models';
-import { CategoriesRepository } from '../infra/repositories/CategoriesRepository';
+import { ICreateCategoryDTO, IResponseCategoryDTO } from '../domain/dtos';
+import { ICategoriesRepository } from '../domain/repositories/ICategoriesRepository';
+import { ICreateCategoryService } from '../domain/services';
 
-export class CreateCategoryService {
-  constructor(private categoriesRepository: CategoriesRepository) {}
+export class CreateCategoryService implements ICreateCategoryService {
+  constructor(private categoriesRepository: ICategoriesRepository) {}
 
-  public async execute({ name }: ICreateCategory) {
+  public async execute({
+    name,
+  }: ICreateCategoryDTO): Promise<IResponseCategoryDTO> {
     const nameAlreadyExists = await this.categoriesRepository.findByName(name);
 
     if (nameAlreadyExists) {

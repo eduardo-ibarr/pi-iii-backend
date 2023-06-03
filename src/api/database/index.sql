@@ -68,11 +68,3 @@ CREATE TABLE IF NOT EXISTS messages (
   created_at TIMESTAMP DEFAULT NOW(),
   updated_at TIMESTAMP DEFAULT NOW()
 );
-
-CREATE TABLE IF NOT EXISTS agent_ticket_history (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  agent_id UUID NOT NULL REFERENCES agents(id),
-  ticket_id UUID NOT NULL REFERENCES tickets(id),
-  created_at TIMESTAMP DEFAULT NOW()
-);
-
