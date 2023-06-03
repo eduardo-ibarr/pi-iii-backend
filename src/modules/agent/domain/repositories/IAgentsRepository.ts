@@ -1,5 +1,5 @@
 import {
-  IAgentPasswordDTO,
+  IAgentAuthDTO,
   ICreateAgentDTO,
   IReturnAgentDTO,
   IUpdateAgentDTO,
@@ -7,7 +7,7 @@ import {
 
 export interface IAgentsRepository {
   findById(id: string): Promise<IReturnAgentDTO | null>;
-  findByIdReturningPassword(id: string): Promise<IAgentPasswordDTO | null>;
+  findByEmailReturningAuthData(email: string): Promise<IAgentAuthDTO | null>;
   findByEmail(email: string): Promise<IReturnAgentDTO | null>;
   remove(id: string): Promise<any>;
   findAll(): Promise<IReturnAgentDTO[]>;
