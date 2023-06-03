@@ -1,10 +1,18 @@
-import { IRequester, ICreateRequester, IUpdateRequester } from '../models';
+import {
+  IResponseRequesterDTO,
+  ICreateRequesterDTO,
+  IUpdateRequesterDTO,
+  IRequesterAuthDTO,
+} from '../dtos';
 
 export interface IRequestersRepository {
-  findById(id: string): Promise<IRequester | null>;
-  findByEmail(email: string): Promise<IRequester | null>;
+  findById(id: string): Promise<IResponseRequesterDTO | null>;
+  findByEmail(email: string): Promise<IResponseRequesterDTO | null>;
+  findByEmailReturningAuthData(
+    email: string
+  ): Promise<IRequesterAuthDTO | null>;
   remove(id: string): Promise<void>;
-  findAll(): Promise<IRequester[]>;
-  create(data: ICreateRequester): Promise<IRequester>;
-  update(data: IUpdateRequester): Promise<void>;
+  findAll(): Promise<IResponseRequesterDTO[]>;
+  create(data: ICreateRequesterDTO): Promise<IResponseRequesterDTO>;
+  update(data: IUpdateRequesterDTO): Promise<IResponseRequesterDTO>;
 }

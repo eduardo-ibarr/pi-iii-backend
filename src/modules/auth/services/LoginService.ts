@@ -3,14 +3,14 @@ import { sign } from 'jsonwebtoken';
 import AppError from '../../../api/errors/AppError';
 import { ILoginService } from '../domain/services/ILoginService';
 
-import { RequestersRepository } from '../../requester/infra/repositories/RequestersRepository';
 import { IAgentsRepository } from '../../agent/domain/repositories/IAgentsRepository';
 import { IHashProvider } from '../../../providers/HashProvider/models/IHashProvider';
 import { ILoginRequestDTO } from '../domain/dtos/ILoginRequestDTO';
+import { IRequestersRepository } from '../../requester/domain/repositories/IRequestersRepository';
 
 export class LoginService implements ILoginService {
   constructor(
-    private requestersRepository: RequestersRepository,
+    private requestersRepository: IRequestersRepository,
     private agentsRepository: IAgentsRepository,
     private hashProvider: IHashProvider
   ) {}
@@ -19,7 +19,7 @@ export class LoginService implements ILoginService {
     const data =
       type_of_user === 'agent'
         ? await this.agentsRepository.findByEmailReturningAuthData(email)
-        : await this.requestersRepository.findByEmail(email);
+        : await this.requestersRepository.findByEmailReturningAuthData(email);
 
     if (!data) {
       throw new AppError(

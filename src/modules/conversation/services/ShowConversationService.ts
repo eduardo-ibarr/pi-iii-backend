@@ -1,10 +1,10 @@
 import AppError from '../../../api/errors/AppError';
 import { IResponseConversationDTO } from '../domain/dtos';
+import { IConversationsRepository } from '../domain/repositories/IConversationsRepository';
 import { IShowConversationService } from '../domain/services';
-import { ConversationsRepository } from '../infra/repositories/ConversationsRepository';
 
 export class ShowConversationService implements IShowConversationService {
-  constructor(private conversationsRepository: ConversationsRepository) {}
+  constructor(private conversationsRepository: IConversationsRepository) {}
 
   public async execute(id: string): Promise<IResponseConversationDTO | null> {
     const conversation = await this.conversationsRepository.findById(id);

@@ -1,48 +1,44 @@
 import { Request, Response } from 'express';
-import { RequestersRepository } from '../../repositories/RequestersRepository';
-import {
-  ListRequestersService,
-  ShowRequesterService,
-  CreateRequesterService,
-  UpdateRequesterService,
-  DeleteRequesterService,
-} from '../../../services';
 
-const requestersRepository = new RequestersRepository();
+import { IRequesterServicesFactory } from '../../../domain/factories/IRequesterServicesFactory';
+import { IRequestersController } from '../../../domain/controllers/IRequestersController';
 
-export class RequestersController {
+export class RequestersController implements IRequestersController {
+  constructor(private requesterServicesFactory: IRequesterServicesFactory) {
+    this.index = this.index.bind(this);
+    this.show = this.show.bind(this);
+    this.store = this.store.bind(this);
+    this.delete = this.delete.bind(this);
+    this.update = this.update.bind(this);
+  }
+
   async index(request: Request, response: Response): Promise<Response> {
-    const requesters = await new ListRequestersService(
-      requestersRepository
-    ).execute();
+    const service = this.requesterServicesFactory.listRequestersService();
+    const requesters = await service.execute();
 
     return response.status(200).json(requesters);
   }
 
   async show(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
-
-    const requester = await new ShowRequesterService(
-      requestersRepository
-    ).execute(id);
+    const service = this.requesterServicesFactory.showRequesterService();
+    const requester = await service.execute(id);
 
     return response.status(200).json(requester);
   }
 
   async store(request: Request, response: Response): Promise<Response> {
     const { email, name, password } = request.body;
-
-    const requester = await new CreateRequesterService(
-      requestersRepository
-    ).execute({ email, name, password });
+    const service = this.requesterServicesFactory.createRequesterService();
+    const requester = await service.execute({ email, name, password });
 
     return response.status(201).json(requester);
   }
 
   async delete(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
-
-    await new DeleteRequesterService(requestersRepository).execute(id);
+    const service = this.requesterServicesFactory.deleteRequesterService();
+    await service.execute(id);
 
     return response.sendStatus(200);
   }
@@ -50,10 +46,8 @@ export class RequestersController {
   async update(request: Request, response: Response): Promise<Response> {
     const { email, name, password } = request.body;
     const { id } = request.params;
-
-    const requester = await new UpdateRequesterService(
-      requestersRepository
-    ).execute({
+    const service = this.requesterServicesFactory.updateRequesterService();
+    const requester = await service.execute({
       id,
       email,
       name,

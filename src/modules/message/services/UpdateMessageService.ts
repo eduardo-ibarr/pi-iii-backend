@@ -1,15 +1,15 @@
 import AppError from '../../../api/errors/AppError';
 import { IResponseMessageDTO, IUpdateMessageDTO } from '../domain/dtos';
 
-import { TicketsRepository } from '../../../modules/ticket/infra/repositories/TicketsRepository';
-import { MessagesRepository } from '../infra/repositories/MessagesRepository';
-import { ConversationsRepository } from '../../../modules/conversation/infra/repositories/ConversationsRepository';
+import { IConversationsRepository } from '../../conversation/domain/repositories/IConversationsRepository';
+import { ITicketsRepository } from '../../ticket/domain/repositories/ITicketsRepository';
+import { IMessagesRepository } from '../domain/repositories/IMessagesRepository';
 
 export class UpdateMessageService {
   constructor(
-    private messagesRepository: MessagesRepository,
-    private ticketsRepository: TicketsRepository,
-    private conversationsRepository: ConversationsRepository
+    private messagesRepository: IMessagesRepository,
+    private ticketsRepository: ITicketsRepository,
+    private conversationsRepository: IConversationsRepository
   ) {}
 
   public async execute({

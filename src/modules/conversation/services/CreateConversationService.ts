@@ -1,14 +1,14 @@
 import AppError from '../../../api/errors/AppError';
 import { ICreateConversationDTO } from '../domain/dtos';
 
-import { TicketsRepository } from '../../../modules/ticket/infra/repositories/TicketsRepository';
-import { ConversationsRepository } from '../infra/repositories/ConversationsRepository';
 import { ICreateConversationService } from '../domain/services';
+import { IConversationsRepository } from '../domain/repositories/IConversationsRepository';
+import { ITicketsRepository } from '../../ticket/domain/repositories/ITicketsRepository';
 
 export class CreateConversationService implements ICreateConversationService {
   constructor(
-    private conversationsRepository: ConversationsRepository,
-    private ticketsRepository: TicketsRepository
+    private conversationsRepository: IConversationsRepository,
+    private ticketsRepository: ITicketsRepository
   ) {}
 
   public async execute({ ticket_id }: ICreateConversationDTO) {

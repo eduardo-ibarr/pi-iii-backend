@@ -1,9 +1,9 @@
 import { IResponseMessageDTO } from '../domain/dtos';
+import { IMessagesRepository } from '../domain/repositories/IMessagesRepository';
 import { IListMessagesService } from '../domain/services';
-import { MessagesRepository } from '../infra/repositories/MessagesRepository';
 
 export class ListMessagesService implements IListMessagesService {
-  constructor(private messagesRepository: MessagesRepository) {}
+  constructor(private messagesRepository: IMessagesRepository) {}
 
   public async execute(): Promise<IResponseMessageDTO[]> {
     const messages = await this.messagesRepository.findAll();

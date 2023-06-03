@@ -1,16 +1,21 @@
+import { IHashProvider } from '../../../providers/HashProvider/models/IHashProvider';
 import AppError from '../../../api/errors/AppError';
-import { IUpdateRequester } from '../domain/models';
-import { RequestersRepository } from '../infra/repositories/RequestersRepository';
+import { IResponseRequesterDTO, IUpdateRequesterDTO } from '../domain/dtos';
+import { IRequestersRepository } from '../domain/repositories/IRequestersRepository';
+import { IUpdateRequesterService } from '../domain/services';
 
-export class UpdateRequesterService {
-  constructor(private requestersRepository: RequestersRepository) {}
+export class UpdateRequesterService implements IUpdateRequesterService {
+  constructor(
+    private requestersRepository: IRequestersRepository,
+    private hashProvider: IHashProvider
+  ) {}
 
   public async execute({
     id,
     email,
     name,
     password,
-  }: IUpdateRequester & { id: string }): Promise<void> {
+  }: IUpdateRequesterDTO): Promise<IResponseRequesterDTO> {
     const requester = await this.requestersRepository.findById(id);
 
     if (!requester) {
@@ -27,11 +32,17 @@ export class UpdateRequesterService {
       }
     }
 
-    await this.requestersRepository.update({
+    if (password) {
+      password = await this.hashProvider.generateHash(password);
+    }
+
+    const requesterUpdated = await this.requestersRepository.update({
       id,
       email,
       name,
       password,
     });
+
+    return requesterUpdated;
   }
 }
