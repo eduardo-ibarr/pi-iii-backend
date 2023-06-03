@@ -7,6 +7,7 @@ import { IAgentsRepository } from '../../agent/domain/repositories/IAgentsReposi
 import { IHashProvider } from '../../../providers/HashProvider/models/IHashProvider';
 import { ILoginRequestDTO } from '../domain/dtos/ILoginRequestDTO';
 import { IRequestersRepository } from '../../requester/domain/repositories/IRequestersRepository';
+import { ILoginResponseDTO } from '../domain/dtos/ILoginResponseDTO';
 
 export class LoginService implements ILoginService {
   constructor(
@@ -15,7 +16,11 @@ export class LoginService implements ILoginService {
     private hashProvider: IHashProvider
   ) {}
 
-  async execute({ email, password, type_of_user }: ILoginRequestDTO) {
+  async execute({
+    email,
+    password,
+    type_of_user,
+  }: ILoginRequestDTO): Promise<ILoginResponseDTO> {
     const data =
       type_of_user === 'agent'
         ? await this.agentsRepository.findByEmailReturningAuthData(email)
@@ -36,20 +41,18 @@ export class LoginService implements ILoginService {
     );
 
     if (data.email === email && isValidPassword) {
-      const token = sign({ userID: data.id }, process.env.SECRET, {
-        expiresIn: 3600,
-      });
-
-      const refreshToken = sign({ userID: data.id }, process.env.SECRET, {
-        expiresIn: 86400,
-      });
+      const token = sign(
+        { userId: data.id, typeOfUser: type_of_user },
+        process.env.SECRET,
+        {
+          expiresIn: 3600,
+        }
+      );
 
       return {
         auth: true,
         token,
-        expiresIn: 3600,
-        refreshToken,
-        userId: data.id,
+        expiresIn: 8000,
       };
     }
 
