@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { ICategoriesController } from 'src/modules/category/domain/controllers/ICategoriesController';
-import { ICategoryServicesFactory } from 'src/modules/category/domain/factories/ICategoryServicesFactory';
+import { ICategoriesController } from '../../../domain/controllers/ICategoriesController';
+import { ICategoryServicesFactory } from '../../../domain/factories/ICategoryServicesFactory';
 
 export class CategoriesController implements ICategoriesController {
   constructor(private categoryServicesFactory: ICategoryServicesFactory) {

@@ -15,8 +15,8 @@ import {
 } from '../services';
 import { IConversationServicesFactory } from '../domain/factories/IConversationServicesFactory';
 import { IConversationsRepository } from '../domain/repositories/IConversationsRepository';
-import { ITicketsRepository } from 'src/modules/ticket/domain/repositories/ITicketsRepository';
-import { TicketsRepository } from 'src/modules/ticket/infra/repositories/TicketsRepository';
+import { ITicketsRepository } from '../../ticket/domain/repositories/ITicketsRepository';
+import { TicketsRepository } from '../../ticket/infra/repositories/TicketsRepository';
 
 export class ConversationServicesFactory
   implements IConversationServicesFactory

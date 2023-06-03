@@ -5,7 +5,7 @@ import {
 } from '../domain/dtos';
 
 import { IConversationsRepository } from '../domain/repositories/IConversationsRepository';
-import { ITicketsRepository } from 'src/modules/ticket/domain/repositories/ITicketsRepository';
+import { ITicketsRepository } from '../../../modules/ticket/domain/repositories/ITicketsRepository';
 import { IUpdateConversationService } from '../domain/services';
 
 export class UpdateConversationService implements IUpdateConversationService {

@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { ConversationsController } from '../controllers/ConversationsController';
 
 import { celebrate, Joi, Segments } from 'celebrate';
-import { ConversationServicesFactory } from 'src/modules/conversation/factories/ConversationServicesFactory';
+import { ConversationServicesFactory } from '../../../factories/ConversationServicesFactory';
 
 const router = Router();
 
