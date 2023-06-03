@@ -1,10 +1,14 @@
 import AppError from '../../../../api/errors/AppError';
 import { connection } from '../../../../api/database/connection';
-import { ISector, ICreateSector, IUpdateSector } from '../../domain/models';
+import {
+  IResponseSectorDTO,
+  ICreateSectorDTO,
+  IUpdateSectorDTO,
+} from '../../domain/dtos';
 import { ISectorsRepository } from '../../domain/repositories/ISectorsRepository';
 
 export class SectorsRepository implements ISectorsRepository {
-  async findById(id: string): Promise<ISector | null> {
+  async findById(id: string): Promise<IResponseSectorDTO | null> {
     const { rows } = await connection.query(
       'SELECT * FROM sectors WHERE id = $1',
       [id]
@@ -12,7 +16,7 @@ export class SectorsRepository implements ISectorsRepository {
     return rows[0] || null;
   }
 
-  async findByName(name: string): Promise<ISector | null> {
+  async findByName(name: string): Promise<IResponseSectorDTO | null> {
     const { rows } = await connection.query(
       'SELECT * FROM sectors WHERE name = $1',
       [name]
@@ -24,12 +28,12 @@ export class SectorsRepository implements ISectorsRepository {
     await connection.query('DELETE FROM sectors WHERE id = $1', [id]);
   }
 
-  async findAll(): Promise<ISector[]> {
+  async findAll(): Promise<IResponseSectorDTO[]> {
     const { rows } = await connection.query('SELECT * FROM sectors');
     return rows;
   }
 
-  async create({ name }: ICreateSector): Promise<ISector> {
+  async create({ name }: ICreateSectorDTO): Promise<IResponseSectorDTO> {
     const { rows } = await connection.query(
       `INSERT INTO sectors (
         name
@@ -39,7 +43,7 @@ export class SectorsRepository implements ISectorsRepository {
     return rows[0];
   }
 
-  async update({ name, id }: IUpdateSector & { id: string }): Promise<void> {
+  async update({ name, id }: IUpdateSectorDTO): Promise<IResponseSectorDTO> {
     const fields = [];
     const values = [];
 
@@ -63,8 +67,13 @@ export class SectorsRepository implements ISectorsRepository {
       UPDATE sectors
       SET ${fields.join(', ')}
       WHERE id = $${values.length}
+      RETURNING *
     `;
 
-    await connection.query(query, values);
+    const { rows } = await connection.query(query, values);
+
+    const sectorUpdated: IResponseSectorDTO = rows[0];
+
+    return sectorUpdated;
   }
 }

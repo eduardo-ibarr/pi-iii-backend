@@ -1,9 +1,13 @@
-import { ITicket, ICreateTicket, IUpdateTicket } from '../models';
+import {
+  ICreateTicketDTO,
+  IResponseTicketDTO,
+  IUpdateTicketDTO,
+} from '../dtos';
 
 export interface ITicketsRepository {
-  findById(id: string): Promise<ITicket | null>;
+  findById(id: string): Promise<IResponseTicketDTO | null>;
   remove(id: string): Promise<void>;
-  findAll(): Promise<ITicket[]>;
-  create(data: ICreateTicket): Promise<ITicket>;
-  update(data: IUpdateTicket): Promise<void>;
+  findAll(): Promise<IResponseTicketDTO[]>;
+  create(data: ICreateTicketDTO): Promise<IResponseTicketDTO>;
+  update(data: IUpdateTicketDTO): Promise<IResponseTicketDTO>;
 }

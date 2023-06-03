@@ -2,10 +2,14 @@ import { Router } from 'express';
 import { ConversationsController } from '../controllers/ConversationsController';
 
 import { celebrate, Joi, Segments } from 'celebrate';
+import { ConversationServicesFactory } from '../../../factories/ConversationServicesFactory';
 
 const router = Router();
 
-const conversationsController = new ConversationsController();
+const conversationServicesFactory = new ConversationServicesFactory();
+const conversationsController = new ConversationsController(
+  conversationServicesFactory
+);
 
 router.get('/conversations', conversationsController.index, () => {
   // #swagger.tags = ['Conversations']
@@ -30,7 +34,6 @@ router.post(
   '/conversations',
   celebrate({
     [Segments.BODY]: {
-      agent_id: Joi.string().uuid().required(),
       ticket_id: Joi.string().uuid().required(),
     },
   }),
@@ -48,7 +51,6 @@ router.put(
       id: Joi.string().uuid().required(),
     },
     [Segments.BODY]: {
-      agent_id: Joi.string().uuid(),
       ticket_id: Joi.string().uuid(),
     },
   }),

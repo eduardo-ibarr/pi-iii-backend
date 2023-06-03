@@ -1,8 +1,9 @@
 import AppError from '../../../api/errors/AppError';
-import { CategoriesRepository } from '../infra/repositories/CategoriesRepository';
+import { ICategoriesRepository } from '../domain/repositories/ICategoriesRepository';
+import { IDeleteCategoryService } from '../domain/services';
 
-export class DeleteCategoryService {
-  constructor(private categoriesRepository: CategoriesRepository) {}
+export class DeleteCategoryService implements IDeleteCategoryService {
+  constructor(private categoriesRepository: ICategoriesRepository) {}
 
   public async execute(id: string): Promise<void> {
     const category = await this.categoriesRepository.findById(id);

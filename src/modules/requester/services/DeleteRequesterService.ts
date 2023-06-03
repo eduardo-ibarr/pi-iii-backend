@@ -1,8 +1,9 @@
 import AppError from '../../../api/errors/AppError';
-import { RequestersRepository } from '../infra/repositories/RequestersRepository';
+import { IRequestersRepository } from '../domain/repositories/IRequestersRepository';
+import { IDeleteRequesterService } from '../domain/services';
 
-export class DeleteRequesterService {
-  constructor(private requestersRepository: RequestersRepository) {}
+export class DeleteRequesterService implements IDeleteRequesterService {
+  constructor(private requestersRepository: IRequestersRepository) {}
 
   public async execute(id: string): Promise<void> {
     const requester = await this.requestersRepository.findById(id);

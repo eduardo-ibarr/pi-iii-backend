@@ -2,10 +2,13 @@ import { Router } from 'express';
 import { MessagesController } from '../controllers/MessagesController';
 
 import { celebrate, Joi, Segments } from 'celebrate';
+import { MessageServicesFactory } from '../../../factories/MessageServicesFactory';
 
 const router = Router();
 
-const messagesController = new MessagesController();
+const messagesServicesFactory = new MessageServicesFactory();
+const messagesController = new MessagesController(messagesServicesFactory);
+
 router.get('/messages', messagesController.index, () => {
   // #swagger.tags = ['Messages']
   // #swagger.description = 'Endpoint para obter uma lista de mensagens.'

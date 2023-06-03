@@ -1,10 +1,12 @@
 import AppError from '../../../api/errors/AppError';
-import { SectorsRepository } from '../infra/repositories/SectorsRepository';
+import { IResponseSectorDTO } from '../domain/dtos';
+import { ISectorsRepository } from '../domain/repositories/ISectorsRepository';
+import { IShowSectorService } from '../domain/services';
 
-export class ShowSectorService {
-  constructor(private sectorsRepository: SectorsRepository) {}
+export class ShowSectorService implements IShowSectorService {
+  constructor(private sectorsRepository: ISectorsRepository) {}
 
-  public async execute(id: string) {
+  public async execute(id: string): Promise<IResponseSectorDTO | null> {
     const sector = await this.sectorsRepository.findById(id);
 
     if (!sector) {

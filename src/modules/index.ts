@@ -1,5 +1,4 @@
 export { agentsRoutes } from './agent/infra/http/routes/agents.routes';
-export { agentTicketHistoriesRoutes } from './agent-ticket-history/infra/http/routes/agentTicketHistories.routes';
 export { categoriesRoutes } from './category/infra/http/routes/categories.routes';
 export { conversationsRoutes } from './conversation/infra/http/routes/conversations.routes';
 export { requestersRoutes } from './requester/infra/http/routes/requesters.routes';

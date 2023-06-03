@@ -1,10 +1,11 @@
 import AppError from '../../../api/errors/AppError';
-import { AgentsRepository } from '../infra/repositories/AgentsRepository';
+import { IAgentsRepository } from '../domain/repositories/IAgentsRepository';
+import { IDeleteAgentService } from '../domain/services';
 
-export class DeleteAgentService {
-  constructor(private agentsRepository: AgentsRepository) {}
+export class DeleteAgentService implements IDeleteAgentService {
+  constructor(private agentsRepository: IAgentsRepository) {}
 
-  public async execute(id: string): Promise<any> {
+  public async execute(id: string): Promise<void> {
     const agent = await this.agentsRepository.findById(id);
 
     if (!agent) {

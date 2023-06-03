@@ -1,10 +1,12 @@
 import { Router } from 'express';
-import AuthController from '../controllers/authController';
 import { Joi, Segments, celebrate } from 'celebrate';
+import { AuthController } from '../controllers/authController';
+import { AuthServicesFactory } from '../../../factories/AuthServicesFactory';
 
 const router = Router();
 
-const authController = new AuthController();
+const authServicesFactory = new AuthServicesFactory();
+const authController = new AuthController(authServicesFactory);
 
 router.post(
   '/api/login',

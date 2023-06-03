@@ -1,14 +1,15 @@
 import AppError from '../../../api/errors/AppError';
-import { IUpdateSector } from '../domain/models';
-import { SectorsRepository } from '../infra/repositories/SectorsRepository';
+import { IResponseSectorDTO, IUpdateSectorDTO } from '../domain/dtos';
+import { ISectorsRepository } from '../domain/repositories/ISectorsRepository';
+import { IUpdateSectorService } from '../domain/services';
 
-export class UpdateSectorService {
-  constructor(private sectorsRepository: SectorsRepository) {}
+export class UpdateSectorService implements IUpdateSectorService {
+  constructor(private sectorsRepository: ISectorsRepository) {}
 
   public async execute({
     id,
     name,
-  }: IUpdateSector & { id: string }): Promise<void> {
+  }: IUpdateSectorDTO): Promise<IResponseSectorDTO> {
     const sector = await this.sectorsRepository.findById(id);
 
     if (!sector) {
@@ -23,9 +24,11 @@ export class UpdateSectorService {
       }
     }
 
-    await this.sectorsRepository.update({
+    const sectorUpdated = await this.sectorsRepository.update({
       id,
       name,
     });
+
+    return sectorUpdated;
   }
 }

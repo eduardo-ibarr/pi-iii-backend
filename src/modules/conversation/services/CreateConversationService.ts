@@ -1,24 +1,17 @@
 import AppError from '../../../api/errors/AppError';
-import { ICreateConversation } from '../domain/models';
+import { ICreateConversationDTO } from '../domain/dtos';
 
-import { AgentsRepository } from '../../../modules/agent/infra/repositories/AgentsRepository';
-import { TicketsRepository } from '../../../modules/ticket/infra/repositories/TicketsRepository';
-import { ConversationsRepository } from '../infra/repositories/ConversationsRepository';
+import { ICreateConversationService } from '../domain/services';
+import { IConversationsRepository } from '../domain/repositories/IConversationsRepository';
+import { ITicketsRepository } from '../../ticket/domain/repositories/ITicketsRepository';
 
-export class CreateConversationService {
+export class CreateConversationService implements ICreateConversationService {
   constructor(
-    private conversationsRepository: ConversationsRepository,
-    private ticketsRepository: TicketsRepository,
-    private agentsRepository: AgentsRepository
+    private conversationsRepository: IConversationsRepository,
+    private ticketsRepository: ITicketsRepository
   ) {}
 
-  public async execute({ ticket_id, agent_id }: ICreateConversation) {
-    const agentExists = await this.agentsRepository.findById(agent_id);
-
-    if (!agentExists) {
-      throw new AppError('The agent informed does not exists.', 404);
-    }
-
+  public async execute({ ticket_id }: ICreateConversationDTO) {
     const ticketExists = await this.ticketsRepository.findById(ticket_id);
 
     if (!ticketExists) {
@@ -27,7 +20,6 @@ export class CreateConversationService {
 
     const conversation = await this.conversationsRepository.create({
       ticket_id,
-      agent_id,
     });
 
     return conversation;

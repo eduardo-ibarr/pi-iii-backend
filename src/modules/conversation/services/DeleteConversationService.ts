@@ -1,8 +1,9 @@
 import AppError from '../../../api/errors/AppError';
-import { ConversationsRepository } from '../infra/repositories/ConversationsRepository';
+import { IConversationsRepository } from '../domain/repositories/IConversationsRepository';
+import { IDeleteConversationService } from '../domain/services';
 
-export class DeleteConversationService {
-  constructor(private conversationsRepository: ConversationsRepository) {}
+export class DeleteConversationService implements IDeleteConversationService {
+  constructor(private conversationsRepository: IConversationsRepository) {}
 
   public async execute(id: string): Promise<void> {
     const conversation = await this.conversationsRepository.findById(id);

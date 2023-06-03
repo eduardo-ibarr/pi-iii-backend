@@ -1,10 +1,11 @@
 import AppError from '../../../api/errors/AppError';
-import { MessagesRepository } from '../infra/repositories/MessagesRepository';
+import { IResponseMessageDTO } from '../domain/dtos';
+import { IMessagesRepository } from '../domain/repositories/IMessagesRepository';
 
 export class ShowMessageService {
-  constructor(private messagesRepository: MessagesRepository) {}
+  constructor(private messagesRepository: IMessagesRepository) {}
 
-  public async execute(id: string) {
+  public async execute(id: string): Promise<IResponseMessageDTO | null> {
     const message = await this.messagesRepository.findById(id);
 
     if (!message) {

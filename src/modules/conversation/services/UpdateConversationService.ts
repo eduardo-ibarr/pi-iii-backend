@@ -1,30 +1,23 @@
 import AppError from '../../../api/errors/AppError';
-import { IUpdateConversation } from '../domain/models';
+import {
+  IResponseConversationDTO,
+  IUpdateConversationDTO,
+} from '../domain/dtos';
 
-import { AgentsRepository } from '../../../modules/agent/infra/repositories/AgentsRepository';
-import { TicketsRepository } from '../../../modules/ticket/infra/repositories/TicketsRepository';
-import { ConversationsRepository } from '../infra/repositories/ConversationsRepository';
+import { IConversationsRepository } from '../domain/repositories/IConversationsRepository';
+import { ITicketsRepository } from '../../../modules/ticket/domain/repositories/ITicketsRepository';
+import { IUpdateConversationService } from '../domain/services';
 
-export class UpdateConversationService {
+export class UpdateConversationService implements IUpdateConversationService {
   constructor(
-    private conversationsRepository: ConversationsRepository,
-    private ticketsRepository: TicketsRepository,
-    private agentsRepository: AgentsRepository
+    private conversationsRepository: IConversationsRepository,
+    private ticketsRepository: ITicketsRepository
   ) {}
 
   public async execute({
     id,
-    agent_id,
     ticket_id,
-  }: IUpdateConversation & { id: string }): Promise<void> {
-    if (agent_id) {
-      const agentExists = await this.agentsRepository.findById(agent_id);
-
-      if (!agentExists) {
-        throw new AppError('The agent informed does not exists.', 404);
-      }
-    }
-
+  }: IUpdateConversationDTO): Promise<IResponseConversationDTO> {
     if (ticket_id) {
       const ticketExists = await this.ticketsRepository.findById(ticket_id);
 
@@ -39,10 +32,11 @@ export class UpdateConversationService {
       throw new AppError('Conversation not found.', 404);
     }
 
-    await this.conversationsRepository.update({
-      agent_id,
+    const conversationUpdated = await this.conversationsRepository.update({
       ticket_id,
       id,
     });
+
+    return conversationUpdated;
   }
 }

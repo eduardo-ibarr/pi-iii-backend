@@ -1,33 +1,28 @@
 import { Request, Response } from 'express';
-import {
-  ListMessagesService,
-  ShowMessageService,
-  CreateMessageService,
-  UpdateMessageService,
-  DeleteMessageService,
-} from '../../../services';
 
-import { MessagesRepository } from '../../repositories/MessagesRepository';
-import { ConversationsRepository } from '../../../../../modules/conversation/infra/repositories/ConversationsRepository';
-import { TicketsRepository } from '../../../../../modules/ticket/infra/repositories/TicketsRepository';
+import { IMessageServicesFactory } from '../../../domain/factories/IMessageServicesFactory';
+import { IMessagesController } from '../../../domain/controllers/IMessagesController';
 
-const messagesRepository = new MessagesRepository();
-const ticketsRepository = new TicketsRepository();
-const conversationsRepository = new ConversationsRepository();
+export class MessagesController implements IMessagesController {
+  constructor(private messageServicesFactory: IMessageServicesFactory) {
+    this.index = this.index.bind(this);
+    this.show = this.show.bind(this);
+    this.store = this.store.bind(this);
+    this.delete = this.delete.bind(this);
+    this.update = this.update.bind(this);
+  }
 
-export class MessagesController {
   async index(request: Request, response: Response): Promise<Response> {
-    const messages = await new ListMessagesService(
-      messagesRepository
-    ).execute();
+    const service = this.messageServicesFactory.listMessagesService();
+    const messages = await service.execute();
 
     return response.status(200).json(messages);
   }
 
   async show(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
-
-    const agent = await new ShowMessageService(messagesRepository).execute(id);
+    const service = this.messageServicesFactory.showMessageService();
+    const agent = await service.execute(id);
 
     return response.status(200).json(agent);
   }
@@ -35,12 +30,8 @@ export class MessagesController {
   async store(request: Request, response: Response): Promise<Response> {
     const { content, conversation_id, read_status, sender, ticket_id } =
       request.body;
-
-    const agent = await new CreateMessageService(
-      messagesRepository,
-      ticketsRepository,
-      conversationsRepository
-    ).execute({
+    const service = this.messageServicesFactory.createMessageService();
+    const agent = await service.execute({
       content,
       conversation_id,
       read_status,
@@ -53,8 +44,8 @@ export class MessagesController {
 
   async delete(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
-
-    await new DeleteMessageService(messagesRepository).execute(id);
+    const service = this.messageServicesFactory.deleteMessageService();
+    await service.execute(id);
 
     return response.sendStatus(200);
   }
@@ -63,13 +54,9 @@ export class MessagesController {
     const { content, conversation_id, read_status, sender, ticket_id } =
       request.body;
     const { id } = request.params;
-
-    const agent = await new UpdateMessageService(
-      messagesRepository,
-      ticketsRepository,
-      conversationsRepository
-    ).execute({
-      id,
+    const service = this.messageServicesFactory.updateMessageService();
+    const agent = await service.execute({
+      id: id,
       content,
       conversation_id,
       read_status,

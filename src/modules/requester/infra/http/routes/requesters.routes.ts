@@ -1,10 +1,12 @@
 import { Router } from 'express';
 import { celebrate, Joi, Segments } from 'celebrate';
 import { RequestersController } from '../controllers/RequestersController';
+import { RequesterServicesFactory } from '../../../factories/RequesterServicesFactory';
 
 const router = Router();
 
-const requestersController = new RequestersController();
+const requesterServicesFactory = new RequesterServicesFactory();
+const requestersController = new RequestersController(requesterServicesFactory);
 
 router.get('/requesters', requestersController.index, () => {
   // #swagger.tags = ['Requesters']

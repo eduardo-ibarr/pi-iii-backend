@@ -88,16 +88,3 @@ CREATE TRIGGER trigger_update_messages_updated_at
   BEFORE UPDATE ON messages
   FOR EACH ROW
   EXECUTE FUNCTION update_messages_updated_at();
-
-CREATE OR REPLACE FUNCTION update_agent_ticket_history_updated_at()
-  RETURNS TRIGGER AS $$
-BEGIN
-  NEW.updated_at = NOW();
-  RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER trigger_update_agent_ticket_history_updated_at
-  BEFORE UPDATE ON agent_ticket_history
-  FOR EACH ROW
-  EXECUTE FUNCTION update_agent_ticket_history_updated_at();

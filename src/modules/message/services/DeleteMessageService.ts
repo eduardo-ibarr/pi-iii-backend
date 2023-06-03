@@ -1,8 +1,9 @@
 import AppError from '../../../api/errors/AppError';
-import { MessagesRepository } from '../infra/repositories/MessagesRepository';
+import { IMessagesRepository } from '../domain/repositories/IMessagesRepository';
+import { IDeleteMessageService } from '../domain/services';
 
-export class DeleteMessageService {
-  constructor(private messagesRepository: MessagesRepository) {}
+export class DeleteMessageService implements IDeleteMessageService {
+  constructor(private messagesRepository: IMessagesRepository) {}
 
   public async execute(id: string): Promise<void> {
     const message = await this.messagesRepository.findById(id);

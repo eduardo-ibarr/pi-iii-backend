@@ -1,34 +1,35 @@
 import { Request, Response } from 'express';
-import { SectorsRepository } from '../../repositories/SectorsRepository';
-import {
-  ListSectorsService,
-  ShowSectorService,
-  CreateSectorService,
-  DeleteSectorService,
-  UpdateSectorService,
-} from '../../../services';
 
-const sectorsRepository = new SectorsRepository();
+import { ISectorServicesFactory } from '../../../domain/factories/ISectorServicesFactory';
 
 export class SectorsController {
+  constructor(private sectorServicesFactory: ISectorServicesFactory) {
+    this.index = this.index.bind(this);
+    this.show = this.show.bind(this);
+    this.store = this.store.bind(this);
+    this.delete = this.delete.bind(this);
+    this.update = this.update.bind(this);
+  }
+
   async index(request: Request, response: Response): Promise<Response> {
-    const sectors = await new ListSectorsService(sectorsRepository).execute();
+    const service = this.sectorServicesFactory.listSectorsService();
+    const sectors = await service.execute();
 
     return response.status(200).json(sectors);
   }
 
   async show(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
-
-    const sector = await new ShowSectorService(sectorsRepository).execute(id);
+    const service = this.sectorServicesFactory.showSectorService();
+    const sector = await service.execute(id);
 
     return response.status(200).json(sector);
   }
 
   async store(request: Request, response: Response): Promise<Response> {
     const { name } = request.body;
-
-    const sector = await new CreateSectorService(sectorsRepository).execute({
+    const service = this.sectorServicesFactory.createSectorService();
+    const sector = await service.execute({
       name,
     });
 
@@ -37,8 +38,8 @@ export class SectorsController {
 
   async delete(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
-
-    await new DeleteSectorService(sectorsRepository).execute(id);
+    const service = this.sectorServicesFactory.deleteSectorService();
+    await service.execute(id);
 
     return response.sendStatus(200);
   }
@@ -46,8 +47,8 @@ export class SectorsController {
   async update(request: Request, response: Response): Promise<Response> {
     const { name } = request.body;
     const { id } = request.params;
-
-    const sector = await new UpdateSectorService(sectorsRepository).execute({
+    const service = this.sectorServicesFactory.updateSectorService();
+    const sector = await service.execute({
       id,
       name,
     });

@@ -1,10 +1,14 @@
 import AppError from '../../../../api/errors/AppError';
 import { connection } from '../../../../api/database/connection';
-import { IMessage, ICreateMessage, IUpdateMessage } from '../../domain/models';
+import {
+  ICreateMessageDTO,
+  IResponseMessageDTO,
+  IUpdateMessageDTO,
+} from '../../domain/dtos';
 import { IMessagesRepository } from '../../domain/repositories/IMessagesRepository';
 
 export class MessagesRepository implements IMessagesRepository {
-  async findById(id: string): Promise<IMessage | null> {
+  async findById(id: string): Promise<IResponseMessageDTO | null> {
     const { rows } = await connection.query(
       'SELECT * FROM messages WHERE id = $1',
       [id]
@@ -16,7 +20,7 @@ export class MessagesRepository implements IMessagesRepository {
     await connection.query('DELETE FROM messages WHERE id = $1', [id]);
   }
 
-  async findAll(): Promise<IMessage[]> {
+  async findAll(): Promise<IResponseMessageDTO[]> {
     const { rows } = await connection.query('SELECT * FROM messages');
     return rows;
   }
@@ -27,14 +31,14 @@ export class MessagesRepository implements IMessagesRepository {
     read_status,
     sender,
     ticket_id,
-  }: ICreateMessage): Promise<IMessage> {
+  }: ICreateMessageDTO): Promise<IResponseMessageDTO> {
     const { rows } = await connection.query(
       `INSERT INTO messages (
         content,
         conversation_id,
         read_status,
         sender,
-        ticket_id,
+        ticket_id
       ) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
       [content, conversation_id, read_status, sender, ticket_id]
     );
@@ -48,7 +52,7 @@ export class MessagesRepository implements IMessagesRepository {
     sender,
     ticket_id,
     id,
-  }: IUpdateMessage & { id: string }): Promise<void> {
+  }: IUpdateMessageDTO): Promise<IResponseMessageDTO> {
     const fields = [];
     const values = [];
 
@@ -96,8 +100,13 @@ export class MessagesRepository implements IMessagesRepository {
       UPDATE messages
       SET ${fields.join(', ')}
       WHERE id = $${values.length}
+      RETURNING *
     `;
 
-    await connection.query(query, values);
+    const { rows } = await connection.query(query, values);
+
+    const messageUpdated: IResponseMessageDTO = rows[0];
+
+    return messageUpdated;
   }
 }
