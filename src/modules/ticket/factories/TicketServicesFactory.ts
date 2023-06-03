@@ -23,6 +23,10 @@ import { ISectorsRepository } from '../../../modules/sector/domain/repositories/
 import { SectorsRepository } from '../../../modules/sector/infra/repositories/SectorsRepository';
 import { AgentsRepository } from '../../../modules/agent/infra/repositories/AgentsRepository';
 import { IAgentsRepository } from '../../../modules/agent/domain/repositories/IAgentsRepository';
+import { ConversationsRepository } from 'src/modules/conversation/infra/repositories/ConversationsRepository';
+import { IConversationsRepository } from 'src/modules/conversation/domain/repositories/IConversationsRepository';
+import { MessagesRepository } from 'src/modules/message/infra/repositories/MessagesRepository';
+import { IMessagesRepository } from 'src/modules/message/domain/repositories/IMessagesRepository';
 
 export class TicketServicesFactory implements ITicketServicesFactory {
   private ticketsRepository(): ITicketsRepository {
@@ -43,6 +47,14 @@ export class TicketServicesFactory implements ITicketServicesFactory {
 
   private agentsRepository(): IAgentsRepository {
     return new AgentsRepository();
+  }
+
+  private conversationsRepository(): IConversationsRepository {
+    return new ConversationsRepository();
+  }
+
+  private messagesRepository(): IMessagesRepository {
+    return new MessagesRepository();
   }
 
   public createTicketService(): ICreateTicketService {
@@ -73,8 +85,14 @@ export class TicketServicesFactory implements ITicketServicesFactory {
 
   public deleteTicketService(): IDeleteTicketService {
     const ticketsRepository = this.ticketsRepository();
+    const conversationsRepository = this.conversationsRepository();
+    const messagesRepository = this.messagesRepository();
 
-    return new DeleteTicketService(ticketsRepository);
+    return new DeleteTicketService(
+      ticketsRepository,
+      conversationsRepository,
+      messagesRepository
+    );
   }
 
   public updateTicketService(): IUpdateTicketService {
