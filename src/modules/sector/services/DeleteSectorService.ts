@@ -1,8 +1,9 @@
 import AppError from '../../../api/errors/AppError';
-import { SectorsRepository } from '../infra/repositories/SectorsRepository';
+import { ISectorsRepository } from '../domain/repositories/ISectorsRepository';
+import { IDeleteSectorService } from '../domain/services';
 
-export class DeleteSectorService {
-  constructor(private sectorsRepository: SectorsRepository) {}
+export class DeleteSectorService implements IDeleteSectorService {
+  constructor(private sectorsRepository: ISectorsRepository) {}
 
   public async execute(id: string): Promise<void> {
     const sector = await this.sectorsRepository.findById(id);
