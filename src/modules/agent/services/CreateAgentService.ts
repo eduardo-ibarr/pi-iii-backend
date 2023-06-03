@@ -1,27 +1,28 @@
 import AppError from '../../../api/errors/AppError';
-import { IAgent, ICreateAgent } from '../domain/models';
-import { AgentsRepository } from '../infra/repositories/AgentsRepository';
-import { hash } from 'bcrypt';
-import { config } from 'dotenv';
+import { ICreateAgentDTO, IReturnAgentDTO } from '../domain/dtos';
+import { ICreateAgentService } from '../domain/services';
+import { IHashProvider } from '../providers/HashProvider/models/IHashProvider';
+import { IAgentsRepository } from '../domain/repositories/IAgentsRepository';
 
-config();
-
-export class CreateAgentService {
-  constructor(private agentsRepository: AgentsRepository) {}
+export class CreateAgentService implements ICreateAgentService {
+  constructor(
+    private agentsRepository: IAgentsRepository,
+    private hashProvider: IHashProvider
+  ) {}
 
   public async execute({
     name,
     email,
     password,
     available,
-  }: ICreateAgent): Promise<IAgent> {
+  }: ICreateAgentDTO): Promise<IReturnAgentDTO> {
     const emailExists = await this.agentsRepository.findByEmail(email);
 
     if (emailExists) {
       throw new AppError('Email already in use.', 409);
     }
 
-    const passwordHashed = await hash(password, +process.env.SALT_ROUNDS);
+    const passwordHashed = await this.hashProvider.generateHash(password);
 
     const agent = await this.agentsRepository.create({
       name,

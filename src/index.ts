@@ -60,10 +60,10 @@ app.get('/', (request: Request, response: Response) => {
 });
 
 app.use(authRoutes);
+app.use(agentsRoutes);
 
 app.use(verifyJWT);
 
-app.use(agentsRoutes);
 app.use(categoriesRoutes);
 app.use(conversationsRoutes);
 app.use(messagesRoutes);
