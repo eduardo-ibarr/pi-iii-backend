@@ -1,7 +1,8 @@
-import { SectorsRepository } from '../infra/repositories/SectorsRepository';
+import { ISectorsRepository } from '../domain/repositories/ISectorsRepository';
+import { IListSectorsService } from '../domain/services';
 
-export class ListSectorsService {
-  constructor(private sectorsRepository: SectorsRepository) {}
+export class ListSectorsService implements IListSectorsService {
+  constructor(private sectorsRepository: ISectorsRepository) {}
 
   public async execute() {
     const sectors = await this.sectorsRepository.findAll();

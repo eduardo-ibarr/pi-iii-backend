@@ -1,11 +1,14 @@
 import AppError from '../../../api/errors/AppError';
-import { ICreateSector } from '../domain/models';
-import { SectorsRepository } from '../infra/repositories/SectorsRepository';
+import { ICreateSectorDTO, IResponseSectorDTO } from '../domain/dtos';
+import { ISectorsRepository } from '../domain/repositories/ISectorsRepository';
+import { ICreateSectorService } from '../domain/services';
 
-export class CreateSectorService {
-  constructor(private sectorsRepository: SectorsRepository) {}
+export class CreateSectorService implements ICreateSectorService {
+  constructor(private sectorsRepository: ISectorsRepository) {}
 
-  public async execute({ name }: ICreateSector) {
+  public async execute({
+    name,
+  }: ICreateSectorDTO): Promise<IResponseSectorDTO> {
     const nameAlreadyExists = await this.sectorsRepository.findByName(name);
 
     if (nameAlreadyExists) {
