@@ -1,13 +1,13 @@
 import {
-  IConversation,
-  ICreateConversation,
-  IUpdateConversation,
-} from '../models';
+  ICreateConversationDTO,
+  IResponseConversationDTO,
+  IUpdateConversationDTO,
+} from '../dtos';
 
 export interface IConversationsRepository {
-  findById(id: string): Promise<IConversation | null>;
+  findById(id: string): Promise<IResponseConversationDTO | null>;
   remove(id: string): Promise<void>;
-  findAll(): Promise<IConversation[]>;
-  create(data: ICreateConversation): Promise<IConversation>;
-  update(data: IUpdateConversation): Promise<void>;
+  findAll(): Promise<IResponseConversationDTO[]>;
+  create(data: ICreateConversationDTO): Promise<IResponseConversationDTO>;
+  update(data: IUpdateConversationDTO): Promise<IResponseConversationDTO>;
 }

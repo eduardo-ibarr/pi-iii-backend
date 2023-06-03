@@ -1,17 +1,17 @@
 import AppError from '../../../api/errors/AppError';
-import { ICreateConversation } from '../domain/models';
+import { ICreateConversationDTO } from '../domain/dtos';
 
-import { AgentsRepository } from '../../../modules/agent/infra/repositories/AgentsRepository';
 import { TicketsRepository } from '../../../modules/ticket/infra/repositories/TicketsRepository';
 import { ConversationsRepository } from '../infra/repositories/ConversationsRepository';
+import { ICreateConversationService } from '../domain/services';
 
-export class CreateConversationService {
+export class CreateConversationService implements ICreateConversationService {
   constructor(
     private conversationsRepository: ConversationsRepository,
     private ticketsRepository: TicketsRepository
   ) {}
 
-  public async execute({ ticket_id }: ICreateConversation) {
+  public async execute({ ticket_id }: ICreateConversationDTO) {
     const ticketExists = await this.ticketsRepository.findById(ticket_id);
 
     if (!ticketExists) {

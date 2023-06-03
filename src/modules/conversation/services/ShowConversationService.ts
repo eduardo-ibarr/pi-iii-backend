@@ -1,7 +1,8 @@
 import AppError from '../../../api/errors/AppError';
+import { IShowConversationService } from '../domain/services';
 import { ConversationsRepository } from '../infra/repositories/ConversationsRepository';
 
-export class ShowConversationService {
+export class ShowConversationService implements IShowConversationService {
   constructor(private conversationsRepository: ConversationsRepository) {}
 
   public async execute(id: string) {

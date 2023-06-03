@@ -1,7 +1,8 @@
 import AppError from '../../../api/errors/AppError';
+import { IDeleteConversationService } from '../domain/services';
 import { ConversationsRepository } from '../infra/repositories/ConversationsRepository';
 
-export class DeleteConversationService {
+export class DeleteConversationService implements IDeleteConversationService {
   constructor(private conversationsRepository: ConversationsRepository) {}
 
   public async execute(id: string): Promise<void> {
