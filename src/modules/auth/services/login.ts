@@ -1,6 +1,4 @@
 import { ILogin } from '../domain/models/ILogin';
-import { IAgent } from 'src/modules/agent/domain/models';
-import { IRequester } from 'src/modules/requester/domain/models';
 
 import { sign } from 'jsonwebtoken';
 
@@ -9,6 +7,8 @@ import { RequestersRepository } from '../../../modules/requester/infra/repositor
 
 import AppError from '../../../api/errors/AppError';
 import { compare } from 'bcrypt';
+import { IReturnAgentDTO } from '../../agent/domain/dtos';
+import { IRequester } from '../../requester/domain/models';
 
 export class LoginService {
   constructor(
@@ -17,7 +17,7 @@ export class LoginService {
   ) {}
 
   async execute({ email, password, type_of_user }: ILogin) {
-    const user: IAgent | IRequester | null =
+    const user: IReturnAgentDTO | IRequester | null =
       type_of_user === 'agent'
         ? await this.agentsRepository.findByEmail(email)
         : await this.requestersRepository.findByEmail(email);

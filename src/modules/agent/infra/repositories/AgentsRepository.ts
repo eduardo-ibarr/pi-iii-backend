@@ -1,27 +1,56 @@
 import { connection } from '../../../../api/database/connection';
-import { IAgent, ICreateAgent, IUpdateAgent } from '../../domain/models';
 import { IAgentsRepository } from '../../domain/repositories/IAgentsRepository';
 import { QueryResult } from 'pg';
 import AppError from '../../../../api/errors/AppError';
+import {
+  IAgentPasswordDTO,
+  ICreateAgentDTO,
+  IReturnAgentDTO,
+  IUpdateAgentDTO,
+} from '../../domain/dtos';
 
 export class AgentsRepository implements IAgentsRepository {
-  async findByEmail(email: string): Promise<IAgent | null> {
+  async findByIdReturningPassword(
+    id: string
+  ): Promise<IAgentPasswordDTO | null> {
     const { rows } = await connection.query(
-      'SELECT * FROM agents WHERE email = $1',
-      [email]
-    );
-    return rows[0] || null;
-  }
-
-  async findById(id: string): Promise<IAgent | null> {
-    const { rows } = await connection.query(
-      'SELECT * FROM agents WHERE id = $1',
+      'SELECT password FROM agents WHERE id = $1;',
       [id]
     );
     return rows[0] || null;
   }
 
-  async remove(id: string): Promise<QueryResult<IAgent>> {
+  async findByEmail(email: string): Promise<IReturnAgentDTO | null> {
+    const { rows } = await connection.query(
+      `SELECT
+        id,
+        name,
+        email,
+        available,
+        created_at,
+        updated_at 
+      FROM agents WHERE email = $1`,
+      [email]
+    );
+    return rows[0] || null;
+  }
+
+  async findById(id: string): Promise<IReturnAgentDTO | null> {
+    const { rows } = await connection.query(
+      `SELECT 
+        id,
+        name,
+        email,
+        available,
+        created_at,
+        updated_at
+      FROM agents WHERE id = $1`,
+      [id]
+    );
+    return rows[0] || null;
+  }
+
+  async remove(id: string): Promise<QueryResult<IReturnAgentDTO>> {
     const response = await connection.query(
       'DELETE FROM agents WHERE id = $1',
       [id]
@@ -29,8 +58,18 @@ export class AgentsRepository implements IAgentsRepository {
     return response;
   }
 
-  async findAll(): Promise<IAgent[]> {
-    const { rows } = await connection.query('SELECT * FROM agents');
+  async findAll(): Promise<IReturnAgentDTO[]> {
+    const { rows } = await connection.query(
+      `SELECT 
+        id,
+        name,
+        email,
+        available,
+        created_at,
+        updated_at
+      FROM agents;         
+    `
+    );
     return rows;
   }
 
@@ -39,14 +78,20 @@ export class AgentsRepository implements IAgentsRepository {
     email,
     password,
     available,
-  }: ICreateAgent): Promise<IAgent> {
+  }: ICreateAgentDTO): Promise<IReturnAgentDTO> {
     const { rows } = await connection.query(
       `INSERT INTO agents (
         name,
         email,
         password,
         available
-      ) VALUES ($1, $2, $3, $4) RETURNING *`,
+      ) VALUES ($1, $2, $3, $4) RETURNING
+        id,
+        name,
+        email,
+        available,
+        created_at,
+        updated_at;`,
       [name, email, password, available]
     );
     return rows[0];
@@ -58,7 +103,7 @@ export class AgentsRepository implements IAgentsRepository {
     email,
     password,
     available,
-  }: IUpdateAgent & { id: string }): Promise<void> {
+  }: IUpdateAgentDTO): Promise<IReturnAgentDTO> {
     const fields = [];
     const values = [];
 
@@ -100,8 +145,19 @@ export class AgentsRepository implements IAgentsRepository {
       UPDATE agents
       SET ${fields.join(', ')}
       WHERE id = $${values.length}
+      RETURNING
+        id,
+        name,
+        email,
+        available,
+        created_at,
+        updated_at;
     `;
 
-    await connection.query(query, values);
+    const { rows } = await connection.query(query, values);
+
+    const agentUpdated: IReturnAgentDTO = rows[0];
+
+    return agentUpdated;
   }
 }

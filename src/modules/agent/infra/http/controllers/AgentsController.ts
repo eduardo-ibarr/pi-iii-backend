@@ -1,33 +1,35 @@
 import { Request, Response } from 'express';
-import { AgentsRepository } from '../../repositories/AgentsRepository';
-import {
-  ListAgentService,
-  ShowAgentService,
-  CreateAgentService,
-  DeleteAgentService,
-  UpdateAgentService,
-} from '../../../../../modules/agent/services';
+import { IAgentsController } from '../../../domain/controllers/IAgentsController';
+import { IAgentServicesFactory } from '../../../domain/factories/IAgentServicesFactory';
 
-const agentsRepository = new AgentsRepository();
+export class AgentsController implements IAgentsController {
+  constructor(private agentServicesFactory: IAgentServicesFactory) {
+    this.index = this.index.bind(this);
+    this.show = this.show.bind(this);
+    this.store = this.store.bind(this);
+    this.delete = this.delete.bind(this);
+    this.update = this.update.bind(this);
+  }
 
-export class AgentsController {
   async index(request: Request, response: Response): Promise<Response> {
-    const agents = await new ListAgentService(agentsRepository).execute();
+    const service = this.agentServicesFactory.listAgentsService();
+    const agents = await service.execute();
+
     return response.status(200).json(agents);
   }
 
   async show(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
-
-    const agent = await new ShowAgentService(agentsRepository).execute(id);
+    const service = this.agentServicesFactory.showAgentService();
+    const agent = await service.execute(id);
 
     return response.status(200).json(agent);
   }
 
   async store(request: Request, response: Response): Promise<Response> {
     const { name, email, password, available } = request.body;
-
-    const agent = await new CreateAgentService(agentsRepository).execute({
+    const service = this.agentServicesFactory.createAgentService();
+    const agent = await service.execute({
       name,
       email,
       password,
@@ -39,8 +41,8 @@ export class AgentsController {
 
   async delete(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
-
-    await new DeleteAgentService(agentsRepository).execute(id);
+    const service = this.agentServicesFactory.deleteAgentService();
+    await service.execute(id);
 
     return response.sendStatus(200);
   }
@@ -48,8 +50,9 @@ export class AgentsController {
   async update(request: Request, response: Response): Promise<Response> {
     const { name, email, password, available } = request.body;
     const { id } = request.params;
+    const service = this.agentServicesFactory.updateAgentService();
 
-    const agent = await new UpdateAgentService(agentsRepository).execute({
+    const agent = await service.execute({
       id,
       name,
       email,

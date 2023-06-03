@@ -1,10 +1,16 @@
-import { IAgent, ICreateAgent, IUpdateAgent } from '../models';
+import {
+  IAgentPasswordDTO,
+  ICreateAgentDTO,
+  IReturnAgentDTO,
+  IUpdateAgentDTO,
+} from '../dtos';
 
 export interface IAgentsRepository {
-  findById(id: string): Promise<IAgent | null>;
-  findByEmail(email: string): Promise<IAgent | null>;
+  findById(id: string): Promise<IReturnAgentDTO | null>;
+  findByIdReturningPassword(id: string): Promise<IAgentPasswordDTO | null>;
+  findByEmail(email: string): Promise<IReturnAgentDTO | null>;
   remove(id: string): Promise<any>;
-  findAll(): Promise<IAgent[]>;
-  create(data: ICreateAgent): Promise<IAgent>;
-  update(data: IUpdateAgent): Promise<void>;
+  findAll(): Promise<IReturnAgentDTO[]>;
+  create(data: ICreateAgentDTO): Promise<IReturnAgentDTO>;
+  update(data: IUpdateAgentDTO): Promise<IReturnAgentDTO>;
 }

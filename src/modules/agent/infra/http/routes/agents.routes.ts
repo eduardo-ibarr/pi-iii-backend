@@ -2,10 +2,12 @@ import { Router } from 'express';
 import { AgentsController } from '../controllers/AgentsController';
 
 import { celebrate, Joi, Segments } from 'celebrate';
+import { AgentServicesFactory } from '../../../factories/AgentServicesFactory';
 
 const router = Router();
 
-const agentsController = new AgentsController();
+const agentServicesFactory = new AgentServicesFactory();
+const agentsController = new AgentsController(agentServicesFactory);
 
 router.get('/agents', agentsController.index, () => {
   // #swagger.tags = ['Agents']
@@ -17,7 +19,6 @@ router.get('/agents', agentsController.index, () => {
           id: 'b3a6b105-5ced-40c0-abc5-900d344bf805',
           name: 'Jhon Doe',
           email: 'jhondoe@example.com',
-          password: 'something123',
           available: true,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
@@ -51,7 +52,6 @@ router.get(
           id: 'b3a6b105-5ced-40c0-abc5-900d344bf805',
           name: 'Jhon Doe',
           email: 'jhondoe@example.com',
-          password: 'something123',
           available: true,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
@@ -107,7 +107,6 @@ router.post(
           id: 'b3a6b105-5ced-40c0-abc5-900d344bf805',
           name: 'Jhon Doe',
           email: 'jhondoe@example.com',
-          password: 'something123',
           available: true,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
@@ -172,7 +171,6 @@ router.put(
           id: 'b3a6b105-5ced-40c0-abc5-900d344bf805',
           name: 'Jhon Doe Clark',
           email: 'jhondoe@example.com',
-          password: 'something123',
           available: true,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
