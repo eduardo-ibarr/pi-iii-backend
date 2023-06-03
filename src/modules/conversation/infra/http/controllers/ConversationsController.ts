@@ -1,45 +1,37 @@
 import { Request, Response } from 'express';
-import { ConversationsRepository } from '../../repositories/ConversationsRepository';
-import {
-  ListConversationsService,
-  ShowConversationService,
-  CreateConversationService,
-  UpdateConversationService,
-  DeleteConversationService,
-} from '../../../services';
-import { TicketsRepository } from '../../../../../modules/ticket/infra/repositories/TicketsRepository';
-import { AgentsRepository } from '../../../../..//modules/agent/infra/repositories/AgentsRepository';
-
-const conversationsRepository = new ConversationsRepository();
-const ticketsRepository = new TicketsRepository();
-const agentsRepository = new AgentsRepository();
+import { IConversationServicesFactory } from 'src/modules/conversation/domain/factories/IConversationServicesFactory';
 
 export class ConversationsController {
+  constructor(
+    private conversationServicesFactory: IConversationServicesFactory
+  ) {
+    this.index = this.index.bind(this);
+    this.show = this.show.bind(this);
+    this.store = this.store.bind(this);
+    this.delete = this.delete.bind(this);
+    this.update = this.update.bind(this);
+  }
+
   async index(request: Request, response: Response): Promise<Response> {
-    const conversations = await new ListConversationsService(
-      conversationsRepository
-    ).execute();
+    const service = this.conversationServicesFactory.listConversationsService();
+    const conversations = await service.execute();
 
     return response.json(conversations);
   }
 
   async show(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
-
-    const conversation = await new ShowConversationService(
-      conversationsRepository
-    ).execute(id);
+    const service = this.conversationServicesFactory.showConversationService();
+    const conversation = await service.execute(id);
 
     return response.json(conversation);
   }
 
   async store(request: Request, response: Response): Promise<Response> {
     const { ticket_id } = request.body;
-
-    const conversation = await new CreateConversationService(
-      conversationsRepository,
-      ticketsRepository
-    ).execute({
+    const service =
+      this.conversationServicesFactory.createConversationService();
+    const conversation = await service.execute({
       ticket_id,
     });
 
@@ -48,8 +40,9 @@ export class ConversationsController {
 
   async delete(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
-
-    await new DeleteConversationService(conversationsRepository).execute(id);
+    const service =
+      this.conversationServicesFactory.deleteConversationService();
+    await service.execute(id);
 
     return response.sendStatus(200);
   }
@@ -57,12 +50,9 @@ export class ConversationsController {
   async update(request: Request, response: Response): Promise<Response> {
     const { ticket_id } = request.body;
     const { id } = request.params;
-
-    const conversation = await new UpdateConversationService(
-      conversationsRepository,
-      ticketsRepository,
-      agentsRepository
-    ).execute({
+    const service =
+      this.conversationServicesFactory.updateConversationService();
+    const conversation = await service.execute({
       id,
       ticket_id,
     });

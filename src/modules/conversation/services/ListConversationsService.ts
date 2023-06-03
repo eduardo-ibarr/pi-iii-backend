@@ -1,6 +1,7 @@
+import { IListConversationsService } from '../domain/services';
 import { ConversationsRepository } from '../infra/repositories/ConversationsRepository';
 
-export class ListConversationsService {
+export class ListConversationsService implements IListConversationsService {
   constructor(private conversationsRepository: ConversationsRepository) {}
 
   public async execute() {

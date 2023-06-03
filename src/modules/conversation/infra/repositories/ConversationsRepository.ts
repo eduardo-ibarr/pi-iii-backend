@@ -1,14 +1,14 @@
 import AppError from '../../../../api/errors/AppError';
 import { connection } from '../../../../api/database/connection';
 import {
-  IConversation,
-  ICreateConversation,
-  IUpdateConversation,
-} from '../../domain/models';
+  IResponseConversationDTO,
+  ICreateConversationDTO,
+  IUpdateConversationDTO,
+} from '../../domain/dtos';
 import { IConversationsRepository } from '../../domain/repositories/IConversationsRepository';
 
 export class ConversationsRepository implements IConversationsRepository {
-  async findById(id: string): Promise<IConversation | null> {
+  async findById(id: string): Promise<IResponseConversationDTO | null> {
     const { rows } = await connection.query(
       'SELECT * FROM conversations WHERE id = $1',
       [id]
@@ -20,12 +20,14 @@ export class ConversationsRepository implements IConversationsRepository {
     await connection.query('DELETE FROM conversations WHERE id = $1', [id]);
   }
 
-  async findAll(): Promise<IConversation[]> {
+  async findAll(): Promise<IResponseConversationDTO[]> {
     const { rows } = await connection.query('SELECT * FROM conversations');
     return rows;
   }
 
-  async create({ ticket_id }: ICreateConversation): Promise<IConversation> {
+  async create({
+    ticket_id,
+  }: ICreateConversationDTO): Promise<IResponseConversationDTO> {
     const { rows } = await connection.query(
       `INSERT INTO conversations (
         ticket_id
@@ -38,7 +40,7 @@ export class ConversationsRepository implements IConversationsRepository {
   async update({
     ticket_id,
     id,
-  }: IUpdateConversation & { id: string }): Promise<void> {
+  }: IUpdateConversationDTO): Promise<IResponseConversationDTO> {
     const fields = [];
     const values = [];
 
@@ -62,8 +64,13 @@ export class ConversationsRepository implements IConversationsRepository {
       UPDATE conversations
       SET ${fields.join(', ')}
       WHERE id = $${values.length}
+      RETURNING *
     `;
 
-    await connection.query(query, values);
+    const { rows } = await connection.query(query, values);
+
+    const conversationUpdated: IResponseConversationDTO = rows[0];
+
+    return conversationUpdated;
   }
 }
