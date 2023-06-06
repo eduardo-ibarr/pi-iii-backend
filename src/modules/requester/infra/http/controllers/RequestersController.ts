@@ -10,6 +10,7 @@ export class RequestersController implements IRequestersController {
     this.store = this.store.bind(this);
     this.delete = this.delete.bind(this);
     this.update = this.update.bind(this);
+    this.updatePassword = this.updatePassword.bind(this);
   }
 
   async index(request: Request, response: Response): Promise<Response> {
@@ -55,5 +56,23 @@ export class RequestersController implements IRequestersController {
     });
 
     return response.status(200).json(requester);
+  }
+
+  async updatePassword(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { old_password, new_password } = request.body;
+    const { id } = request.params;
+    const service =
+      this.requesterServicesFactory.updateRequesterPasswordService();
+
+    await service.execute({
+      id,
+      new_password,
+      old_password,
+    });
+
+    return response.sendStatus(200);
   }
 }

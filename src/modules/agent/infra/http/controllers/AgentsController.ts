@@ -9,6 +9,7 @@ export class AgentsController implements IAgentsController {
     this.store = this.store.bind(this);
     this.delete = this.delete.bind(this);
     this.update = this.update.bind(this);
+    this.updatePassword = this.updatePassword.bind(this);
   }
 
   async index(request: Request, response: Response): Promise<Response> {
@@ -61,5 +62,22 @@ export class AgentsController implements IAgentsController {
     });
 
     return response.status(200).json(agent);
+  }
+
+  async updatePassword(
+    request: Request,
+    response: Response
+  ): Promise<Response> {
+    const { old_password, new_password } = request.body;
+    const { id } = request.params;
+    const service = this.agentServicesFactory.updateAgentPasswordService();
+
+    await service.execute({
+      id,
+      new_password,
+      old_password,
+    });
+
+    return response.sendStatus(200);
   }
 }

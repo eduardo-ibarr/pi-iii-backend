@@ -45,7 +45,7 @@ export class LoginService implements ILoginService {
         { userId: data.id, typeOfUser: type_of_user },
         process.env.SECRET,
         {
-          expiresIn: 3600,
+          expiresIn: 8000,
         }
       );
 

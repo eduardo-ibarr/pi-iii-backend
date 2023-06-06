@@ -62,6 +62,20 @@ router.put(
   }
 );
 
+router.put(
+  '/requesters/:id/password',
+  celebrate({
+    [Segments.PARAMS]: {
+      id: Joi.string().uuid().required(),
+    },
+    [Segments.BODY]: {
+      old_password: Joi.string().required(),
+      new_password: Joi.string().required(),
+    },
+  }),
+  requestersController.updatePassword
+);
+
 router.delete(
   '/requesters/:id',
   celebrate({

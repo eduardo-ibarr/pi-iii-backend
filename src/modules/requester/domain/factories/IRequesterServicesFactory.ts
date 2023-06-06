@@ -4,6 +4,7 @@ import {
   IShowRequesterService,
   IDeleteRequesterService,
   IUpdateRequesterService,
+  IUpdateRequesterPasswordService,
 } from '../services';
 
 export interface IRequesterServicesFactory {
@@ -12,4 +13,5 @@ export interface IRequesterServicesFactory {
   showRequesterService(): IShowRequesterService;
   deleteRequesterService(): IDeleteRequesterService;
   updateRequesterService(): IUpdateRequesterService;
+  updateRequesterPasswordService(): IUpdateRequesterPasswordService;
 }
