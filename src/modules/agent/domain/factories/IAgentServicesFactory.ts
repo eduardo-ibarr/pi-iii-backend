@@ -4,6 +4,7 @@ import {
   IShowAgentService,
   IDeleteAgentService,
   IUpdateAgentService,
+  IUpdateAgentPasswordService,
 } from '../services';
 
 export interface IAgentServicesFactory {
@@ -12,4 +13,5 @@ export interface IAgentServicesFactory {
   showAgentService(): IShowAgentService;
   deleteAgentService(): IDeleteAgentService;
   updateAgentService(): IUpdateAgentService;
+  updateAgentPasswordService(): IUpdateAgentPasswordService;
 }

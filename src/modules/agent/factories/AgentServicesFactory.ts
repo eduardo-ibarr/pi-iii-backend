@@ -6,6 +6,7 @@ import {
   IShowAgentService,
   IDeleteAgentService,
   IUpdateAgentService,
+  IUpdateAgentPasswordService,
 } from '../domain/services';
 import { AgentsRepository } from '../infra/repositories/AgentsRepository';
 import { BcryptHashProvider } from '../../../providers/HashProvider/implementations/BcryptHashProvider';
@@ -17,6 +18,7 @@ import {
   UpdateAgentService,
 } from '../services';
 import { IAgentServicesFactory } from '../domain/factories/IAgentServicesFactory';
+import { UpdateAgentPasswordService } from '../services/UpdateAgentPasswordService';
 
 export class AgentServicesFactory implements IAgentServicesFactory {
   private agentsRepository(): IAgentsRepository {
@@ -54,8 +56,14 @@ export class AgentServicesFactory implements IAgentServicesFactory {
 
   public updateAgentService(): IUpdateAgentService {
     const agentsRepository = this.agentsRepository();
+
+    return new UpdateAgentService(agentsRepository);
+  }
+
+  public updateAgentPasswordService(): IUpdateAgentPasswordService {
+    const agentsRepository = this.agentsRepository();
     const hashProvider = this.hashProvider();
 
-    return new UpdateAgentService(agentsRepository, hashProvider);
+    return new UpdateAgentPasswordService(agentsRepository, hashProvider);
   }
 }
