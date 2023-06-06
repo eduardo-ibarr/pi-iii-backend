@@ -2,19 +2,14 @@ import AppError from '../../../api/errors/AppError';
 import { IResponseAgentDTO, IUpdateAgentDTO } from '../domain/dtos';
 import { IAgentsRepository } from '../domain/repositories/IAgentsRepository';
 import { IUpdateAgentService } from '../domain/services';
-import { IHashProvider } from '../../../providers/HashProvider/models/IHashProvider';
 
 export class UpdateAgentService implements IUpdateAgentService {
-  constructor(
-    private agentsRepository: IAgentsRepository,
-    private hashProvider: IHashProvider
-  ) {}
+  constructor(private agentsRepository: IAgentsRepository) {}
 
   public async execute({
     id,
     name,
     email,
-    password,
     available,
   }: IUpdateAgentDTO): Promise<IResponseAgentDTO> {
     const agent = await this.agentsRepository.findById(id);
@@ -31,15 +26,10 @@ export class UpdateAgentService implements IUpdateAgentService {
       }
     }
 
-    if (password) {
-      password = await this.hashProvider.generateHash(password);
-    }
-
     const agentUpdated = await this.agentsRepository.update({
       id,
       name,
       email,
-      password,
       available,
     });
 

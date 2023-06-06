@@ -201,6 +201,20 @@ router.put(
   }
 );
 
+router.put(
+  '/agents/:id/password',
+  celebrate({
+    [Segments.PARAMS]: {
+      id: Joi.string().uuid().required(),
+    },
+    [Segments.BODY]: {
+      old_password: Joi.string().required(),
+      new_password: Joi.string().required(),
+    },
+  }),
+  agentsController.updatePassword
+);
+
 router.delete(
   '/agents/:id',
   celebrate({
