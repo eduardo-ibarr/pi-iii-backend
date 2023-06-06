@@ -1,20 +1,15 @@
-import { IHashProvider } from '../../../providers/HashProvider/models/IHashProvider';
 import AppError from '../../../api/errors/AppError';
 import { IResponseRequesterDTO, IUpdateRequesterDTO } from '../domain/dtos';
 import { IRequestersRepository } from '../domain/repositories/IRequestersRepository';
 import { IUpdateRequesterService } from '../domain/services';
 
 export class UpdateRequesterService implements IUpdateRequesterService {
-  constructor(
-    private requestersRepository: IRequestersRepository,
-    private hashProvider: IHashProvider
-  ) {}
+  constructor(private requestersRepository: IRequestersRepository) {}
 
   public async execute({
     id,
     email,
     name,
-    password,
   }: IUpdateRequesterDTO): Promise<IResponseRequesterDTO> {
     const requester = await this.requestersRepository.findById(id);
 
@@ -32,15 +27,10 @@ export class UpdateRequesterService implements IUpdateRequesterService {
       }
     }
 
-    if (password) {
-      password = await this.hashProvider.generateHash(password);
-    }
-
     const requesterUpdated = await this.requestersRepository.update({
       id,
       email,
       name,
-      password,
     });
 
     return requesterUpdated;

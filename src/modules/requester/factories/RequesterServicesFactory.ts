@@ -6,6 +6,7 @@ import {
   IShowRequesterService,
   IDeleteRequesterService,
   IUpdateRequesterService,
+  IUpdateRequesterPasswordService,
 } from '../domain/services';
 import { RequestersRepository } from '../infra/repositories/RequestersRepository';
 import { BcryptHashProvider } from '../../../providers/HashProvider/implementations/BcryptHashProvider';
@@ -17,6 +18,7 @@ import {
   UpdateRequesterService,
 } from '../services';
 import { IRequesterServicesFactory } from '../domain/factories/IRequesterServicesFactory';
+import { UpdateRequesterPasswordService } from '../services/UpdateRequesterPasswordService';
 
 export class RequesterServicesFactory implements IRequesterServicesFactory {
   private requestersRepository(): IRequestersRepository {
@@ -54,8 +56,14 @@ export class RequesterServicesFactory implements IRequesterServicesFactory {
 
   public updateRequesterService(): IUpdateRequesterService {
     const requestersRepository = this.requestersRepository();
+
+    return new UpdateRequesterService(requestersRepository);
+  }
+
+  public updateRequesterPasswordService(): IUpdateRequesterPasswordService {
+    const agentsRepository = this.requestersRepository();
     const hashProvider = this.hashProvider();
 
-    return new UpdateRequesterService(requestersRepository, hashProvider);
+    return new UpdateRequesterPasswordService(agentsRepository, hashProvider);
   }
 }
