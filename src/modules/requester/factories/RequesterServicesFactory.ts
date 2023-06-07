@@ -19,10 +19,22 @@ import {
 } from '../services';
 import { IRequesterServicesFactory } from '../domain/factories/IRequesterServicesFactory';
 import { UpdateRequesterPasswordService } from '../services/UpdateRequesterPasswordService';
+import { IAdminsRepository } from '../../admins/domain/repositories/IAdminsRepository';
+import { AdminsRepository } from '../../admins/infra/repositories/AdminsRepository';
+import { IAgentsRepository } from '../../agent/domain/repositories/IAgentsRepository';
+import { AgentsRepository } from '../../agent/infra/repositories/AgentsRepository';
 
 export class RequesterServicesFactory implements IRequesterServicesFactory {
   private requestersRepository(): IRequestersRepository {
     return new RequestersRepository();
+  }
+
+  private adminsRepository(): IAdminsRepository {
+    return new AdminsRepository();
+  }
+
+  private agentsRepository(): IAgentsRepository {
+    return new AgentsRepository();
   }
 
   private hashProvider(): IHashProvider {
@@ -30,10 +42,17 @@ export class RequesterServicesFactory implements IRequesterServicesFactory {
   }
 
   public createRequesterService(): ICreateRequesterService {
+    const agentsRepository = this.agentsRepository();
+    const adminsRepository = this.adminsRepository();
     const requestersRepository = this.requestersRepository();
     const hashProvider = this.hashProvider();
 
-    return new CreateRequesterService(requestersRepository, hashProvider);
+    return new CreateRequesterService(
+      requestersRepository,
+      agentsRepository,
+      adminsRepository,
+      hashProvider
+    );
   }
 
   public listRequestersService(): IListRequestersService {
@@ -55,9 +74,15 @@ export class RequesterServicesFactory implements IRequesterServicesFactory {
   }
 
   public updateRequesterService(): IUpdateRequesterService {
+    const agentsRepository = this.agentsRepository();
+    const adminsRepository = this.adminsRepository();
     const requestersRepository = this.requestersRepository();
 
-    return new UpdateRequesterService(requestersRepository);
+    return new UpdateRequesterService(
+      requestersRepository,
+      agentsRepository,
+      adminsRepository
+    );
   }
 
   public updateRequesterPasswordService(): IUpdateRequesterPasswordService {

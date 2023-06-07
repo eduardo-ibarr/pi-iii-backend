@@ -59,7 +59,7 @@ router.put(
       content: Joi.string(),
       requester_id: Joi.string().uuid(),
       sector_id: Joi.string().uuid(),
-      status: Joi.boolean(),
+      status: Joi.string(),
       subject: Joi.string(),
       read_status: Joi.boolean(),
     },

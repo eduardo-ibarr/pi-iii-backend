@@ -19,8 +19,20 @@ import {
 } from '../services';
 import { IAgentServicesFactory } from '../domain/factories/IAgentServicesFactory';
 import { UpdateAgentPasswordService } from '../services/UpdateAgentPasswordService';
+import { IRequestersRepository } from '../../requester/domain/repositories/IRequestersRepository';
+import { RequestersRepository } from '../../requester/infra/repositories/RequestersRepository';
+import { AdminsRepository } from '../../admins/infra/repositories/AdminsRepository';
+import { IAdminsRepository } from '../../admins/domain/repositories/IAdminsRepository';
 
 export class AgentServicesFactory implements IAgentServicesFactory {
+  private requestersRepository(): IRequestersRepository {
+    return new RequestersRepository();
+  }
+
+  private adminsRepository(): IAdminsRepository {
+    return new AdminsRepository();
+  }
+
   private agentsRepository(): IAgentsRepository {
     return new AgentsRepository();
   }
@@ -31,9 +43,16 @@ export class AgentServicesFactory implements IAgentServicesFactory {
 
   public createAgentService(): ICreateAgentService {
     const agentsRepository = this.agentsRepository();
+    const adminsRepository = this.adminsRepository();
+    const requestersRepository = this.requestersRepository();
     const hashProvider = this.hashProvider();
 
-    return new CreateAgentService(agentsRepository, hashProvider);
+    return new CreateAgentService(
+      agentsRepository,
+      adminsRepository,
+      requestersRepository,
+      hashProvider
+    );
   }
 
   public listAgentsService(): IListAgentsService {
@@ -56,8 +75,14 @@ export class AgentServicesFactory implements IAgentServicesFactory {
 
   public updateAgentService(): IUpdateAgentService {
     const agentsRepository = this.agentsRepository();
+    const adminsRepository = this.adminsRepository();
+    const requestersRepository = this.requestersRepository();
 
-    return new UpdateAgentService(agentsRepository);
+    return new UpdateAgentService(
+      agentsRepository,
+      adminsRepository,
+      requestersRepository
+    );
   }
 
   public updateAgentPasswordService(): IUpdateAgentPasswordService {

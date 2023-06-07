@@ -14,7 +14,6 @@ router.post(
     [Segments.BODY]: {
       email: Joi.string().email().required(),
       password: Joi.string().required(),
-      type_of_user: Joi.string().required(),
     },
   }),
   authController.login,
