@@ -1,10 +1,16 @@
+import { IRequestersRepository } from '../../requester/domain/repositories/IRequestersRepository';
 import AppError from '../../../api/errors/AppError';
 import { IResponseAgentDTO, IUpdateAgentDTO } from '../domain/dtos';
 import { IAgentsRepository } from '../domain/repositories/IAgentsRepository';
 import { IUpdateAgentService } from '../domain/services';
+import { IAdminsRepository } from '../../admins/domain/repositories/IAdminsRepository';
 
 export class UpdateAgentService implements IUpdateAgentService {
-  constructor(private agentsRepository: IAgentsRepository) {}
+  constructor(
+    private agentsRepository: IAgentsRepository,
+    private requestersRepository: IRequestersRepository,
+    private adminsRepository: IAdminsRepository
+  ) {}
 
   public async execute({
     id,
@@ -19,9 +25,12 @@ export class UpdateAgentService implements IUpdateAgentService {
     }
 
     if (email) {
-      const agentExists = await this.agentsRepository.findByEmail(email);
+      const emailAlreadyExists =
+        (await this.adminsRepository.findByEmail(email)) ||
+        (await this.requestersRepository.findByEmail(email)) ||
+        (await this.agentsRepository.findByEmail(email));
 
-      if (agentExists && email !== agent.email) {
+      if (emailAlreadyExists && email !== agent.email) {
         throw new AppError('Email already in use.', 409);
       }
     }

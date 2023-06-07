@@ -16,6 +16,7 @@ import {
   sectorsRoutes,
   ticketsRoutes,
   authRoutes,
+  adminsRoutes,
 } from './modules';
 import { corsBlock } from './api/middlewares/cors';
 
@@ -40,6 +41,7 @@ app.use(authRoutes);
 
 app.use(verifyJWT);
 
+app.use(adminsRoutes);
 app.use(ticketsRoutes);
 app.use(requestersRoutes);
 app.use(messagesRoutes);

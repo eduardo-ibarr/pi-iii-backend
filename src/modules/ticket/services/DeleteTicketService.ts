@@ -1,8 +1,8 @@
-import { IConversationsRepository } from 'src/modules/conversation/domain/repositories/IConversationsRepository';
+import { IConversationsRepository } from '../../conversation/domain/repositories/IConversationsRepository';
 import AppError from '../../../api/errors/AppError';
 import { ITicketsRepository } from '../domain/repositories/ITicketsRepository';
 import { IDeleteTicketService } from '../domain/services';
-import { IMessagesRepository } from 'src/modules/message/domain/repositories/IMessagesRepository';
+import { IMessagesRepository } from '../../message/domain/repositories/IMessagesRepository';
 
 export class DeleteTicketService implements IDeleteTicketService {
   constructor(

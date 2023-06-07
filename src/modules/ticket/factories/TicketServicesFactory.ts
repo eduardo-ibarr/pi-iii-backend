@@ -23,10 +23,10 @@ import { ISectorsRepository } from '../../../modules/sector/domain/repositories/
 import { SectorsRepository } from '../../../modules/sector/infra/repositories/SectorsRepository';
 import { AgentsRepository } from '../../../modules/agent/infra/repositories/AgentsRepository';
 import { IAgentsRepository } from '../../../modules/agent/domain/repositories/IAgentsRepository';
-import { ConversationsRepository } from 'src/modules/conversation/infra/repositories/ConversationsRepository';
-import { IConversationsRepository } from 'src/modules/conversation/domain/repositories/IConversationsRepository';
-import { MessagesRepository } from 'src/modules/message/infra/repositories/MessagesRepository';
-import { IMessagesRepository } from 'src/modules/message/domain/repositories/IMessagesRepository';
+import { ConversationsRepository } from '../../conversation/infra/repositories/ConversationsRepository';
+import { IConversationsRepository } from '../../conversation/domain/repositories/IConversationsRepository';
+import { MessagesRepository } from '../../message/infra/repositories/MessagesRepository';
+import { IMessagesRepository } from '../../message/domain/repositories/IMessagesRepository';
 
 export class TicketServicesFactory implements ITicketServicesFactory {
   private ticketsRepository(): ITicketsRepository {
