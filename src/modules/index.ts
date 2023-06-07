@@ -6,3 +6,4 @@ export { sectorsRoutes } from './sector/infra/http/routes/sectors.routes';
 export { ticketsRoutes } from './ticket/infra/http/routes/tickets.routes';
 export { messagesRoutes } from './message/infra/http/routes/messages.routes';
 export { authRoutes } from './auth/infra/http/routes/auth.routes';
+export { adminsRoutes } from './admins/infra/http/routes/admins.routes';

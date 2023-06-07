@@ -12,13 +12,12 @@ export class AuthController implements IAuthController {
   }
 
   async login(request: Request, response: Response) {
-    const { email, password, type_of_user } = request.body;
+    const { email, password } = request.body;
     const service = this.authServicesFactory.login();
 
     const data = await service.execute({
       email,
       password,
-      type_of_user,
     });
 
     const { auth, expiresIn, token } = data;

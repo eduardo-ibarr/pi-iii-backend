@@ -8,41 +8,60 @@ import { IHashProvider } from '../../../providers/HashProvider/models/IHashProvi
 import { ILoginRequestDTO } from '../domain/dtos/ILoginRequestDTO';
 import { IRequestersRepository } from '../../requester/domain/repositories/IRequestersRepository';
 import { ILoginResponseDTO } from '../domain/dtos/ILoginResponseDTO';
+import { IAdminsRepository } from '../../admins/domain/repositories/IAdminsRepository';
 
 export class LoginService implements ILoginService {
   constructor(
     private requestersRepository: IRequestersRepository,
     private agentsRepository: IAgentsRepository,
+    private adminsRepository: IAdminsRepository,
     private hashProvider: IHashProvider
   ) {}
 
   async execute({
     email,
     password,
-    type_of_user,
   }: ILoginRequestDTO): Promise<ILoginResponseDTO> {
-    const data =
-      type_of_user === 'agent'
-        ? await this.agentsRepository.findByEmailReturningAuthData(email)
-        : await this.requestersRepository.findByEmailReturningAuthData(email);
+    const isAgent = await this.agentsRepository.findByEmailReturningAuthData(
+      email
+    );
+    const isRequester =
+      await this.requestersRepository.findByEmailReturningAuthData(email);
+    const isAdmin = await this.adminsRepository.findByEmailReturningAuthData(
+      email
+    );
 
-    if (!data) {
-      throw new AppError(
-        `${
-          type_of_user.charAt(0).toUpperCase() + type_of_user.slice(1)
-        } not exists.`,
-        404
-      );
+    let user;
+
+    if (isAgent) {
+      user = {
+        data: isAgent,
+        type: 'agent',
+      };
+    } else if (isAdmin) {
+      user = {
+        data: isAdmin,
+        type: 'admin',
+      };
+    } else if (isRequester) {
+      user = {
+        data: isRequester,
+        type: 'requester',
+      };
+    }
+
+    if (!user) {
+      throw new AppError('User not exists.', 404);
     }
 
     const isValidPassword = await this.hashProvider.compareHash(
       password,
-      data.password
+      user.data.password
     );
 
-    if (data.email === email && isValidPassword) {
+    if (user.data.email === email && isValidPassword) {
       const token = sign(
-        { userId: data.id, typeOfUser: type_of_user },
+        { userId: user.data.id, typeOfUser: user.type },
         process.env.SECRET,
         {
           expiresIn: 8000,

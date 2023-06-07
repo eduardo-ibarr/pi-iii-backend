@@ -6,10 +6,16 @@ import { ILoginService } from '../domain/services/ILoginService';
 import { IHashProvider } from '../../../providers/HashProvider/models/IHashProvider';
 import { BcryptHashProvider } from '../../../providers/HashProvider/implementations/BcryptHashProvider';
 import { IAuthServicesFactory } from '../domain/factories/IAuthFactory';
+import { IAdminsRepository } from '../../admins/domain/repositories/IAdminsRepository';
+import { AdminsRepository } from '../../admins/infra/repositories/AdminsRepository';
 
 export class AuthServicesFactory implements IAuthServicesFactory {
   private agentsRepository(): IAgentsRepository {
     return new AgentsRepository();
+  }
+
+  private adminsRepository(): IAdminsRepository {
+    return new AdminsRepository();
   }
 
   private requestersRepository(): RequestersRepository {
@@ -23,11 +29,13 @@ export class AuthServicesFactory implements IAuthServicesFactory {
   public login(): ILoginService {
     const agentsRepository = this.agentsRepository();
     const requestersRepository = this.requestersRepository();
+    const adminsRepository = this.adminsRepository();
     const hashProvider = this.hashProvider();
 
     return new LoginService(
       requestersRepository,
       agentsRepository,
+      adminsRepository,
       hashProvider
     );
   }

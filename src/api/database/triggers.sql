@@ -11,6 +11,19 @@ CREATE TRIGGER trigger_update_requesters_updated_at
   FOR EACH ROW
   EXECUTE FUNCTION update_requesters_updated_at();
 
+CREATE OR REPLACE FUNCTION update_admins_updated_at()
+  RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_update_admins_updated_at
+  BEFORE UPDATE ON admins
+  FOR EACH ROW
+  EXECUTE FUNCTION update_admins_updated_at();
+
 CREATE OR REPLACE FUNCTION update_categories_updated_at()
   RETURNS TRIGGER AS $$
 BEGIN
