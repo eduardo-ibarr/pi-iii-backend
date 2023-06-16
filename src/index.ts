@@ -4,6 +4,7 @@ import { errors } from 'celebrate';
 import { logs } from './api/middlewares/logs';
 import { verifyJWT } from './api/middlewares/verifyJWT';
 import { errorHandling } from './api/middlewares/errorHandling';
+import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import swaggerFile from './api/docs/swagger_output.json';
 
@@ -18,15 +19,13 @@ import {
   authRoutes,
   adminsRoutes,
 } from './modules';
-import { corsBlock } from './api/middlewares/cors';
 
 const app = express();
 
 const API_PORT = process.env.PORT || process.env.port || 3333;
 
-app.use(corsBlock());
-
 app.use(logs);
+app.use(cors());
 app.use(express.json());
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
