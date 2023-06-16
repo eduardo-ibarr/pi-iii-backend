@@ -18,13 +18,10 @@ import {
   authRoutes,
   adminsRoutes,
 } from './modules';
-import { corsBlock } from './api/middlewares/cors';
 
 const app = express();
 
 const API_PORT = process.env.PORT || process.env.port || 3333;
-
-app.use(corsBlock());
 
 app.use(logs);
 app.use(express.json());
