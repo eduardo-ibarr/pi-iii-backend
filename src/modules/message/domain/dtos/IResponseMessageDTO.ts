@@ -1,6 +1,5 @@
 export interface IResponseMessageDTO {
   id: string;
-  ticket_id: string;
   conversation_id: string;
   sender: string;
   content: string;

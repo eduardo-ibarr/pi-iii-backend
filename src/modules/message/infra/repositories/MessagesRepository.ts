@@ -38,17 +38,15 @@ export class MessagesRepository implements IMessagesRepository {
     conversation_id,
     read_status,
     sender,
-    ticket_id,
   }: ICreateMessageDTO): Promise<IResponseMessageDTO> {
     const { rows } = await connection.query(
       `INSERT INTO messages (
         content,
         conversation_id,
         read_status,
-        sender,
-        ticket_id
-      ) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-      [content, conversation_id, read_status, sender, ticket_id]
+        sender
+      ) VALUES ($1, $2, $3, $4) RETURNING *`,
+      [content, conversation_id, read_status, sender]
     );
     return rows[0];
   }
@@ -58,7 +56,6 @@ export class MessagesRepository implements IMessagesRepository {
     conversation_id,
     read_status,
     sender,
-    ticket_id,
     id,
   }: IUpdateMessageDTO): Promise<IResponseMessageDTO> {
     const fields = [];
@@ -87,12 +84,6 @@ export class MessagesRepository implements IMessagesRepository {
     if (sender) {
       fields.push(`sender = $${i}`);
       values.push(sender);
-      i++;
-    }
-
-    if (ticket_id) {
-      fields.push(`ticket_id = $${i}`);
-      values.push(ticket_id);
       i++;
     }
 

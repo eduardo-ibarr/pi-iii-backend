@@ -28,15 +28,13 @@ export class MessagesController implements IMessagesController {
   }
 
   async store(request: Request, response: Response): Promise<Response> {
-    const { content, conversation_id, read_status, sender, ticket_id } =
-      request.body;
+    const { content, conversation_id, read_status, sender } = request.body;
     const service = this.messageServicesFactory.createMessageService();
     const agent = await service.execute({
       content,
       conversation_id,
       read_status,
       sender,
-      ticket_id,
     });
 
     return response.status(201).json(agent);
@@ -51,8 +49,7 @@ export class MessagesController implements IMessagesController {
   }
 
   async update(request: Request, response: Response): Promise<Response> {
-    const { content, conversation_id, read_status, sender, ticket_id } =
-      request.body;
+    const { content, conversation_id, read_status, sender } = request.body;
     const { id } = request.params;
     const service = this.messageServicesFactory.updateMessageService();
     const agent = await service.execute({
@@ -61,7 +58,6 @@ export class MessagesController implements IMessagesController {
       conversation_id,
       read_status,
       sender,
-      ticket_id,
     });
 
     return response.status(200).json(agent);
