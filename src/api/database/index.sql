@@ -69,7 +69,6 @@ CREATE TABLE IF NOT EXISTS conversations (
 
 CREATE TABLE IF NOT EXISTS messages (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  ticket_id UUID NOT NULL REFERENCES tickets(id),
   conversation_id UUID NOT NULL REFERENCES conversations(id),
   sender TEXT NOT NULL,
   content TEXT NOT NULL,
